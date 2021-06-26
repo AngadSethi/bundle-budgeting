@@ -1,4 +1,5 @@
-import React  from "react";
+import { Component }  from "react";
+import React from "react";
 import { BUNDLE_BUDGETS_URL } from "./shared/endPoints";
 import {
   StatefulDataTable,
@@ -50,19 +51,23 @@ function getBudgetStats() {
 }
 
 
-export default function Table() {
-  const [rows, setRows] = React.useState(DummyData);
-  return (
+export default class Table extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      rows : DummyData
+    }
+  }
+  
+  render(){
+    return(    
     <div style={{height: '300px' }}>
-      <StatefulDataTable
-        overrides={{
-            
-            }}
-        columns={columns}
-        rows={rows}
-      />
-    </div>
-  );
-}
-
- 
+    <StatefulDataTable 
+      columns={columns}
+      rows={this.state.rows}
+    />
+  </div>
+    )
+  }
+} 
+ 
