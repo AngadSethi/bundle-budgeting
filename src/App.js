@@ -1,16 +1,15 @@
-import logo from "./logo.svg";
 import "./App.css";
 import BundleTable from "./components/BundleTableComponent";
-
+import Example from "./Table";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <header >
         <p>Bundle Budgeting</p>
+        <Example />
       </header>
       <BundleTable />
-    </div>
+     </div>
   );
 }
 
