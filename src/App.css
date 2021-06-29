@@ -47,3 +47,13 @@
     text-align: left;
     margin-left: 5%;
   }
+
+.Navbar {
+  margin-bottom: 2%;
+}
+
+.Widgets {
+  margin-top: 2%;
+  display: flex;
+  justify-content: space-around;
+}
