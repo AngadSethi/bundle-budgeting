@@ -1,6 +1,6 @@
 import { Component }  from "react";
 import React from "react";
-import { BUNDLE_BUDGETS_URL } from "./shared/endPoints";
+import { BUNDLE_BUDGETS_URL } from "../shared/endPoints";
 import {
   StatefulDataTable,
   BooleanColumn,
