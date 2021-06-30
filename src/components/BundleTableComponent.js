@@ -3,11 +3,14 @@ import { BUNDLE_BUDGETS_URL, BUNDLE_STATS_URL } from "../shared/endPoints";
 import buildOutput from "../parseBuildOutput";
 import {
   BooleanColumn,
+  CustomColumn,
   NUMERICAL_FORMATS,
   NumericalColumn,
   StatefulDataTable,
   StringColumn,
 } from "baseui/data-table";
+import { Block } from "baseui/block";
+import { ProgressBar } from "baseui/progress-bar";
 
 class BundleTable extends Component {
   constructor(props) {
@@ -36,9 +39,42 @@ class BundleTable extends Component {
         format: NUMERICAL_FORMATS.DEFAULT,
         mapDataToValue: (data) => data.size,
       }),
-      BooleanColumn({
+      CustomColumn({
         title: "Budget Violation",
-        mapDataToValue: (data) => data.overshot,
+        mapDataToValue: (data) => data,
+        renderCell: function Cell(props) {
+          const percentage = Math.round(
+            (Math.abs(props.value.size - props.value.budget) /
+              props.value.budget) *
+              100
+          );
+
+          return (
+            <ProgressBar
+              value={percentage}
+              successValue={100}
+              overrides={{
+                BarProgress: {
+                  style: ({ $theme }) => ({
+                    backgroundColor:
+                      props.value.difference < 0
+                        ? $theme.colors.negative
+                        : $theme.colors.positive,
+                  }),
+                },
+              }}
+              showLabel
+              getProgressLabel={(value) => {
+                return (
+                  value +
+                  "% " +
+                  (percentage >= 100 ? "above" : "below") +
+                  " budget"
+                );
+              }}
+            />
+          );
+        },
       }),
     ];
   }
@@ -51,7 +87,7 @@ class BundleTable extends Component {
           ...this.state,
           isLoaded: true,
           buildStats: buildStats,
-          parsedBuildStats: buildOutput(buildStats),
+          parsedBuildStats: buildOutput(buildStats, this.props.fileType),
         });
 
         fetch(BUNDLE_BUDGETS_URL)
@@ -109,15 +145,16 @@ class BundleTable extends Component {
   render() {
     if (this.state.result && this.state.result.bundles) {
       return (
-        <div style={{ height: "300px" }}>
+        <Block height={"300px"}>
           <StatefulDataTable
             columns={this.columns}
             rows={this.state.result.bundles}
+            rowHeight={78}
           />
-        </div>
+        </Block>
       );
     }
-    return <div></div>;
+    return <div />;
   }
 }
 

@@ -1,4 +1,4 @@
-function buildOutput(buildStats) {
+function buildOutput(buildStats, extensions = [""]) {
   const bundleStats = [];
   const chunkIdToChunkMapping = new Map();
 
@@ -6,7 +6,9 @@ function buildOutput(buildStats) {
     chunkIdToChunkMapping.set(chunk["id"], chunk);
   }
 
-  for (const asset of buildStats["assets"]) {
+  const regex = new RegExp("^.*\\.(" + extensions.join("|") + ")$", "i");
+
+  for (const asset of buildStats["assets"].filter((a) => regex.test(a.name))) {
     const assetDetails = {
       name: asset["name"],
       size: asset["size"],

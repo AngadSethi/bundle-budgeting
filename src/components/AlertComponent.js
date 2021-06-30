@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Notification } from "baseui/notification";
-import { StatefulPagination } from "baseui/pagination";
 import { Block } from "baseui/block";
 import { ArrowLeft, ArrowRight } from "baseui/icon";
 import { Button, SHAPE, KIND } from "baseui/button";
@@ -9,12 +8,7 @@ function AlertComponent(props) {
   const [currentAlert, setCurrentAlert] = React.useState(0);
   const alert = props.alerts[currentAlert];
   return (
-    <Block
-      marginLeft={"5%"}
-      marginRight={"5%"}
-      display={"flex"}
-      alignItems={"center"}
-    >
+    <Block display={"flex"} alignItems={"center"}>
       <Button
         shape={SHAPE.circle}
         kind={KIND.secondary}

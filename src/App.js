@@ -5,19 +5,26 @@ import Header from "./components/Header";
 import AlertComponent from "./components/AlertComponent";
 import Widget from "./components/Widgets";
 import alerts from "./shared/alert";
-import widgetdata from './shared/widgetdata';
-
+import widgetdata from "./shared/widgetdata";
+import tabs from "./shared/tabData";
+import TabGroup from "./components/TabGroup";
+import { Block } from "baseui/block";
 
 function App() {
   return (
-    <div className="App">
+    <Block>
       <Header />
-      <AlertComponent alerts={alerts} />
-      <Widget insights={widgetdata} />
-      <div className="Table">
-        <BundleTable />
-      </div>
-    </div>
+      <Block
+        margin={"auto"}
+        paddingLeft={"3em"}
+        paddingRight={"3em"}
+        paddingTop={"2em"}
+      >
+        <AlertComponent alerts={alerts} />
+        <Widget insights={widgetdata} />
+        <TabGroup tabs={tabs} />
+      </Block>
+    </Block>
   );
 }
 
