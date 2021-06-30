@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Card, StyledBody } from "baseui/card";
 import { Block } from "baseui/block";
+import MyCard from "./MyCard";
 
 export default class Widget extends React.Component {
   constructor(props) {
@@ -16,33 +17,27 @@ export default class Widget extends React.Component {
   render() {
     return (
       <Block display={"flex"} justifyContent={"space-around"} marginTop={"2%"}>
-        <Card
+        <MyCard
           overrides={{
             Root: {
               style: {
-                width: "328px",
-                height: "200px",
                 backgroundColor: "pink",
               },
             },
           }}
-        >
-          <StyledBody>{this.state.numberOfBundles}</StyledBody>
-        </Card>
+          content={this.state.numberOfBundles}
+        />
 
-        <Card
+        <MyCard
           overrides={{
             Root: {
               style: {
-                width: "328px",
-                height: "200px",
                 backgroundColor: "orange",
               },
             },
           }}
-        >
-          <StyledBody>{this.state.totalSize}</StyledBody>
-        </Card>
+          content={this.state.totalSize}
+        />
 
         <Card
           overrides={{
