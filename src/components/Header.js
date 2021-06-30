@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Navbar from 'react-bootstrap/Navbar';
 import "../App.css";
-import navicon from "../navicon.png";
+import SideBar from "./DrawerNavigation";
 import 'bootstrap/dist/css/bootstrap.min.css'
 export default class Header extends Component {
   render() {
@@ -14,6 +14,7 @@ export default class Header extends Component {
           style={{ display: "flex", width: "50px", height: "50px" }}
         /> */}
         <Navbar bg="primary" variant="dark" className="Navbar">
+          <SideBar />
           <Navbar.Brand href="#home">Bundle Budgeting</Navbar.Brand>
         </Navbar>
       </div >

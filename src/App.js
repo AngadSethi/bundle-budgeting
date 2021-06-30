@@ -8,6 +8,7 @@ import alerts from "./shared/alert";
 import widgetdata from "./shared/widgetdata";
 import tabs from "./shared/tabData";
 import TabGroup from "./components/TabGroup";
+import SideBar from "./components/DrawerNavigation";
 import { Block } from "baseui/block";
 
 function App() {
