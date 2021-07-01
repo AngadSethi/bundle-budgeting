@@ -20,38 +20,36 @@ export default class Widget extends React.Component {
         <MyCard
           overrides={{
             Root: {
-              style: {
-                backgroundColor: "pink",
-              },
-            },
+              style: ({ $theme }) => ({
+                backgroundColor: $theme.colors.positive300,
+              }),
+            }
           }}
           content={this.state.numberOfBundles}
+
         />
 
         <MyCard
           overrides={{
             Root: {
-              style: {
-                backgroundColor: "orange",
-              },
-            },
+              style: ({ $theme }) => ({
+                backgroundColor: $theme.colors.warning200,
+              }),
+            }
           }}
           content={this.state.totalSize}
         />
 
-        <Card
+        <MyCard
           overrides={{
             Root: {
-              style: {
-                width: "328px",
-                height: "200px",
-                backgroundColor: "yellow",
-              },
-            },
+              style: ({ $theme }) => ({
+                backgroundColor: $theme.colors.accent300,
+              }),
+            }
           }}
-        >
-          <StyledBody>{this.state.bundlesAddedRemoved}</StyledBody>
-        </Card>
+          content={this.state.bundlesAddedRemoved}
+        />
       </Block>
     );
   }

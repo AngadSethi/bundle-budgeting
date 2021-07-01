@@ -10,7 +10,7 @@ import { Block } from "baseui/block";
 
 function App() {
   return (
-    <Block backgroundColor={["primary200"]}>
+    <Block backgroundColor={["primary100"]}>
       <Header />
       <Block
         margin={"auto"}
