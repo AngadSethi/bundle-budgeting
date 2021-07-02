@@ -1,8 +1,6 @@
 import "./App.css";
 import Header from "./components/Header";
-import AlertComponent from "./components/AlertComponent";
 import Widget from "./components/Widgets";
-import alerts from "./shared/alert";
 import widgetdata from "./shared/widgetdata";
 import tabs from "./shared/tabData";
 import TabGroup from "./components/TabGroup";

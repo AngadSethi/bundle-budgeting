@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Tab, Tabs, FILL } from "baseui/tabs-motion";
-import BundleTable from "./BundleTableComponent";
 import { Block } from "baseui/block";
 import CardGroup from "./CardGroup";
 
