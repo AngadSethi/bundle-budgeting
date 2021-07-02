@@ -26,7 +26,7 @@ class CardGroup extends React.Component {
   }
 
   componentDidMount() {
-    fetch(process.env.REACT_APP_BASE_URL + BUNDLE_STATS_URL)
+    fetch(BUNDLE_STATS_URL)
       .then((result) => result.json())
       .then((buildStats) => {
         this.setState({
@@ -36,7 +36,7 @@ class CardGroup extends React.Component {
           parsedBuildStats: buildOutput(buildStats, this.props.fileType),
         });
 
-        fetch(process.env.REACT_APP_BASE_URL + BUNDLE_BUDGETS_URL)
+        fetch(BUNDLE_BUDGETS_URL)
           .then((result) => result.json())
           .then((budgets) => {
             this.buildBudgetsMap(budgets);
