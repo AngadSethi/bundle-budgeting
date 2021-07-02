@@ -2,7 +2,9 @@ import { Card, StyledBody } from "baseui/card";
 import * as React from "react";
 import { colors } from "baseui/tokens";
 
+
 function MyCard(props) {
+
   return (
     <Card
       overrides={{
@@ -11,7 +13,7 @@ function MyCard(props) {
             width: "328px",
             height: "200px",
             fontSize: "100px",
-            backgroundColor: $theme.colors.backgroundAccent,
+            backgroundColor: "white",
             borderWidth: "1px",
             borderRadius: "20px",
             borderStyle: "solid",
