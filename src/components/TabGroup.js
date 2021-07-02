@@ -2,6 +2,7 @@ import * as React from "react";
 import { Tab, Tabs, FILL } from "baseui/tabs-motion";
 import BundleTable from "./BundleTableComponent";
 import { Block } from "baseui/block";
+import CardGroup from "./CardGroup";
 
 class TabGroup extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class TabGroup extends React.Component {
     for (const tab of this.props.tabs) {
       tabs.push(
         <Tab title={tab.title}>
-          <BundleTable fileType={tab.extension} />
+          <CardGroup fileType={tab.extension} />
         </Tab>
       );
     }
@@ -38,6 +39,13 @@ class TabGroup extends React.Component {
           }}
           activateOnFocus
           fill={FILL.fixed}
+          overrides={{
+            TabHighlight: {
+              style: ({ $theme }) => ({
+                backgroundColor: $theme.colors.accent,
+              }),
+            },
+          }}
         >
           {this.renderTabs()}
         </Tabs>

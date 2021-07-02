@@ -2,7 +2,6 @@ import { Component } from "react";
 import { BUNDLE_BUDGETS_URL, BUNDLE_STATS_URL } from "../shared/endPoints";
 import buildOutput from "../parseBuildOutput";
 import {
-  BooleanColumn,
   CustomColumn,
   NUMERICAL_FORMATS,
   NumericalColumn,
