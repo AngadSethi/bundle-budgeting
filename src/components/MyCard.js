@@ -1,9 +1,13 @@
 import { Card, StyledBody } from "baseui/card";
 import * as React from "react";
-import { colors } from "baseui/tokens";
-
+import { withStyle } from "baseui";
 
 function MyCard(props) {
+  const CustomBody = withStyle(StyledBody, ({ $theme }) => ({
+    fontSize: $theme.typography.font550.fontSize,
+    fontFamily: $theme.typography.font550.fontFamily,
+    fontWeight: $theme.typography.font550.fontWeight,
+  }));
 
   return (
     <Card
@@ -25,7 +29,7 @@ function MyCard(props) {
         },
       }}
     >
-      <StyledBody>{props.content}</StyledBody>
+      <CustomBody>{props.content}</CustomBody>
     </Card>
   );
 }
