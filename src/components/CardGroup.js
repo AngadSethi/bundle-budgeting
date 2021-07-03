@@ -30,7 +30,6 @@ class CardGroup extends React.Component {
       .then((result) => result.json())
       .then((buildStats) => {
         this.setState({
-          ...this.state,
           isLoaded: true,
           buildStats: buildStats,
           parsedBuildStats: buildOutput(buildStats, this.props.fileType),
@@ -54,7 +53,6 @@ class CardGroup extends React.Component {
     });
 
     this.setState({
-      ...this.state,
       budgetMap: budgetMap,
     });
   }
@@ -83,7 +81,6 @@ class CardGroup extends React.Component {
       }
     });
     this.setState({
-      ...this.state,
       result: result,
     });
   }
