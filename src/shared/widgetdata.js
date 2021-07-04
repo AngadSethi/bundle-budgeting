@@ -1,7 +1,7 @@
 const widgetdata = [
     {
         widgettype: "numberOfBundles",
-        text: "7 bundles have exceeded bundle size "
+        text: "7 bundles have exceeded the bundle size "
     },
     {
         widgettype: "totalSize",

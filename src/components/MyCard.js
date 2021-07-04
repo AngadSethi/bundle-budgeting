@@ -7,6 +7,8 @@ function MyCard(props) {
     fontSize: $theme.typography.font550.fontSize,
     fontFamily: $theme.typography.font550.fontFamily,
     fontWeight: $theme.typography.font550.fontWeight,
+    marginTop: "25%",
+    textAlign: "center"
   }));
 
   return (
