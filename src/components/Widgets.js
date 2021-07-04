@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Block } from "baseui/block";
-import { BUNDLE_BUDGETS_URL, BUNDLE_STATS_URL } from "../shared/endPoints";
-
+import { returnResult } from "./ProcessBudgets";
 import MyCard from "./MyCard";
 import {
   Modal,
@@ -23,15 +22,9 @@ export default class Widget extends React.Component {
     this.close = this.close.bind(this)
     // console.log(props.insights);
   }
-  componentDidMount() {
-    fetch(BUNDLE_BUDGETS_URL)
-      .then((result) => result.json())
-      .then((budgets) => {
-        console.log(budgets)
-      })
-  }
 
   close() {
+    returnResult();
     this.setState({ isOpen: false })
   }
   render() {

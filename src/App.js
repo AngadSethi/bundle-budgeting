@@ -7,6 +7,7 @@ import TabGroup from "./components/TabGroup";
 import { Block } from "baseui/block";
 
 function App() {
+  console.warn = () => { };
   return (
     <Block backgroundColor={["#DBDBDB"]} height={"100vh"}>
       <Header />
