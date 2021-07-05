@@ -12,7 +12,6 @@ import { Image } from "react-bootstrap";
 import logo from "../logo.svg";
 
 export default function Header() {
-  console.log(logo);
   return (
     <HeaderNavigation
       overrides={{

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Tab, Tabs, FILL } from "baseui/tabs-motion";
 import { Block } from "baseui/block";
-import CardGroup from "./CardGroup";
+import CardGroup from "./BundleCardGroup";
 
 class TabGroup extends React.Component {
   constructor(props) {
