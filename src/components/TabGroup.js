@@ -14,13 +14,15 @@ class TabGroup extends React.Component {
 
   renderTabs() {
     const tabs = [];
+    let key = 0;
 
     for (const tab of this.props.tabs) {
       tabs.push(
-        <Tab title={tab.title}>
+        <Tab title={tab.title} key={key}>
           <CardGroup fileType={tab.extension} />
         </Tab>
       );
+      key += 1;
     }
 
     return tabs;

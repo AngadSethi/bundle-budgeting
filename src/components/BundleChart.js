@@ -51,8 +51,8 @@ export default function BundleChart(props) {
       renderSVG={() => (
         <defs>
           <linearGradient id="0" x1="0" x2="0" y1="1" y2="0">
-            <stop offset="0%" stopColor="#17EAD9" />
-            <stop offset="100%" stopColor="#6078EA" />
+            <stop offset="0%" stopColor="#00BAE9" />
+            <stop offset="100%" stopColor="#118ACB" />
           </linearGradient>
           <linearGradient id="1" x1="0" x2="0" y1="1" y2="0">
             <stop offset="0%" stopColor="#F38181" />

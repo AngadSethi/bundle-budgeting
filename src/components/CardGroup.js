@@ -7,6 +7,10 @@ import { H6 } from "baseui/typography";
 import { ListItem, ListItemLabel } from "baseui/list";
 import { Pagination, SIZE } from "baseui/pagination";
 import BundleChart from "./BundleChart";
+import { Button, SHAPE, SIZE as BUTTON_SIZE } from "baseui/button";
+import { Show } from "baseui/icon";
+import { StatefulTooltip } from "baseui/tooltip";
+import { Block } from "baseui/block";
 
 class CardGroup extends React.Component {
   constructor(props) {
@@ -93,7 +97,7 @@ class CardGroup extends React.Component {
       )
       .map((bundle) => {
         return (
-          <FlexGridItem>
+          <FlexGridItem key={bundle.data.name}>
             <Card
               overrides={{
                 Root: {
@@ -106,9 +110,31 @@ class CardGroup extends React.Component {
                 },
               }}
             >
-              <H6 marginTop={0} marginBottom={0}>
-                {bundle.data.name}
-              </H6>
+              <FlexGrid>
+                <FlexGridItem maxWidth={"90%"}>
+                  <H6 marginTop={0} marginBottom={0}>
+                    {bundle.data.name}
+                  </H6>
+                </FlexGridItem>
+                <FlexGridItem maxWidth={"10%"} marginLeft={"auto"}>
+                  <StatefulTooltip
+                    content={() => (
+                      <Block>View more details about this bundle</Block>
+                    )}
+                    returnFocus
+                    autoFocus
+                  >
+                    <Button
+                      $as="a"
+                      href={"bundle?b=" + encodeURI(bundle.data.name)}
+                      shape={SHAPE.circle}
+                      size={BUTTON_SIZE.compact}
+                    >
+                      <Show />
+                    </Button>
+                  </StatefulTooltip>
+                </FlexGridItem>
+              </FlexGrid>
               <hr />
               <StyledBody>
                 <FlexGrid
@@ -162,7 +188,7 @@ class CardGroup extends React.Component {
       return (
         <div>
           <FlexGrid
-            flexGridColumnCount={[1, 2, 4]}
+            flexGridColumnCount={[1, 2, 3]}
             flexGridColumnGap="scale800"
             flexGridRowGap="scale800"
           >
