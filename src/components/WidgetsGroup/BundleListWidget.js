@@ -12,10 +12,10 @@ import {
 
 export default class BundleListWidget extends React.Component {
     constructor(props) {
-        console.log(returnResult());
         super(props);
         this.state = {
             numberOfBundles: props.numberOfBundles,
+            bundleList: [],
             budgetListOpen: false,
         };
         this.budgetListclose = this.budgetListclose.bind(this);

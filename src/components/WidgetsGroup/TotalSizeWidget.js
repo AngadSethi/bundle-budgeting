@@ -15,7 +15,6 @@ import {
 
 export default class TotalSizeWidget extends React.Component {
     constructor(props) {
-        console.log(returnResult());
         super(props);
         this.state = {
             totalSize: props.totalSize,

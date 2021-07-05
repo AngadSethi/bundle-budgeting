@@ -9,7 +9,6 @@ import NewBundlesWidget from "./NewBundlesWidget";
 
 export default class Widget extends React.Component {
   constructor(props) {
-    console.log(returnResult());
     super(props);
     this.state = {
       numberOfBundles: props.insights[0].text,

@@ -37,27 +37,45 @@ function ProcessBudget() {
     });
   }
 
-  fetch(BUNDLE_STATS_URL)
-    .then((result) => result.json())
-    .then((buildStats) => {
-      buildstats = buildStats;
-      parsedBuildStats = buildOutput(buildstats);
+  async function fetchData() {
+    let response = await fetch(BUNDLE_STATS_URL);
+    let buildStats = await response.json();
+    buildstats = buildStats;
+    parsedBuildStats = buildOutput(buildstats);
 
-      fetch(BUNDLE_BUDGETS_URL)
-        .then((result) => result.json())
-        .then((budgets) => {
-          buildBudgetsMap(budgets);
+    let budgetdata = await fetch(BUNDLE_BUDGETS_URL);
+    let budgets = await budgetdata.json();
 
-          detectBudgetViolations();
+    buildBudgetsMap(budgets);
+    detectBudgetViolations();
 
-          return result;
-        });
-    });
+  }
 
-  return {};
+  fetchData().catch(e => {
+    console.log("Error fetching data")
+  })
+
+  // fetch(BUNDLE_STATS_URL)
+  //   .then((result) => result.json())
+  //   .then((buildStats) => {
+  //     buildstats = buildStats;
+  //     parsedBuildStats = buildOutput(buildstats);
+
+  //     fetch(BUNDLE_BUDGETS_URL)
+  //       .then((result) => result.json())
+  //       .then((budgets) => {
+  //         buildBudgetsMap(budgets);
+
+  //         detectBudgetViolations();
+
+  //         return result;
+  //       });
+  //   });
+
+  return result;
 }
 
 export default function returnResult() {
-  console.log(ProcessBudget());
+  // console.log(ProcessBudget());
   return ProcessBudget();
 }
