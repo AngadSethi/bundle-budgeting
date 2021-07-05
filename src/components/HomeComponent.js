@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Block } from "baseui/block";
-import Widget from "./Widgets";
+import Widget from "./WidgetsGroup/Widgets";
 import widgetdata from "../shared/widgetdata";
 import TabGroup from "./TabGroup";
 import tabs from "../shared/tabData";
