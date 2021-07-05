@@ -1,4 +1,4 @@
-function buildOutput(buildStats, extensions = [""]) {
+function buildOutput(buildStats, extensions = ["js", "css"]) {
   const bundleStats = [];
   const chunkIdToChunkMapping = new Map();
 

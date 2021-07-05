@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Block } from "baseui/block";
-import { returnResult } from "./ProcessBudgets";
+import returnResult from "./ProcessBudgets";
 import BundleChart from "./BundleChart";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { ListItem, ListItemLabel } from "baseui/list";
@@ -12,10 +12,11 @@ import {
   ModalBody,
   ModalFooter,
   ModalButton,
-} from 'baseui/modal';
+} from "baseui/modal";
 
 export default class Widget extends React.Component {
   constructor(props) {
+    console.log(returnResult());
     super(props);
     this.state = {
       numberOfBundles: props.insights[0].text,
@@ -24,17 +25,17 @@ export default class Widget extends React.Component {
       budgetListOpen: false,
       totalSizeOpen: false,
     };
-    this.budgetListclose = this.budgetListclose.bind(this)
-    this.totalSizeModalClose = this.totalSizeModalClose.bind(this)
+    this.budgetListclose = this.budgetListclose.bind(this);
+    this.totalSizeModalClose = this.totalSizeModalClose.bind(this);
     // console.log(props.insights);
   }
 
   budgetListclose() {
-    this.setState({ budgetListOpen: false })
+    this.setState({ budgetListOpen: false });
   }
 
   totalSizeModalClose() {
-    this.setState({ totalSizeOpen: false })
+    this.setState({ totalSizeOpen: false });
   }
 
   render() {
@@ -47,16 +48,18 @@ export default class Widget extends React.Component {
                 style: ({ $theme }) => ({
                   backgroundColor: $theme.colors.positive300,
                 }),
-              }
+              },
             }}
             content={this.state.numberOfBundles}
           />
         </div>
 
-        <Modal onClose={this.budgetListclose} isOpen={this.state.budgetListOpen}>
+        <Modal
+          onClose={this.budgetListclose}
+          isOpen={this.state.budgetListOpen}
+        >
           <ModalHeader>Bundles that exceeded the Budget</ModalHeader>
-          <ModalBody>
-          </ModalBody>
+          <ModalBody></ModalBody>
           <ModalFooter>
             <ModalButton onClick={this.budgetListclose}>Okay</ModalButton>
           </ModalFooter>
@@ -69,13 +72,16 @@ export default class Widget extends React.Component {
                 style: ({ $theme }) => ({
                   backgroundColor: $theme.colors.warning200,
                 }),
-              }
+              },
             }}
             content={this.state.totalSize}
           />
         </div>
 
-        <Modal onClose={this.totalSizeModalClose} isOpen={this.state.totalSizeOpen}>
+        <Modal
+          onClose={this.totalSizeModalClose}
+          isOpen={this.state.totalSizeOpen}
+        >
           <ModalHeader>Bundles that exceeded the Budget</ModalHeader>
           <ModalBody>
             <FlexGrid
@@ -91,21 +97,17 @@ export default class Widget extends React.Component {
                   }}
                 >
                   <ListItem>
-                    <ListItemLabel >
-                      Total Size
-                    </ListItemLabel>
+                    <ListItemLabel>Total Size</ListItemLabel>
                   </ListItem>
                   <ListItem>
-                    <ListItemLabel >
-                      Total Budget
-                    </ListItemLabel>
+                    <ListItemLabel>Total Budget</ListItemLabel>
                   </ListItem>
                 </ul>
               </FlexGridItem>
               <FlexGridItem>
                 <BundleChart
                   name={"Project Name"}
-                // overshot={bundle.data.overshot}
+                  // overshot={bundle.data.overshot}
                 />
               </FlexGridItem>
             </FlexGrid>
@@ -115,19 +117,17 @@ export default class Widget extends React.Component {
           </ModalFooter>
         </Modal>
 
-
-
         <MyCard
           overrides={{
             Root: {
               style: ({ $theme }) => ({
                 backgroundColor: $theme.colors.accent300,
               }),
-            }
+            },
           }}
           content={this.state.bundlesAddedRemoved}
         />
-      </Block >
+      </Block>
     );
   }
 }
