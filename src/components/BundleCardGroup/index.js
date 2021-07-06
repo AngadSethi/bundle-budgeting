@@ -1,7 +1,6 @@
 import * as React from "react";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { Pagination, SIZE } from "baseui/pagination";
-import BuildOutput from "../../shared/BuildOutput";
 import BundleCard from "./BundleCard";
 
 /**
@@ -19,11 +18,34 @@ class CardGroup extends React.Component {
     };
   }
 
+  filterResults(result, extensions) {
+    const regex = new RegExp("^.*\\.(" + extensions.join("|") + ")$", "i");
+
+    const newResult = {
+      bundles: [...result.bundles],
+      orphans: [...result.orphans],
+    };
+
+    newResult.bundles = newResult.bundles.filter((bundle) =>
+      regex.test(bundle.data.name)
+    );
+    newResult.orphans = newResult.orphans.filter((bundle) =>
+      regex.test(bundle.name)
+    );
+
+    return newResult;
+  }
+
   componentDidMount() {
-    const buildOutput = new BuildOutput();
-    buildOutput.build(this.props.fileType).then((res) => {
-      this.setState(res);
-    });
+    if (this.props.buildOutput !== null) {
+      this.setState({
+        result: this.filterResults(
+          this.props.buildOutput.result,
+          this.props.fileType
+        ),
+        isLoaded: true,
+      });
+    }
   }
 
   renderCards() {

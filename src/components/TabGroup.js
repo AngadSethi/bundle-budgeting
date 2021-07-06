@@ -19,7 +19,10 @@ class TabGroup extends React.Component {
     for (const tab of this.props.tabs) {
       tabs.push(
         <Tab title={tab.title} key={key}>
-          <CardGroup fileType={tab.extension} />
+          <CardGroup
+            fileType={tab.extension}
+            buildOutput={this.props.buildOutput}
+          />
         </Tab>
       );
       key += 1;

@@ -35,8 +35,8 @@ export default function BundleChart(props) {
 
   const axes = React.useMemo(
     () => [
-      { primary: true, position: "none", type: "ordinal", show: false },
-      { position: "left", type: "linear", stacked: true, show: false },
+      { primary: true, position: "bottom", type: "ordinal", show: true },
+      { position: "left", type: "linear", stacked: true, show: true },
     ],
     []
   );

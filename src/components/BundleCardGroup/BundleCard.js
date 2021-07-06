@@ -50,6 +50,8 @@ function BundleCard(props) {
               href={"bundle?b=" + encodeURI(props.bundle.data.name)}
               shape={SHAPE.circle}
               size={BUTTON_SIZE.compact}
+              showX={true}
+              showY={true}
             >
               <Show />
             </Button>
