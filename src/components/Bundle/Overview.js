@@ -7,14 +7,21 @@ import BundleChart from "../BundleChart";
 import edit from "../../edit.png"
 import save from "../../save.png"
 import { Image } from "react-bootstrap";
-
+import { Slider } from 'baseui/slider'
+import BudgetSlider from "./Slider";
 class Overview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEdit: false
+      isEdit: false,
+      budgetValue: 2000,
     }
     this.editOwner = this.editOwner.bind(this)
+    this.setValue = this.setValue.bind(this)
+  }
+
+  setValue(value) {
+    this.setState({ budgetValue: value })
   }
 
   editOwner(isEdit) {
@@ -91,6 +98,7 @@ class Overview extends React.Component {
                   <ListItemLabel description={this.props.ownerDetails.budget}>
                     Budget
                   </ListItemLabel>
+                  <BudgetSlider />
                 </ListItem>
               </ul>
             </FlexGridItem>
