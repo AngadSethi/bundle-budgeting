@@ -78,6 +78,11 @@ class Search extends React.Component {
           DropdownListItem: {
             component: SearchListItem,
           },
+          Root: {
+            style: {
+              outline: "black 2px solid"
+            }
+          }
         }}
       />
     );

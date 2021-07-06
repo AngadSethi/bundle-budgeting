@@ -71,11 +71,11 @@ function ProcessBudget() {
   //         return result;
   //       });
   //   });
-
   return result;
 }
 
 export default function returnResult() {
-  // console.log(ProcessBudget());
-  return ProcessBudget();
+  var processedBudggets = ProcessBudget()
+
+  return processedBudggets;
 }

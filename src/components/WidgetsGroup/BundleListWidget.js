@@ -21,6 +21,13 @@ export default class BundleListWidget extends React.Component {
         this.budgetListclose = this.budgetListclose.bind(this);
     }
 
+    componentDidMount() {
+        let bundledata = returnResult();
+        let bundles = bundledata["bundles"];
+    }
+
+
+
     budgetListclose() {
         this.setState({ budgetListOpen: false });
     }

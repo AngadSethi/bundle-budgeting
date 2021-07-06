@@ -37,7 +37,7 @@ export default function Header() {
         <NavigationItem>
           <StyledLink href="/">Home</StyledLink>
         </NavigationItem>
-        <NavigationItem style={{ width: "200px" }}>
+        <NavigationItem style={{ width: "200px", marginRight: "30px" }}>
           <Search />
         </NavigationItem>
       </NavigationList>
