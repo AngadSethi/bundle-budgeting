@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Block } from "baseui/block";
-import returnResult from "../ProcessBudgets";
 
 import BundleListWidget from "./BundleListWidget";
 import TotalSizeWidget from "./TotalSizeWidget";

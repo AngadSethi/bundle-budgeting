@@ -3,16 +3,44 @@ import { Card, StyledBody } from "baseui/card";
 import { ListItem, ListItemLabel } from "baseui/list";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { H6 } from "baseui/typography";
-import { StatefulTooltip } from "baseui/tooltip";
-import { Block } from "baseui/block";
-import { Button, SHAPE, SIZE as BUTTON_SIZE } from "baseui/button";
-import { Show } from "baseui/icon";
 import BundleChart from "../BundleChart";
+import edit from "../../edit.png"
+import save from "../../save.png"
+import { Image } from "react-bootstrap";
 
 class Overview extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isEdit: false
+    }
+    this.editOwner = this.editOwner.bind(this)
   }
+
+  editOwner(isEdit) {
+    // alert("Editing")
+    let newEditValue = !isEdit;
+    this.setState({ isEdit: newEditValue });
+
+    let elementId = this.props.bundle.name
+    var listElement = document.getElementById(elementId)
+    var OwnerlistElement = listElement.getElementsByTagName("li")[0]
+    var OwnerName = OwnerlistElement.getElementsByTagName("div")[0].getElementsByTagName("div")[0].getElementsByTagName("p")[1]
+    var EditIcon = OwnerlistElement.getElementsByTagName("img")[0]
+    if (this.state.isEdit === true) {
+      EditIcon.src = save;
+      OwnerName.contentEditable = true;
+      OwnerName.style.border = "1px solid black";
+      OwnerName.style.padding = "2px";
+    }
+    else {
+      EditIcon.src = edit;
+      OwnerName.contentEditable = false;
+      OwnerName.style.border = "0px"
+    }
+
+  }
+
 
   render() {
     return (
@@ -42,15 +70,17 @@ class Overview extends React.Component {
             {/* The list displaying the necessary information. */}
             <FlexGridItem maxWidth={"30%"}>
               <ul
+                id={this.props.bundle.name}
                 style={{
                   paddingLeft: 0,
                   paddingRight: 0,
                 }}
               >
-                <ListItem>
+                <ListItem >
                   <ListItemLabel description={this.props.ownerDetails.owner}>
                     Owner
                   </ListItemLabel>
+                  <Image onClick={() => { this.editOwner(this.state.isEdit) }} src={edit} width={"18px"} height={"18px"} style={{ float: "left" }} />
                 </ListItem>
                 <ListItem>
                   <ListItemLabel description={this.props.bundle.size}>
