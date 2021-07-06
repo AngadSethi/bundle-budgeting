@@ -7,7 +7,7 @@ import BundleChart from "../BundleChart";
 import edit from "../../edit.png"
 import save from "../../save.png"
 import { Image } from "react-bootstrap";
-import { Slider } from 'baseui/slider'
+// import { Slider } from 'baseui/slider'
 import BudgetSlider from "./Slider";
 class Overview extends React.Component {
   constructor(props) {
