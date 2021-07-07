@@ -6,23 +6,33 @@ import { H6 } from "baseui/typography";
 import BundleChart from "../BundleChart";
 import edit from "../../edit.png"
 import save from "../../save.png"
+import { Slider } from "baseui/slider";
 import { Image } from "react-bootstrap";
 // import { Slider } from 'baseui/slider'
-import BudgetSlider from "./Slider";
 class Overview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isEdit: false,
-      budgetValue: 2000,
+      budgetValue: [50],
     }
     this.editOwner = this.editOwner.bind(this)
-    this.setValue = this.setValue.bind(this)
+    this.setBudget = this.setBudget.bind(this);
+    this.changeBudget = this.changeBudget.bind(this);
   }
 
-  setValue(value) {
-    this.setState({ budgetValue: value })
+
+  changeBudget(newBudget) {
+    let elementId = this.props.bundle.name;
+    var listElement = document.getElementById(elementId);
+    var OwnerlistElement = listElement.getElementsByTagName("li")[2].getElementsByTagName("p")[1];
+
+    OwnerlistElement.innerHTML = this.state.budgetValue;
   }
+  setBudget(newValue) {
+    this.setState({ budgetValue: newValue });
+  }
+
 
   editOwner(isEdit) {
     // alert("Editing")
@@ -32,7 +42,7 @@ class Overview extends React.Component {
     let elementId = this.props.bundle.name
     var listElement = document.getElementById(elementId)
     var OwnerlistElement = listElement.getElementsByTagName("li")[0]
-    var OwnerName = OwnerlistElement.getElementsByTagName("div")[0].getElementsByTagName("div")[0].getElementsByTagName("p")[1]
+    var OwnerName = OwnerlistElement.getElementsByTagName("p")[1]
     var EditIcon = OwnerlistElement.getElementsByTagName("img")[0]
     if (this.state.isEdit === true) {
       EditIcon.src = save;
@@ -98,7 +108,28 @@ class Overview extends React.Component {
                   <ListItemLabel description={this.props.ownerDetails.budget}>
                     Budget
                   </ListItemLabel>
-                  <BudgetSlider />
+
+                  <Slider
+                    overrides={{
+                      Root: {
+                        style: {
+                          width: "70%",
+                        }
+                      },
+                      Thumb: {
+                        style: {
+                          width: "15px",
+                          height: "15px",
+                        }
+                      }
+                    }}
+                    min={10}
+                    max={2000}
+                    value={this.state.budgetValue}
+                    onChange={({ value }) => value && this.setBudget(value)}
+                    onFinalChange={({ value }) => value && this.changeBudget(value)}
+                  />
+
                 </ListItem>
               </ul>
             </FlexGridItem>
