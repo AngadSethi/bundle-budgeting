@@ -46,6 +46,7 @@ export default class TotalSizeWidget extends React.Component {
                             },
                         }}
                         content={this.state.totalSize}
+                        help={"Click to view Graph"}
                     />
                 </div>
 

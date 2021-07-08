@@ -1,7 +1,6 @@
 import * as React from "react";
 import { BUNDLE_BUDGETS_URL, BUNDLE_STATS_URL } from "../../shared/endPoints";
 import buildOutput from "../../parseBuildOutput";
-
 import { ListItem, ListItemLabel } from "baseui/list";
 import MyCard from "../MyCard";
 import {
@@ -16,7 +15,7 @@ export default class BundleListWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      numberOfBundles: props.numberOfBundles,
+      numberOfBundles: 0,
       error: false,
       isBuildStatsLoaded: false,
       isBudgetsStatsLoaded: false,
@@ -75,6 +74,7 @@ export default class BundleListWidget extends React.Component {
   }
 
   renderList() {
+
     if (this.state.error) {
       return <div>Error Loading Data</div>;
     }
@@ -84,16 +84,19 @@ export default class BundleListWidget extends React.Component {
       const listItems = this.state.bundleList.map((bundlename) => {
         return (
           <ListItem>
-            <ListItemLabel>{bundlename}</ListItemLabel>
+            <ListItemLabel
+              href={"bundle?b=" + encodeURI(bundlename)}
+            >{bundlename}</ListItemLabel>
           </ListItem>
         );
       });
-      return <ul>{listItems}</ul>;
+      return <ul style={{ overflow: "hidden", overflowY: "scroll" }}>{listItems}</ul>;
     }
   }
   createList() {
     // console.log(this.state.result)
     let bundlesExceedingBudget = [];
+    let numberExceeding = 0;
     let finalResult = this.state.result;
     let bundles = finalResult["bundles"];
     for (let bundle of bundles) {
@@ -102,10 +105,10 @@ export default class BundleListWidget extends React.Component {
       let bundleOvershot = bundledata["overshot"];
       if (bundleOvershot === true) {
         bundlesExceedingBudget.push(bundlename);
+        numberExceeding = numberExceeding + 1;
       }
     }
-    this.setState({ bundleList: bundlesExceedingBudget });
-    console.log("List created", this.state.bundleList);
+    this.setState({ bundleList: bundlesExceedingBudget, numberOfBundles: numberExceeding });
   }
 
   buildBudgetsMap(budgets) {
@@ -159,6 +162,7 @@ export default class BundleListWidget extends React.Component {
   }
 
   render() {
+    const WidgetBody = (this.state.numberOfBundles).toString() + " bundles have exceeded the Budget"
     return (
       <div>
         <div onClick={() => this.setState({ budgetListOpen: true })}>
@@ -170,7 +174,8 @@ export default class BundleListWidget extends React.Component {
                 }),
               },
             }}
-            content={this.state.numberOfBundles}
+            content={WidgetBody}
+            help={"Click to view the List"}
           />
         </div>
 
