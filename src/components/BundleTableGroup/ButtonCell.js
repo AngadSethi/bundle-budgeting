@@ -3,7 +3,7 @@ import { Button, KIND, SIZE, SHAPE } from "baseui/button";
 import { Show } from "baseui/icon";
 
 function ButtonsCell({ id }) {
-  const [css, theme] = useStyletron();
+  const [css] = useStyletron();
   return (
     <div className={css({ display: "flex", alignItems: "center" })}>
       <Button

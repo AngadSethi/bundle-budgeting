@@ -3,6 +3,7 @@ import { BUNDLE_BUDGETS_URL, BUNDLE_STATS_URL } from "../../shared/endPoints";
 import buildOutput from "../../parseBuildOutput";
 import { ListItem, ListItemLabel } from "baseui/list";
 import MyCard from "../MyCard";
+import { StyledLink } from 'baseui/link'
 import {
   Modal,
   ModalHeader,
@@ -84,9 +85,11 @@ export default class BundleListWidget extends React.Component {
       const listItems = this.state.bundleList.map((bundlename) => {
         return (
           <ListItem>
-            <ListItemLabel
-              href={"bundle?b=" + encodeURI(bundlename)}
-            >{bundlename}</ListItemLabel>
+            <ListItemLabel>
+              <StyledLink href={"bundle?b=" + encodeURI(bundlename)}>
+                {bundlename}
+              </StyledLink>
+            </ListItemLabel>
           </ListItem>
         );
       });
