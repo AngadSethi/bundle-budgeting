@@ -1,5 +1,4 @@
 import * as React from "react";
-import returnResult from "../ProcessBudgets";
 import { BUNDLE_BUDGETS_URL, BUNDLE_STATS_URL } from "../../shared/endPoints";
 import buildOutput from "../../parseBuildOutput";
 
@@ -162,7 +161,7 @@ export default class BundleListWidget extends React.Component {
   render() {
     return (
       <div>
-        <div onDoubleClick={() => this.setState({ budgetListOpen: true })}>
+        <div onClick={() => this.setState({ budgetListOpen: true })}>
           <MyCard
             overrides={{
               Root: {

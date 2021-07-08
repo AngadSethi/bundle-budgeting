@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Tab, Tabs, FILL } from "baseui/tabs-motion";
+import { Tab } from "baseui/tabs-motion";
 import { Block } from "baseui/block";
-import CardGroup from "./BundleCardGroup";
 import TableGroup from "./BundleTableGroup";
 
 class TabGroup extends React.Component {
@@ -31,7 +30,7 @@ class TabGroup extends React.Component {
 
   render() {
     return (
-      <Block marginTop={"3em"}>
+      <Block marginTop={"3em"} >
         {/*<Tabs*/}
         {/*  activeKey={this.state.activeKey}*/}
         {/*  onChange={({ activeKey }) => {*/}

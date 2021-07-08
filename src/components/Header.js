@@ -6,7 +6,6 @@ import {
   StyledNavigationList as NavigationList,
 } from "baseui/header-navigation";
 import Search from "./Search";
-import { StyledLink } from "baseui/link";
 import { H5 } from "baseui/typography";
 import { Image } from "react-bootstrap";
 import logo from "../logo.svg";
