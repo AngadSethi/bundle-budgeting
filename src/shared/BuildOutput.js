@@ -46,14 +46,19 @@ class BuildOutput {
     this.parsedBuildStats.forEach((bundle) => {
       if (this.budgetMap.has(bundle.name)) {
         const budget = this.budgetMap.get(bundle.name);
+
+        const percentage = Math.round(
+          (bundle.size - budget.budget) / budget.budget
+        );
         this.result.bundles.push({
           id: bundle.name,
           data: {
             ...bundle,
             overshot: budget.budget - bundle.size < 0,
             budget: budget.budget,
-            difference: budget.budget - bundle.size,
+            difference: bundle.size - budget.budget,
             owner: budget.owner,
+            percentage: percentage,
           },
         });
       } else {

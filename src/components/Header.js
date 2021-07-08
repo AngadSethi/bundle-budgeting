@@ -10,6 +10,7 @@ import { StyledLink } from "baseui/link";
 import { H5 } from "baseui/typography";
 import { Image } from "react-bootstrap";
 import logo from "../logo.svg";
+import { StyledNavLink } from "baseui/side-navigation";
 
 export default function Header() {
   return (
@@ -24,19 +25,20 @@ export default function Header() {
     >
       <NavigationList $align={ALIGN.left}>
         <NavigationItem>
-          <Image src={logo} width={"85px"} height={"85px"} />
+          <StyledNavLink href="/">
+            <Image src={logo} width={"85px"} height={"85px"} />
+          </StyledNavLink>
         </NavigationItem>
         <NavigationItem>
-          <H5 marginTop={0} marginBottom={0}>
-            Bundle Budgeting
-          </H5>
+          <StyledNavLink href="/">
+            <H5 marginTop={0} marginBottom={0}>
+              Bundle Budgeting
+            </H5>
+          </StyledNavLink>
         </NavigationItem>
       </NavigationList>
       <NavigationList $align={ALIGN.center} />
       <NavigationList $align={ALIGN.right}>
-        <NavigationItem>
-          <StyledLink href="/">Home</StyledLink>
-        </NavigationItem>
         <NavigationItem style={{ width: "200px", marginRight: "30px" }}>
           <Search />
         </NavigationItem>
