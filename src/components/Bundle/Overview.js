@@ -15,13 +15,49 @@ class Overview extends React.Component {
     this.state = {
       isEdit: false,
       budgetValue: [50],
+      ownerName: "",
     }
     this.editOwner = this.editOwner.bind(this)
     this.setBudget = this.setBudget.bind(this);
     this.changeBudget = this.changeBudget.bind(this);
   }
 
+  componentDidMount() {
+    let elementId = this.props.bundle.name
+    var listElement = document.getElementById(elementId)
+    var OwnerlistElement = listElement.getElementsByTagName("li")[0]
+    var OwnerName = OwnerlistElement.getElementsByTagName("p")[1]
+    this.setState({ ownerName: OwnerName });
+    this.addEventListeners(OwnerName);
+  }
 
+  addEventListeners(OwnerName) {
+    OwnerName.addEventListener("mouseover", () => {
+      OwnerName.style.cursor = "pointer";
+    });
+    OwnerName.addEventListener("onblur", () => {
+      OwnerName.contentEditable = false;
+    });
+    OwnerName.addEventListener("click", function listenForDoubleClick(e) {
+      let element = e.target;
+      element.contentEditable = true;
+      element.style.width = "300px";
+      OwnerName.style.padding = "3px";
+      setTimeout(function () {
+        if (document.activeElement !== element) {
+          element.contentEditable = false;
+        }
+      }, 300);
+
+    });
+
+    OwnerName.addEventListener("keydown", (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        event.target.contentEditable = false;
+      }
+    })
+  }
   changeBudget(newBudget) {
     let elementId = this.props.bundle.name;
     var listElement = document.getElementById(elementId);
@@ -46,6 +82,7 @@ class Overview extends React.Component {
     var EditIcon = OwnerlistElement.getElementsByTagName("img")[0]
     if (this.state.isEdit === true) {
       EditIcon.src = save;
+      OwnerName.style.width = "300px"
       OwnerName.contentEditable = true;
       OwnerName.style.border = "1px solid black";
       OwnerName.style.padding = "2px";
