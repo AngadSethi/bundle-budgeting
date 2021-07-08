@@ -36,7 +36,7 @@ export default class TotalSizeWidget extends React.Component {
     render() {
         return (
             <div>
-                <div onDoubleClick={() => this.setState({ totalSizeOpen: true })}>
+                <div onClick={() => this.setState({ totalSizeOpen: true })}>
                     <MyCard
                         overrides={{
                             Root: {

@@ -11,8 +11,7 @@ class HomeComponent extends React.Component {
       <Block backgroundColor={["#DBDBDB"]} height={"100vh"}>
         <Block
           margin={"auto"}
-          paddingLeft={"3em"}
-          paddingRight={"3em"}
+          padding={"10em"}
           paddingTop={"2em"}
         >
           <Widget insights={widgetdata} />
