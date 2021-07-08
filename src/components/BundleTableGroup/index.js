@@ -74,7 +74,7 @@ class TableGroup extends React.Component {
             overrides={{
               Root: {
                 style: ({ $theme }) => ({
-                  maxHeight: "300px",
+                  maxHeight: "400px",
                   marginTop: $theme.sizing.scale2400,
                   borderRadius: $theme.borders.radius200,
                 }),
