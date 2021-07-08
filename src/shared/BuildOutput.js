@@ -47,9 +47,14 @@ class BuildOutput {
       if (this.budgetMap.has(bundle.name)) {
         const budget = this.budgetMap.get(bundle.name);
 
-        const percentage = Math.round(
-          (bundle.size - budget.budget) / budget.budget
+        let percentage = Math.round(
+          ((bundle.size - budget.budget) / budget.budget) * 100
         );
+        if (bundle.size < budget.budget) {
+          percentage = Math.round(
+            ((bundle.size - budget.budget) / bundle.size) * 100
+          );
+        }
         this.result.bundles.push({
           id: bundle.name,
           data: {
