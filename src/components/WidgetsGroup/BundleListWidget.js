@@ -31,47 +31,16 @@ export default class BundleListWidget extends React.Component {
   }
 
   componentDidMount() {
-    fetch(BUNDLE_STATS_URL)
-      .then((result) => result.json())
-      .then(
-        (buildStats) => {
-          this.setState({
-            isBuildStatsLoaded: true,
-          });
-          this.setState({
-            ...this.state,
-            isLoaded: true,
-            buildStats: buildStats,
-            parsedBuildStats: buildOutput(buildStats, this.props.fileType),
-          });
+    if (this.props.buildOutput != null) {
+      let buildOut = this.props.buildOutput;
+      let processedResult = buildOut["result"];
+      this.setState({ result: processedResult })
+      this.setState({ isBuildStatsLoaded: true });
+      this.setState({ isBudgetsStatsLoaded: true });
+      this.setState({ error: false });
+      this.createList(processedResult);
 
-          fetch(BUNDLE_BUDGETS_URL)
-            .then((result) => result.json())
-            .then(
-              (budgets) => {
-                this.setState({
-                  isBudgetsStatsLoaded: true,
-                });
-
-                this.buildBudgetsMap(budgets);
-                this.detectBudgetViolations();
-                // console.log("Result", this.state.result["bundles"])
-                this.createList();
-              },
-              (error) => {
-                this.setState({
-                  isBudgetsStatsLoaded: true,
-                });
-              }
-            );
-        },
-        (error) => {
-          this.setState({
-            isBuildStatsLoaded: false,
-            error: error,
-          });
-        }
-      );
+    }
   }
 
   renderList() {
@@ -96,12 +65,10 @@ export default class BundleListWidget extends React.Component {
       return <ul style={{ overflow: "hidden", overflowY: "scroll" }}>{listItems}</ul>;
     }
   }
-  createList() {
-    // console.log(this.state.result)
+  createList(processedResult) {
     let bundlesExceedingBudget = [];
     let numberExceeding = 0;
-    let finalResult = this.state.result;
-    let bundles = finalResult["bundles"];
+    let bundles = processedResult["bundles"];
     for (let bundle of bundles) {
       let bundlename = bundle["id"];
       let bundledata = bundle["data"];

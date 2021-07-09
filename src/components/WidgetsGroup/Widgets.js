@@ -10,8 +10,6 @@ export default class Widget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      numberOfBundles: props.insights[0].text,
-      totalSize: props.insights[1].text,
       bundlesAddedRemoved: props.insights[2].text,
       budgetListOpen: false,
       totalSizeOpen: false,
@@ -23,8 +21,8 @@ export default class Widget extends React.Component {
   render() {
     return (
       <Block display={"flex"} justifyContent={"space-around"} marginTop={"2%"}>
-        <BundleListWidget />
-        <TotalSizeWidget totalSize={this.state.totalSize} />
+        <BundleListWidget buildOutput={this.props.buildOutput} />
+        <TotalSizeWidget buildOutput={this.props.buildOutput} />
         <NewBundlesWidget bundlesAddedRemoved={this.state.bundlesAddedRemoved} />
       </Block>
     );

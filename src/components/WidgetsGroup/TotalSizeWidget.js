@@ -11,17 +11,32 @@ import {
     ModalFooter,
     ModalButton,
 } from "baseui/modal";
+import buildOutput from "../../parseBuildOutput";
+import { parse } from "@babel/core";
 
 export default class TotalSizeWidget extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            totalSize: props.totalSize,
+            totalSize: 0,
             budgetListOpen: false,
             totalSizeOpen: false,
         };
         this.totalSizeModalClose = this.totalSizeModalClose.bind(this);
         // console.log(props.insights);
+    }
+
+    componentDidMount() {
+        if (this.props.buildOutput != null) {
+            let buildOut = this.props.buildOutput;
+            let bundleStats = buildOut["parsedBuildStats"];
+            let buildSize = 0;
+            for (let bundle of bundleStats) {
+                buildSize = buildSize + bundle["size"];
+            }
+            buildSize = (buildSize / 1024).toFixed(3);
+            this.setState({ totalSize: buildSize })
+        }
     }
 
     budgetListclose() {
@@ -35,7 +50,7 @@ export default class TotalSizeWidget extends React.Component {
 
     render() {
         return (
-            <div>
+            < div >
                 <div onClick={() => this.setState({ totalSizeOpen: true })}>
                     <MyCard
                         overrides={{
@@ -45,7 +60,7 @@ export default class TotalSizeWidget extends React.Component {
                                 }),
                             },
                         }}
-                        content={this.state.totalSize}
+                        content={"The Total size of this build is " + this.state.totalSize + " MB"}
                         help={"Click to view Graph"}
                     />
                 </div>
@@ -88,7 +103,7 @@ export default class TotalSizeWidget extends React.Component {
                         <ModalButton onClick={this.totalSizeModalClose}>Okay</ModalButton>
                     </ModalFooter>
                 </Modal>
-            </div>
+            </div >
         )
     }
 }

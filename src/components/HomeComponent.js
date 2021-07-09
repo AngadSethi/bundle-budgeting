@@ -14,7 +14,7 @@ class HomeComponent extends React.Component {
           padding={"10em"}
           paddingTop={"2em"}
         >
-          <Widget insights={widgetdata} />
+          <Widget insights={widgetdata} buildOutput={this.props.buildOutput} />
           <TabGroup tabs={tabs} buildOutput={this.props.buildOutput} />
         </Block>
       </Block>
