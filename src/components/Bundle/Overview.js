@@ -4,8 +4,8 @@ import { ListItem, ListItemLabel } from "baseui/list";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { H6 } from "baseui/typography";
 import BundleChart from "../BundleChart";
-import edit from "../../edit.png"
-import save from "../../save.png"
+import edit from "../../edit.png";
+import save from "../../save.png";
 import { Slider } from "baseui/slider";
 import { Image } from "react-bootstrap";
 // import { Slider } from 'baseui/slider'
@@ -16,17 +16,17 @@ class Overview extends React.Component {
       isEdit: false,
       budgetValue: [50],
       ownerName: "",
-    }
-    this.editOwner = this.editOwner.bind(this)
+    };
+    this.editOwner = this.editOwner.bind(this);
     this.setBudget = this.setBudget.bind(this);
     this.changeBudget = this.changeBudget.bind(this);
   }
 
   componentDidMount() {
-    let elementId = this.props.bundle.name
-    var listElement = document.getElementById(elementId)
-    var OwnerlistElement = listElement.getElementsByTagName("li")[0]
-    var OwnerName = OwnerlistElement.getElementsByTagName("p")[1]
+    let elementId = this.props.bundle.name;
+    var listElement = document.getElementById(elementId);
+    var OwnerlistElement = listElement.getElementsByTagName("li")[0];
+    var OwnerName = OwnerlistElement.getElementsByTagName("p")[1];
     this.setState({ ownerName: OwnerName });
     this.addEventListeners(OwnerName);
   }
@@ -48,20 +48,21 @@ class Overview extends React.Component {
           element.contentEditable = false;
         }
       }, 300);
-
     });
 
     OwnerName.addEventListener("keydown", (event) => {
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         event.preventDefault();
         event.target.contentEditable = false;
       }
-    })
+    });
   }
   changeBudget(newBudget) {
     let elementId = this.props.bundle.name;
     var listElement = document.getElementById(elementId);
-    var OwnerlistElement = listElement.getElementsByTagName("li")[2].getElementsByTagName("p")[1];
+    var OwnerlistElement = listElement
+      .getElementsByTagName("li")[2]
+      .getElementsByTagName("p")[1];
 
     OwnerlistElement.innerHTML = this.state.budgetValue;
   }
@@ -69,32 +70,28 @@ class Overview extends React.Component {
     this.setState({ budgetValue: newValue });
   }
 
-
   editOwner(isEdit) {
     // alert("Editing")
     let newEditValue = !isEdit;
     this.setState({ isEdit: newEditValue });
 
-    let elementId = this.props.bundle.name
-    var listElement = document.getElementById(elementId)
-    var OwnerlistElement = listElement.getElementsByTagName("li")[0]
-    var OwnerName = OwnerlistElement.getElementsByTagName("p")[1]
-    var EditIcon = OwnerlistElement.getElementsByTagName("img")[0]
+    let elementId = this.props.bundle.name;
+    var listElement = document.getElementById(elementId);
+    var OwnerlistElement = listElement.getElementsByTagName("li")[0];
+    var OwnerName = OwnerlistElement.getElementsByTagName("p")[1];
+    var EditIcon = OwnerlistElement.getElementsByTagName("img")[0];
     if (this.state.isEdit === true) {
       EditIcon.src = save;
-      OwnerName.style.width = "300px"
+      OwnerName.style.width = "300px";
       OwnerName.contentEditable = true;
       OwnerName.style.border = "1px solid black";
       OwnerName.style.padding = "2px";
-    }
-    else {
+    } else {
       EditIcon.src = edit;
       OwnerName.contentEditable = false;
-      OwnerName.style.border = "0px"
+      OwnerName.style.border = "0px";
     }
-
   }
-
 
   render() {
     return (
@@ -130,11 +127,19 @@ class Overview extends React.Component {
                   paddingRight: 0,
                 }}
               >
-                <ListItem >
-                  <ListItemLabel description={this.props.ownerDetails.owner}>
+                <ListItem>
+                  <ListItemLabel description={this.props.bundle.owner}>
                     Owner
                   </ListItemLabel>
-                  <Image onClick={() => { this.editOwner(this.state.isEdit) }} src={edit} width={"18px"} height={"18px"} style={{ float: "left" }} />
+                  <Image
+                    onClick={() => {
+                      this.editOwner(this.state.isEdit);
+                    }}
+                    src={edit}
+                    width={"18px"}
+                    height={"18px"}
+                    style={{ float: "left" }}
+                  />
                 </ListItem>
                 <ListItem>
                   <ListItemLabel description={this.props.bundle.size}>
@@ -142,7 +147,7 @@ class Overview extends React.Component {
                   </ListItemLabel>
                 </ListItem>
                 <ListItem>
-                  <ListItemLabel description={this.props.ownerDetails.budget}>
+                  <ListItemLabel description={this.props.bundle.budget}>
                     Budget
                   </ListItemLabel>
 
@@ -151,30 +156,28 @@ class Overview extends React.Component {
                       Root: {
                         style: {
                           width: "70%",
-                        }
+                        },
                       },
                       Thumb: {
                         style: {
                           width: "15px",
                           height: "15px",
-                        }
-                      }
+                        },
+                      },
                     }}
                     min={10}
                     max={2000}
                     value={this.state.budgetValue}
                     onChange={({ value }) => value && this.setBudget(value)}
-                    onFinalChange={({ value }) => value && this.changeBudget(value)}
+                    onFinalChange={({ value }) =>
+                      value && this.changeBudget(value)
+                    }
                   />
-
                 </ListItem>
               </ul>
             </FlexGridItem>
             <FlexGridItem>
-              <BundleChart
-                name={this.props.bundle.name}
-                overshot={this.props.bundle.overshot}
-              />
+              <BundleChart bundle={this.props.bundle} />
             </FlexGridItem>
           </FlexGrid>
         </StyledBody>

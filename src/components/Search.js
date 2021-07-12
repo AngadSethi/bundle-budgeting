@@ -3,15 +3,56 @@ import { BUNDLE_BUDGETS_URL } from "../shared/endPoints";
 
 import * as React from "react";
 import { Select, TYPE } from "baseui/select";
-import { ListItem, ListItemLabel } from "baseui/list";
+import { ARTWORK_SIZES, ListItemLabel, MenuAdapter } from "baseui/list";
+import { groupBy } from "underscore";
+import { StatefulMenu } from "baseui/menu";
+import ChevronRight from "baseui/icon/chevron-right";
+import generateBundleUrl from "../shared/generateBundleUrl";
 
-function SearchListItem(props) {
+function SearchMenu(props) {
+  const ITEMS = groupBy(props.items.__ungrouped, (item) => {
+    const parts = item.item.name.split(".");
+    return parts.length > 0
+      ? parts[parts.length - 1].toUpperCase()
+      : "Generic".toUpperCase();
+  });
   return (
-    <ListItem>
-      <ListItemLabel description={props.item.item.owner}>
-        {props.item.item.name}
-      </ListItemLabel>
-    </ListItem>
+    <StatefulMenu
+      items={ITEMS}
+      onItemSelect={({ item, event }) => {
+        window.location = generateBundleUrl(item.item.name);
+      }}
+      overrides={{
+        List: {
+          style: {
+            height: "300px",
+            width: "100%",
+          },
+        },
+        Option: {
+          props: {
+            overrides: {
+              ListItem: {
+                component: React.forwardRef((props, ref) => {
+                  return (
+                    <MenuAdapter
+                      {...props}
+                      ref={ref}
+                      artworkSize={ARTWORK_SIZES.LARGE}
+                      endEnhancer={() => <ChevronRight />}
+                    >
+                      <ListItemLabel description={props.item.item.owner}>
+                        {props.item.item.name}
+                      </ListItemLabel>
+                    </MenuAdapter>
+                  );
+                }),
+              },
+            },
+          },
+        },
+      }}
+    />
   );
 }
 
@@ -25,7 +66,7 @@ class Search extends React.Component {
       options: {
         // isCaseSensitive: false,
         // includeScore: false,
-        // shouldSort: true,
+        shouldSort: true,
         // includeMatches: false,
         // findAllMatches: false,
         // minMatchCharLength: 1,
@@ -75,14 +116,14 @@ class Search extends React.Component {
           // Redirect to bundle page
         }}
         overrides={{
-          DropdownListItem: {
-            component: SearchListItem,
+          StatefulMenu: {
+            component: SearchMenu,
           },
           Root: {
             style: {
-              outline: "black 2px solid"
-            }
-          }
+              outline: "black 2px solid",
+            },
+          },
         }}
       />
     );

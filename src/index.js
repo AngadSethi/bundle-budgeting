@@ -5,19 +5,23 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider as StyletronProvider } from "styletron-react";
 import { Client as Styletron } from "styletron-engine-atomic";
-import { BaseProvider, createLightTheme } from "baseui";
+import { createDarkTheme, createLightTheme, ThemeProvider } from "baseui";
 
 const engine = new Styletron();
 
-const theme = createLightTheme({
+const lightTheme = createLightTheme({
+  primaryFontFamily: "Proxima Nova",
+});
+
+const darkTheme = createDarkTheme({
   primaryFontFamily: "Proxima Nova",
 });
 
 ReactDOM.render(
   <StyletronProvider value={engine}>
-    <BaseProvider theme={theme}>
+    <ThemeProvider theme={lightTheme}>
       <App />
-    </BaseProvider>
+    </ThemeProvider>
   </StyletronProvider>,
   document.getElementById("root")
 );

@@ -1,6 +1,7 @@
 import { useStyletron } from "baseui";
 import { Button, KIND, SIZE, SHAPE } from "baseui/button";
 import { Show } from "baseui/icon";
+import generateBundleUrl from "../../shared/generateBundleUrl";
 
 function ButtonsCell({ id }) {
   const [css] = useStyletron();
@@ -8,7 +9,7 @@ function ButtonsCell({ id }) {
     <div className={css({ display: "flex", alignItems: "center" })}>
       <Button
         $as="a"
-        href={"bundle?b=" + encodeURI(id)}
+        href={generateBundleUrl(id)}
         kind={KIND.primary}
         size={SIZE.compact}
         shape={SHAPE.circle}

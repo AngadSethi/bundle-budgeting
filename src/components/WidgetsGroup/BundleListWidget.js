@@ -145,7 +145,7 @@ export default class BundleListWidget extends React.Component {
             overrides={{
               Root: {
                 style: ({ $theme }) => ({
-                  backgroundColor: $theme.colors.positive300,
+                  backgroundColor: $theme.colors.backgroundPrimary,
                 }),
               },
             }}

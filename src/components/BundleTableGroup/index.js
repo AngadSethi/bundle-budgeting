@@ -21,6 +21,7 @@ class TableGroup extends React.Component {
       sortColumn: "budget",
       sortAsc: false,
       isMerged: false,
+      sizeMap: null,
     };
   }
 
@@ -36,6 +37,28 @@ class TableGroup extends React.Component {
       this.setState({
         isMerged: true,
         mergedOutput: this.props.mergedOutput,
+      });
+    }
+
+    if (this.props.buildOutput !== null && this.props.mergedOutput !== null) {
+      const sizeMap = new Map();
+
+      this.props.mergedOutput.forEach((value) => {
+        const len = value.sizes.length;
+        sizeMap.set(
+          value.name,
+          len > 1
+            ? Math.round(
+                ((value.sizes[len - 1][1] - value.sizes[len - 2][1]) /
+                  value.sizes[len - 2][1]) *
+                  100
+              )
+            : 0
+        );
+      });
+
+      this.setState({
+        sizeMap: sizeMap,
       });
     }
   }
@@ -115,7 +138,12 @@ class TableGroup extends React.Component {
               {(row) => <BundleCell title={row.name} subtitle={row.owner} />}
             </TableBuilderColumn>
             <TableBuilderColumn header="Size" id="size" sortable>
-              {(row) => <NumberCell value={row.size} delta={row.percentage} />}
+              {(row) => (
+                <NumberCell
+                  value={row.size}
+                  delta={this.state.sizeMap.get(row.name)}
+                />
+              )}
             </TableBuilderColumn>
             <TableBuilderColumn header="Budget" id="budget" sortable>
               {(row) => (

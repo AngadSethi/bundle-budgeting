@@ -10,8 +10,13 @@ import { H5 } from "baseui/typography";
 import { Image } from "react-bootstrap";
 import logo from "../logo.svg";
 import { StyledNavLink } from "baseui/side-navigation";
+import { withStyle } from "baseui";
 
 export default function Header() {
+  const SearchBar = withStyle(NavigationItem, ({ $theme }) => ({
+    width: "20em",
+    marginRight: $theme.sizing.scale1400,
+  }));
   return (
     <HeaderNavigation
       overrides={{
@@ -38,9 +43,9 @@ export default function Header() {
       </NavigationList>
       <NavigationList $align={ALIGN.center} />
       <NavigationList $align={ALIGN.right}>
-        <NavigationItem style={{ width: "200px", marginRight: "30px" }}>
+        <SearchBar>
           <Search />
-        </NavigationItem>
+        </SearchBar>
       </NavigationList>
     </HeaderNavigation>
   );

@@ -15,13 +15,10 @@ class BundleComponent extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.buildOutput !== null) {
+    if (this.props.mergedOutput !== null) {
       this.setState({
-        bundle: this.props.buildOutput.parsedBuildStats.filter(
+        bundle: this.props.mergedOutput.find(
           (b) => b.name === this.state.bundleName
-        )[0],
-        ownerDetails: this.props.buildOutput.budgetMap.get(
-          this.state.bundleName
         ),
         isLoaded: true,
       });

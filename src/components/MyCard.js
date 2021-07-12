@@ -9,7 +9,6 @@ function MyCard(props) {
     fontWeight: $theme.typography.font550.fontWeight,
     marginTop: "15%",
     textAlign: "center",
-
   }));
 
   return (
@@ -20,7 +19,6 @@ function MyCard(props) {
             width: "328px",
             height: "200px",
             fontSize: "100px",
-            backgroundColor: "white",
             borderWidth: "1px",
             borderRadius: "20px",
             borderStyle: "solid",

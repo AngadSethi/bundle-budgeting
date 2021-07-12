@@ -8,7 +8,7 @@ import tabs from "../shared/tabData";
 class HomeComponent extends React.Component {
   render() {
     return (
-      <Block backgroundColor={["#DBDBDB"]} height={"100vh"}>
+      <Block backgroundColor={["backgroundTertiary"]} height={"100vh"}>
         <Block margin={"auto"} padding={"10em"} paddingTop={"2em"}>
           <Widget insights={widgetdata} buildOutput={this.props.buildOutput} />
           <TabGroup

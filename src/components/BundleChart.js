@@ -6,24 +6,20 @@ export default function BundleChart(props) {
     () => [
       {
         label: "Asset Size",
-        data: [
-          { primary: "Build #1", secondary: 6.5 },
-          { primary: "Build #2", secondary: 3.233 },
-          { primary: "Build #3", secondary: 4.32 },
-          { primary: "Build #4", secondary: 4.2 },
-          { primary: "Build #5", secondary: 5.3 },
-          { primary: "Build #6", secondary: 8.5 },
-        ],
+        data: props.bundle.sizes.map((value) => ({
+          primary: "Hash " + value[0],
+          secondary: value[1],
+        })),
       },
     ],
-    []
+    [props.bundle.sizes]
   );
 
   const getSeriesStyle = React.useCallback(
     () => ({
-      color: `url(#${props.overshot ? 0 : 1})`,
+      color: `url(#${props.bundle.size < props.bundle.budget ? 0 : 1})`,
     }),
-    [props.overshot]
+    [props.bundle]
   );
 
   const series = React.useMemo(
