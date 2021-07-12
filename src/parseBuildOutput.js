@@ -17,6 +17,7 @@ function buildOutput(buildStats) {
           size: chunkObject["size"],
         };
       }),
+      hash: buildStats["hash"],
     };
     bundleStats.push(assetDetails);
   }

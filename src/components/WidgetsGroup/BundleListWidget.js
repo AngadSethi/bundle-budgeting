@@ -3,7 +3,7 @@ import { BUNDLE_BUDGETS_URL, BUNDLE_STATS_URL } from "../../shared/endPoints";
 import buildOutput from "../../parseBuildOutput";
 import { ListItem, ListItemLabel } from "baseui/list";
 import MyCard from "../MyCard";
-import { StyledLink } from 'baseui/link'
+import { StyledLink } from "baseui/link";
 import {
   Modal,
   ModalHeader,
@@ -32,19 +32,17 @@ export default class BundleListWidget extends React.Component {
 
   componentDidMount() {
     if (this.props.buildOutput != null) {
-      let buildOut = this.props.buildOutput;
+      let buildOut = this.props.buildOutput[this.props.buildOutput.length - 1];
       let processedResult = buildOut["result"];
-      this.setState({ result: processedResult })
+      this.setState({ result: processedResult });
       this.setState({ isBuildStatsLoaded: true });
       this.setState({ isBudgetsStatsLoaded: true });
       this.setState({ error: false });
       this.createList(processedResult);
-
     }
   }
 
   renderList() {
-
     if (this.state.error) {
       return <div>Error Loading Data</div>;
     }
@@ -62,7 +60,9 @@ export default class BundleListWidget extends React.Component {
           </ListItem>
         );
       });
-      return <ul style={{ overflow: "hidden", overflowY: "scroll" }}>{listItems}</ul>;
+      return (
+        <ul style={{ overflow: "hidden", overflowY: "scroll" }}>{listItems}</ul>
+      );
     }
   }
   createList(processedResult) {
@@ -78,7 +78,10 @@ export default class BundleListWidget extends React.Component {
         numberExceeding = numberExceeding + 1;
       }
     }
-    this.setState({ bundleList: bundlesExceedingBudget, numberOfBundles: numberExceeding });
+    this.setState({
+      bundleList: bundlesExceedingBudget,
+      numberOfBundles: numberExceeding,
+    });
   }
 
   buildBudgetsMap(budgets) {
@@ -132,7 +135,9 @@ export default class BundleListWidget extends React.Component {
   }
 
   render() {
-    const WidgetBody = (this.state.numberOfBundles).toString() + " bundles have exceeded the Budget"
+    const WidgetBody =
+      this.state.numberOfBundles.toString() +
+      " bundles have exceeded the Budget";
     return (
       <div>
         <div onClick={() => this.setState({ budgetListOpen: true })}>

@@ -20,14 +20,22 @@ class TableGroup extends React.Component {
       isLoaded: false,
       sortColumn: "budget",
       sortAsc: false,
+      isMerged: false,
     };
   }
 
   componentDidMount() {
     if (this.props.buildOutput !== null) {
       this.setState({
-        result: this.props.buildOutput.result,
+        result: this.props.buildOutput,
         isLoaded: true,
+      });
+    }
+
+    if (this.props.mergedOutput !== null) {
+      this.setState({
+        isMerged: true,
+        mergedOutput: this.props.mergedOutput,
       });
     }
   }
@@ -35,7 +43,7 @@ class TableGroup extends React.Component {
   rows() {
     const startIndex = (this.state.currentPage - 1) * this.PER_PAGE;
     const endIndex = this.state.currentPage * this.PER_PAGE;
-    return this.state.result.bundles
+    return this.state.result[this.state.result.length - 1].result.bundles
       .map((bundle) => bundle.data)
       .sort((a, b) => {
         const left = this.state.sortAsc ? a : b;
@@ -56,9 +64,9 @@ class TableGroup extends React.Component {
   }
 
   render() {
-    if (this.state.isLoaded === true) {
+    if (this.state.isLoaded === true && this.state.isMerged === true) {
       const numPages = Math.ceil(
-        this.state.result.bundles.length / this.PER_PAGE
+        this.state.mergedOutput.length / this.PER_PAGE
       );
       const cellStyle = ({ $theme }) => ({
         backgroundColor: $theme.colors.backgroundInversePrimary,

@@ -13,8 +13,8 @@ class BuildOutput {
     };
   }
 
-  async build(extensions = ["js", "css"]) {
-    const result = fetch(BUNDLE_STATS_URL)
+  async build(filePath, extensions = ["js", "css"]) {
+    const result = fetch(BUNDLE_STATS_URL + filePath)
       .then((result) => result.json())
       .then((buildStats) => {
         this.isLoaded = true;
@@ -38,7 +38,14 @@ class BuildOutput {
 
   buildBudgetsMap(budgets) {
     budgets.forEach((budget) => {
-      this.budgetMap.set(budget["name"], budget);
+      const pOutput = this.parsedBuildStats.find(
+        (value) => value.name.localeCompare(budget["name"]) === 0
+      );
+      this.budgetMap.set(budget["name"], {
+        ...budget,
+        size: pOutput.size,
+        hash: pOutput.hash,
+      });
     });
   }
 

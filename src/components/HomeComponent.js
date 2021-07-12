@@ -9,13 +9,13 @@ class HomeComponent extends React.Component {
   render() {
     return (
       <Block backgroundColor={["#DBDBDB"]} height={"100vh"}>
-        <Block
-          margin={"auto"}
-          padding={"10em"}
-          paddingTop={"2em"}
-        >
+        <Block margin={"auto"} padding={"10em"} paddingTop={"2em"}>
           <Widget insights={widgetdata} buildOutput={this.props.buildOutput} />
-          <TabGroup tabs={tabs} buildOutput={this.props.buildOutput} />
+          <TabGroup
+            tabs={tabs}
+            buildOutput={this.props.buildOutput}
+            mergedOutput={this.props.mergedOutput}
+          />
         </Block>
       </Block>
     );

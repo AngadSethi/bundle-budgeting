@@ -12,45 +12,13 @@ class TabGroup extends React.Component {
     };
   }
 
-  renderTabs() {
-    const tabs = [];
-    let key = 0;
-
-    for (const tab of this.props.tabs) {
-      tabs.push(
-        <Tab title={tab.title} key={key}>
-          <TableGroup buildOutput={this.props.buildOutput} />
-        </Tab>
-      );
-      key += 1;
-    }
-
-    return tabs;
-  }
-
   render() {
     return (
-      <Block marginTop={"3em"} >
-        {/*<Tabs*/}
-        {/*  activeKey={this.state.activeKey}*/}
-        {/*  onChange={({ activeKey }) => {*/}
-        {/*    this.setState({*/}
-        {/*      activeKey: activeKey,*/}
-        {/*    });*/}
-        {/*  }}*/}
-        {/*  activateOnFocus*/}
-        {/*  fill={FILL.fixed}*/}
-        {/*  overrides={{*/}
-        {/*    TabHighlight: {*/}
-        {/*      style: ({ $theme }) => ({*/}
-        {/*        backgroundColor: $theme.colors.accent,*/}
-        {/*      }),*/}
-        {/*    },*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  {this.renderTabs()}*/}
-        {/*</Tabs>*/}
-        <TableGroup buildOutput={this.props.buildOutput} />
+      <Block marginTop={"3em"}>
+        <TableGroup
+          buildOutput={this.props.buildOutput}
+          mergedOutput={this.props.mergedOutput}
+        />
       </Block>
     );
   }
