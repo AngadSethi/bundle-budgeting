@@ -10,7 +10,6 @@ export default class Widget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bundlesAddedRemoved: props.insights[2].text,
       budgetListOpen: false,
       totalSizeOpen: false,
     };
@@ -29,7 +28,6 @@ export default class Widget extends React.Component {
           sizeHistory={this.props.sizeHistory}          
         />
         <NewBundlesWidget
-          bundlesAddedRemoved={this.state.bundlesAddedRemoved} 
           mergedOutput = {this.props.mergedOutput}
         />
       </Block>

@@ -23,7 +23,6 @@ class App extends React.Component {
     FILES.forEach((file, index, arr) => {
       const buildOutput = new BuildOutput();
       buildOutput.build(file).then((res) => {
-        console.log(res)
         let currentBuildSize = this.computeBuildSize(res);
         this.setState({
           isLoaded: index === arr.length - 1,

@@ -27,7 +27,6 @@ export default class TotalSizeWidget extends React.Component {
   componentDidMount() {
     if (this.props.buildOutput != null) {
       let numberofBuilds = this.state.sizeHistory.length;
-      console.log(this.state.sizeHistory)
       this.setState({ totalSize: this.state.sizeHistory[numberofBuilds - 1] });
     }
   }
