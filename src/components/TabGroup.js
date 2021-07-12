@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Tab } from "baseui/tabs-motion";
 import { Block } from "baseui/block";
 import TableGroup from "./BundleTableGroup";
 

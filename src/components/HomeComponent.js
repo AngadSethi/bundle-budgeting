@@ -10,7 +10,12 @@ class HomeComponent extends React.Component {
     return (
       <Block backgroundColor={["backgroundTertiary"]} height={"100vh"}>
         <Block margin={"auto"} padding={"10em"} paddingTop={"2em"}>
-          <Widget insights={widgetdata} buildOutput={this.props.buildOutput} />
+          <Widget 
+            insights={widgetdata}
+            buildOutput={this.props.buildOutput}
+            mergedOutput = {this.props.mergedOutput}
+            sizeHistory = {this.props.sizeHistory}
+          />
           <TabGroup
             tabs={tabs}
             buildOutput={this.props.buildOutput}

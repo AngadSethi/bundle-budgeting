@@ -1,25 +1,18 @@
 import * as React from "react";
 import { Chart } from "react-charts";
 
-export default function BundleChart(props) {
+export default function TotalSizeChart(props) {
   const data = React.useMemo(
     () => [
       {
         label: "Asset Size",
-        data: props.bundle.sizes.map((value) => ({
-          primary: "Hash " + value[0],
-          secondary: value[1],
+        data: props.sizeHistory.map((value,index) => ({
+          primary: "Build " + index,
+          secondary: value,
         })),
       },
     ],
-    [props.bundle.sizes]
-  );
-
-  const getSeriesStyle = React.useCallback(
-    () => ({
-      color: `url(#${props.bundle.size < props.bundle.budget ? 0 : 1})`,
-    }),
-    [props.bundle]
+    [props.sizeHistory]
   );
 
   const series = React.useMemo(
@@ -32,17 +25,22 @@ export default function BundleChart(props) {
   const axes = React.useMemo(
     () => [
       { primary: true, position: "bottom", type: "ordinal", show: true },
-      { position: "left", type: "linear", stacked: true},
+      { position: "left", type: "linear", stacked: true, show: true },
     ],
     []
   );
 
   return (
+    <div
+    style={{
+        height: '200px',
+        width: '100%'
+      }}
+    >
     <Chart
       data={data}
       axes={axes}
       series={series}
-      getSeriesStyle={getSeriesStyle}
       tooltip
       renderSVG={() => (
         <defs>
@@ -57,5 +55,6 @@ export default function BundleChart(props) {
         </defs>
       )}
     />
+    </div>
   );
 }

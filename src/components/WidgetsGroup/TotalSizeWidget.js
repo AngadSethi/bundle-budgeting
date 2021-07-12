@@ -1,5 +1,5 @@
 import * as React from "react";
-import BundleChart from "../BundleChart";
+import TotalSizeChart from "./TotalSizeChart";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { ListItem, ListItemLabel } from "baseui/list";
 
@@ -11,8 +11,6 @@ import {
   ModalFooter,
   ModalButton,
 } from "baseui/modal";
-import buildOutput from "../../parseBuildOutput";
-import { parse } from "@babel/core";
 
 export default class TotalSizeWidget extends React.Component {
   constructor(props) {
@@ -21,21 +19,16 @@ export default class TotalSizeWidget extends React.Component {
       totalSize: 0,
       budgetListOpen: false,
       totalSizeOpen: false,
+      sizeHistory: this.props.sizeHistory,
     };
     this.totalSizeModalClose = this.totalSizeModalClose.bind(this);
-    // console.log(props.insights);
   }
 
   componentDidMount() {
     if (this.props.buildOutput != null) {
-      let buildOut = this.props.buildOutput[this.props.buildOutput.length - 1];
-      let bundleStats = buildOut["parsedBuildStats"];
-      let buildSize = 0;
-      for (let bundle of bundleStats) {
-        buildSize = buildSize + bundle["size"];
-      }
-      buildSize = (buildSize / 1024).toFixed(3);
-      this.setState({ totalSize: buildSize });
+      let numberofBuilds = this.state.sizeHistory.length;
+      console.log(this.state.sizeHistory)
+      this.setState({ totalSize: this.state.sizeHistory[numberofBuilds - 1] });
     }
   }
 
@@ -60,7 +53,7 @@ export default class TotalSizeWidget extends React.Component {
               },
             }}
             content={
-              "The Total size of this build is " + this.state.totalSize + " MB"
+              "The Total size of the latest build is " + this.state.totalSize + " MB"
             }
             help={"Click to view Graph"}
           />
@@ -87,14 +80,12 @@ export default class TotalSizeWidget extends React.Component {
                   <ListItem>
                     <ListItemLabel>Total Size</ListItemLabel>
                   </ListItem>
-                  <ListItem>
-                    <ListItemLabel>Total Budget</ListItemLabel>
-                  </ListItem>
                 </ul>
               </FlexGridItem>
               <FlexGridItem>
-                <BundleChart
-                  name={"Project Name"}
+                <TotalSizeChart
+                  name={"Total Build Size Over Time"}
+                  sizeHistory={this.state.sizeHistory}
                   // overshot={bundle.data.overshot}
                 />
               </FlexGridItem>

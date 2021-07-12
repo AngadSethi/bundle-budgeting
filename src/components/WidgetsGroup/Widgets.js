@@ -21,9 +21,17 @@ export default class Widget extends React.Component {
   render() {
     return (
       <Block display={"flex"} justifyContent={"space-around"} marginTop={"2%"}>
-        <BundleListWidget buildOutput={this.props.buildOutput} />
-        <TotalSizeWidget buildOutput={this.props.buildOutput} />
-        <NewBundlesWidget bundlesAddedRemoved={this.state.bundlesAddedRemoved} />
+        <BundleListWidget
+          buildOutput={this.props.buildOutput} 
+        />
+        <TotalSizeWidget 
+          buildOutput={this.props.buildOutput} 
+          sizeHistory={this.props.sizeHistory}          
+        />
+        <NewBundlesWidget
+          bundlesAddedRemoved={this.state.bundlesAddedRemoved} 
+          mergedOutput = {this.props.mergedOutput}
+        />
       </Block>
     );
   }
