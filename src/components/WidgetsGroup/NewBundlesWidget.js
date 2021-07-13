@@ -86,7 +86,11 @@ export default class NewBundlesWidget extends Component {
       else {
         numberofBundles = "bundles have been";
       }
-      finalWidgetContent = this.state.bundlesAdded + " " + numberofBundles + " " + newBundleString;
+      if (this.state.bundlesAdded === 0) {
+        finalWidgetContent = "No new " + numberofBundles + " " + newBundleString
+      }
+      else
+        finalWidgetContent = this.state.bundlesAdded + " " + numberofBundles + " " + newBundleString;
     }
     else {
       finalWidgetContent = "..."
@@ -103,6 +107,8 @@ export default class NewBundlesWidget extends Component {
               },
             }}
             content={finalWidgetContent}
+            help={"Click to view List of new bundles"}
+
           />
         </div>
         <Modal

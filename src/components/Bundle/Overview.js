@@ -14,10 +14,12 @@ class Overview extends React.Component {
     super(props);
     this.state = {
       isEdit: false,
+      isEnabled: false,
       budgetValue: [50],
       ownerName: "",
     };
     this.editOwner = this.editOwner.bind(this);
+    this.enableSlider = this.enableSlider.bind(this);
     this.setBudget = this.setBudget.bind(this);
     this.changeBudget = this.changeBudget.bind(this);
   }
@@ -92,7 +94,10 @@ class Overview extends React.Component {
       OwnerName.style.border = "0px";
     }
   }
-
+  enableSlider(isEnabled) {
+    var sliderElement = document.getElementById("Slider");
+    var slider = sliderElement.getElementsByTagName("div")[0]
+  }
   render() {
     return (
       <Card
@@ -150,28 +155,39 @@ class Overview extends React.Component {
                   <ListItemLabel description={this.props.bundle.budget}>
                     Budget
                   </ListItemLabel>
-
-                  <Slider
-                    overrides={{
-                      Root: {
-                        style: {
-                          width: "70%",
+                  <div id="Slider">
+                    <Slider
+                      overrides={{
+                        Root: {
+                          style: {
+                            width: "250px",
+                            marginTop: "10%"
+                          },
                         },
-                      },
-                      Thumb: {
-                        style: {
-                          width: "15px",
-                          height: "15px",
+                        Thumb: {
+                          style: {
+                            width: "15px",
+                            height: "15px",
+                          },
                         },
-                      },
+                      }}
+                      disabled
+                      min={10}
+                      max={2000}
+                      value={this.state.budgetValue}
+                      onChange={({ value }) => value && this.setBudget(value)}
+                      onFinalChange={({ value }) =>
+                        value && this.changeBudget(value)
+                      }
+                    />
+                  </div>
+                  <Image
+                    onClick={() => {
+                      this.enableSlider(this.state.isEnabled);
                     }}
-                    min={10}
-                    max={2000}
-                    value={this.state.budgetValue}
-                    onChange={({ value }) => value && this.setBudget(value)}
-                    onFinalChange={({ value }) =>
-                      value && this.changeBudget(value)
-                    }
+                    src={edit}
+                    width={"17px"}
+                    height={"17px"}
                   />
                 </ListItem>
               </ul>
