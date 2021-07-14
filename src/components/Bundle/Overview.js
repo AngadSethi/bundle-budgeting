@@ -8,6 +8,7 @@ import edit from "../../edit.png";
 import save from "../../save.png";
 import { Slider } from "baseui/slider";
 import { Image } from "react-bootstrap";
+import { parseSize } from "../../shared/util";
 // import { Slider } from 'baseui/slider'
 class Overview extends React.Component {
   constructor(props) {
@@ -96,7 +97,7 @@ class Overview extends React.Component {
   }
   enableSlider(isEnabled) {
     var sliderElement = document.getElementById("Slider");
-    var slider = sliderElement.getElementsByTagName("div")[0]
+    var slider = sliderElement.getElementsByTagName("div")[0];
   }
   render() {
     return (
@@ -147,12 +148,16 @@ class Overview extends React.Component {
                   />
                 </ListItem>
                 <ListItem>
-                  <ListItemLabel description={this.props.bundle.size}>
+                  <ListItemLabel
+                    description={parseSize(this.props.bundle.size)}
+                  >
                     Size
                   </ListItemLabel>
                 </ListItem>
                 <ListItem>
-                  <ListItemLabel description={this.props.bundle.budget}>
+                  <ListItemLabel
+                    description={parseSize(this.props.bundle.budget)}
+                  >
                     Budget
                   </ListItemLabel>
                   <div id="Slider">
@@ -161,7 +166,7 @@ class Overview extends React.Component {
                         Root: {
                           style: {
                             width: "250px",
-                            marginTop: "10%"
+                            marginTop: "10%",
                           },
                         },
                         Thumb: {

@@ -1,5 +1,6 @@
 import { useStyletron } from "baseui";
 import { ArrowDown, ArrowUp } from "baseui/icon";
+import { parseSize } from "../../shared/util";
 
 function NumberCell({ value, delta }) {
   const [css, theme] = useStyletron();
@@ -7,7 +8,7 @@ function NumberCell({ value, delta }) {
   return (
     <div className={css({ display: "flex", alignItems: "center" })}>
       <span className={css({ ...theme.typography.MonoParagraphSmall })}>
-        {value.toLocaleString()} KiB
+        {parseSize(value)}
       </span>
       <div
         className={css({

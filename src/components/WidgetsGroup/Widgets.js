@@ -5,7 +5,6 @@ import BundleListWidget from "./BundleListWidget";
 import TotalSizeWidget from "./TotalSizeWidget";
 import NewBundlesWidget from "./NewBundlesWidget";
 
-
 export default class Widget extends React.Component {
   constructor(props) {
     super(props);
@@ -13,23 +12,17 @@ export default class Widget extends React.Component {
       budgetListOpen: false,
       totalSizeOpen: false,
     };
-    // console.log(props.insights);
   }
-
 
   render() {
     return (
       <Block display={"flex"} justifyContent={"space-around"} marginTop={"2%"}>
-        <BundleListWidget
-          buildOutput={this.props.buildOutput} 
+        <BundleListWidget buildOutput={this.props.buildOutput} />
+        <TotalSizeWidget
+          buildOutput={this.props.buildOutput}
+          sizeHistory={this.props.sizeHistory}
         />
-        <TotalSizeWidget 
-          buildOutput={this.props.buildOutput} 
-          sizeHistory={this.props.sizeHistory}          
-        />
-        <NewBundlesWidget
-          mergedOutput = {this.props.mergedOutput}
-        />
+        <NewBundlesWidget mergedOutput={this.props.mergedOutput} />
       </Block>
     );
   }
