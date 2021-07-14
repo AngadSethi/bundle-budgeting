@@ -1,11 +1,11 @@
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import HomeComponent from "./components/HomeComponent";
 import Header from "./components/Header";
 import Bundle from "./components/Bundle";
 import * as React from "react";
 import BuildOutput from "./shared/BuildOutput";
 import { FILES } from "./shared/endPoints";
+import Home from "./components/HomeComponent";
 
 class App extends React.Component {
   constructor(props) {
@@ -93,7 +93,7 @@ class App extends React.Component {
           <Route
             path="/"
             component={() => (
-              <HomeComponent
+              <Home
                 buildOutput={this.state.isLoaded ? this.state.files : null}
                 mergedOutput={this.state.isMerged ? this.state.merged : null}
                 sizeHistory={
