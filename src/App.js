@@ -55,13 +55,13 @@ class App extends React.Component {
       parsedOutput.budgetMap.forEach((value, key) => {
         let mergedValue = {
           ...value,
-          sizes: [[value.hash, value.size]],
+          sizes: [[value.timestamp, value.size]],
         };
         if (mergedMap.has(key)) {
           let history = mergedMap.get(key);
           mergedValue = {
             ...history,
-            sizes: [...history.sizes, [value.hash, value.size]],
+            sizes: [...history.sizes, [value.timestamp, value.size]],
           };
         }
         mergedMap.set(key, mergedValue);
@@ -82,10 +82,11 @@ class App extends React.Component {
         <Switch>
           <Route
             path="/bundle"
-            component={() => (
+            component={(match) => (
               <Bundle
                 buildOutput={this.state.isLoaded ? this.state.files : null}
                 mergedOutput={this.state.isMerged ? this.state.merged : null}
+                match={match}
               />
             )}
           />

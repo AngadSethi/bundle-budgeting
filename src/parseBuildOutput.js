@@ -18,6 +18,7 @@ function buildOutput(buildStats) {
         };
       }),
       hash: buildStats["hash"],
+      timestamp: buildStats["builtAt"],
     };
     bundleStats.push(assetDetails);
   }

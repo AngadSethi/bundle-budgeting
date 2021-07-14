@@ -4,21 +4,23 @@ import Overview from "./Overview";
 import { useEffect } from "react";
 
 function Bundle(props) {
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  const bundleName = urlSearchParams.get("b");
+  const [bundleName, setBundleName] = React.useState("");
 
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   const [bundle, setBundle] = React.useState(null);
 
   useEffect(() => {
-    if (props.mergedOutput !== null) {
+    const urlSearchParams = new URLSearchParams(props.match.location.search);
+    setBundleName(urlSearchParams.get("b"));
+
+    if (props.mergedOutput !== null && bundleName !== "") {
       setBundle(
-        props.mergedOutput.find((b) => b.name.localeCompare(bundleName))
+        props.mergedOutput.find((b) => b.name.localeCompare(bundleName) === 0)
       );
       setIsLoaded(true);
     }
-  }, [props.mergedOutput, bundleName]);
+  }, [props.mergedOutput, bundleName, props.match.location.search]);
 
   if (isLoaded === true) {
     return (

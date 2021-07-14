@@ -39,6 +39,7 @@ class BuildOutput {
         ...budget,
         size: pOutput.size,
         hash: pOutput.hash,
+        timestamp: pOutput.timestamp,
       });
     });
   }

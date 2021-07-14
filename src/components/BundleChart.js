@@ -7,7 +7,7 @@ export default function BundleChart(props) {
       {
         label: "Asset Size",
         data: props.bundle.sizes.map((value) => ({
-          primary: "Hash " + value[0],
+          primary: new Date(value[0]),
           secondary: value[1],
         })),
       },
@@ -31,8 +31,8 @@ export default function BundleChart(props) {
 
   const axes = React.useMemo(
     () => [
-      { primary: true, position: "bottom", type: "ordinal", show: true },
-      { position: "left", type: "linear", stacked: true},
+      { primary: true, position: "bottom", type: "time", show: true },
+      { position: "left", type: "linear", stacked: true },
     ],
     []
   );
