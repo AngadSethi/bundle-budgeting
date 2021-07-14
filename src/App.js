@@ -24,12 +24,13 @@ class App extends React.Component {
       const buildOutput = new BuildOutput();
       buildOutput.build(file).then((res) => {
         let currentBuildSize = this.computeBuildSize(res);
+        let buildDate = res["budgetMap"].entries().next()["value"][1]["timestamp"]
         this.setState({
           isLoaded: index === arr.length - 1,
           isMerged: index === arr.length - 1,
           files: [...this.state.files, res],
           merged: this.mergeOutputs([...this.state.files, res]),
-          sizeHistory: [...this.state.sizeHistory, currentBuildSize],
+          sizeHistory: [...this.state.sizeHistory, [buildDate, currentBuildSize]],
         });
       });
     });

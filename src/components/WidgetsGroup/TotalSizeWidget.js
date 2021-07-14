@@ -22,7 +22,7 @@ export default function TotalSizeWidget(props) {
   useEffect(() => {
     if (props.buildOutput != null) {
       let numberofBuilds = props.sizeHistory.length;
-      setTotalSize(props.sizeHistory[numberofBuilds - 1])
+      setTotalSize(props.sizeHistory[numberofBuilds - 1][1])
     }
   }, [props.buildOutput, props.sizeHistory])
 
@@ -43,16 +43,16 @@ export default function TotalSizeWidget(props) {
       <Modal
         onClose={totalSizeModalClose}
         isOpen={totalSizeGraphOpen}
-        overrides={{
-          Dialog: {
-            style: {
-              width: '50vw',
-              height: '45vh',
-              display: 'flex',
-              flexDirection: 'column',
-            }
-          }
-        }}
+      // overrides={{
+      //   Dialog: {
+      //     style: {
+      //       width: '50vw',
+      //       height: '45vh',
+      //       display: 'flex',
+      //       flexDirection: 'column',
+      //     }
+      //   }
+      // }}
       >
         <ModalHeader>Total Size of Bundles over builds</ModalHeader>
         <ModalBody>
@@ -77,7 +77,6 @@ export default function TotalSizeWidget(props) {
               <TotalSizeChart
                 name={"Total Build Size Over Time"}
                 sizeHistory={props.sizeHistory}
-              // overshot={bundle.data.overshot}
               />
             </FlexGridItem>
           </FlexGrid>
