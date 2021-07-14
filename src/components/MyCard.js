@@ -25,7 +25,6 @@ function MyCard(props) {
             borderColor: "hsla(0, 0%, 0%, 0.24)",
             // boxShadow: $theme.lighting.shadow500,
             boxShadow: "0 2px 10px hsla(0, 0%, 0%, 0.16)",
-            ...props.overrides.Root.style,
             ":hover": {
               backgroundColor: $theme.colors.warning100,
               cursor: "pointer",

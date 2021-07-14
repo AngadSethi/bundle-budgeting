@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Component } from "react";
 import { ListItem, ListItemLabel } from "baseui/list";
 import { StyledLink } from "baseui/link";
@@ -13,46 +13,42 @@ import {
 } from "baseui/modal";
 
 
-export default class NewBundlesWidget extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bundlesAdded: 0,
-      newBundleList: null,
-      newbundlesListOpen: false,
-      error: false,
-      isNewBundlesLoaded: false,
-    }
-    this.newBundlesListclose = this.newBundlesListclose.bind(this);
-  }
+export default function NewBundlesWidget(props) {
 
-  componentDidMount() {
-    if (this.props.mergedOutput != null) {
+  const [bundlesAdded, setBundlesAdded] = useState(0);
+  const [newBundleList, setNewBundleList] = useState(null);
+  const [newbundlesListOpen, setNewBundlesListOpen] = useState(false);
+  const [error, setError] = useState(false);
+  const [isNewBundlesLoaded, setNewBundlesLoaded] = useState(false);
+
+  useEffect(() => {
+    if (props.mergedOutput != null) {
       let newBundles = 0;
       let newBundleNames = [];
-      for (let bundle of this.props.mergedOutput) {
+      for (let bundle of props.mergedOutput) {
         if (bundle["sizes"].length === 1) {
           newBundles = newBundles + 1;
           newBundleNames.push(bundle["name"]);
         }
       }
-
-      this.setState({ bundlesAdded: newBundles, newBundleList: newBundleNames, isNewBundlesLoaded: true })
+      setBundlesAdded(newBundles);
+      setNewBundleList(newBundleNames);
+      setNewBundlesLoaded(true);
     }
-  }
+  })
 
-  renderList() {
-    if (this.state.error) {
+  function renderList() {
+    if (error) {
       return <div>Error Loading Data</div>;
     }
-    if (!this.state.isNewBundlesLoaded) {
+    if (isNewBundlesLoaded === false) {
       return <div>Data Still Loading ....</div>;
     }
-    else if (this.state.newBundleList.length === 0) {
+    else if (newBundleList.length === 0) {
       return <div> No new Bundles have been added in the last build</div>
     }
     else {
-      const listItems = this.state.newBundleList.map((bundlename) => {
+      const listItems = newBundleList.map((bundlename) => {
         return (
           <ListItem>
             <ListItemLabel>
@@ -69,59 +65,48 @@ export default class NewBundlesWidget extends Component {
     }
   }
 
-
-  newBundlesListclose() {
-    this.setState({ newbundlesListOpen: false });
+  function newBundlesListclose() {
+    setNewBundlesListOpen(false);
   }
 
-
-  render() {
-    const newBundleString = "added in the last build";
-    let numberofBundles = "";
-    let finalWidgetContent = ""
-    if (this.state.isNewBundlesLoaded === true) {
-      if (this.bundlesAdded === 1) {
-        numberofBundles = "bundle has been";
-      }
-      else {
-        numberofBundles = "bundles have been";
-      }
-      if (this.state.bundlesAdded === 0) {
-        finalWidgetContent = "No new " + numberofBundles + " " + newBundleString
-      }
-      else
-        finalWidgetContent = this.state.bundlesAdded + " " + numberofBundles + " " + newBundleString;
+  const newBundleString = "added in the last build";
+  let numberofBundles = "";
+  let finalWidgetContent = ""
+  if (isNewBundlesLoaded === true) {
+    if (bundlesAdded === 1) {
+      numberofBundles = "bundle has been";
     }
     else {
-      finalWidgetContent = "..."
+      numberofBundles = "bundles have been";
     }
-    return (
-      <div>
-        <div onClick={() => this.setState({ newbundlesListOpen: true })}>
-          <MyCard
-            overrides={{
-              Root: {
-                style: ({ $theme }) => ({
-                  backgroundColor: $theme.colors.accent300,
-                }),
-              },
-            }}
-            content={finalWidgetContent}
-            help={"Click to view List of new bundles"}
-
-          />
-        </div>
-        <Modal
-          onClose={this.newBundlesListclose}
-          isOpen={this.state.newbundlesListOpen}
-        >
-          <ModalHeader>New Bundles </ModalHeader>
-          <ModalBody>{this.renderList()}</ModalBody>
-          <ModalFooter>
-            <ModalButton onClick={this.newBundlesListclose}>Okay</ModalButton>
-          </ModalFooter>
-        </Modal>
-      </div>
-    )
+    if (bundlesAdded === 0) {
+      finalWidgetContent = "No new " + numberofBundles + " " + newBundleString
+    }
+    else
+      finalWidgetContent = bundlesAdded + " " + numberofBundles + " " + newBundleString;
   }
+  else {
+    finalWidgetContent = "..."
+  }
+  return (
+    <div>
+      <div onClick={() => setNewBundlesListOpen(true)}>
+        <MyCard
+          content={finalWidgetContent}
+          help={"Click to view List of new bundles"}
+
+        />
+      </div>
+      <Modal
+        onClose={newBundlesListclose}
+        isOpen={newbundlesListOpen}
+      >
+        <ModalHeader>New Bundles </ModalHeader>
+        <ModalBody>{renderList()}</ModalBody>
+        <ModalFooter>
+          <ModalButton onClick={newBundlesListclose}>Okay</ModalButton>
+        </ModalFooter>
+      </Modal>
+    </div>
+  )
 }

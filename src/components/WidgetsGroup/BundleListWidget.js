@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { ListItem, ListItemLabel } from "baseui/list";
 import MyCard from "../MyCard";
 import { StyledLink } from "baseui/link";
@@ -10,44 +10,35 @@ import {
   ModalButton,
 } from "baseui/modal";
 
-export default class BundleListWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      numberOfBundles: 0,
-      error: false,
-      isBuildStatsLoaded: false,
-      isBudgetsStatsLoaded: false,
-      bundleList: [],
-      budgetListOpen: false,
-      budgetMap: null,
-      buildStats: {},
-      parsedBuildStats: [],
-      result: {},
-    };
-    this.budgetListclose = this.budgetListclose.bind(this);
-  }
+export default function BundleListWidget(props) {
 
-  componentDidMount() {
-    if (this.props.buildOutput != null) {
-      let buildOut = this.props.buildOutput[this.props.buildOutput.length - 1];
+  const [numberOfBundles, setNumberOfBundles] = useState(0);
+  const [error, setError] = useState(false);
+  const [isBuildStatsLoaded, setBuildStatsLoaded] = useState(false);
+  const [isBudgetStatsLoaded, setBudgetStatsLoaded] = useState(false);
+  const [budgetListOpen, setBudgetListOpen] = useState(false);
+  const [bundleList, setBundleList] = useState([])
+  const [buildResult, setBuildResult] = useState({})
+
+  useEffect(() => {
+    if (props.buildOutput != null) {
+      let buildOut = props.buildOutput[props.buildOutput.length - 1];
       let processedResult = buildOut["result"];
-      this.setState({ result: processedResult });
-      this.setState({ isBuildStatsLoaded: true });
-      this.setState({ isBudgetsStatsLoaded: true });
-      this.setState({ error: false });
-      this.createList(processedResult);
+      setBuildResult(processedResult);
+      setBuildStatsLoaded(true);
+      setBudgetStatsLoaded(true);
+      setError(false);
+      createList(processedResult);
     }
-  }
-
-  renderList() {
-    if (this.state.error) {
+  })
+  function renderList() {
+    if (error) {
       return <div>Error Loading Data</div>;
     }
-    if (!this.state.isBudgetsStatsLoaded || !this.state.isBuildStatsLoaded) {
+    if (!(isBudgetStatsLoaded) || !(isBuildStatsLoaded)) {
       return <div>Data Still Loading ....</div>;
     } else {
-      const listItems = this.state.bundleList.map((bundlename) => {
+      const listItems = bundleList.map((bundlename) => {
         return (
           <ListItem>
             <ListItemLabel>
@@ -63,7 +54,8 @@ export default class BundleListWidget extends React.Component {
       );
     }
   }
-  createList(processedResult) {
+
+  function createList(processedResult) {
     let bundlesExceedingBudget = [];
     let numberExceeding = 0;
     let bundles = processedResult["bundles"];
@@ -76,93 +68,34 @@ export default class BundleListWidget extends React.Component {
         numberExceeding = numberExceeding + 1;
       }
     }
-    this.setState({
-      bundleList: bundlesExceedingBudget,
-      numberOfBundles: numberExceeding,
-    });
+    setBundleList(bundlesExceedingBudget);
+    setNumberOfBundles(numberExceeding);
   }
 
-  buildBudgetsMap(budgets) {
-    const budgetMap = new Map();
-
-    budgets.forEach((budget) => {
-      budgetMap.set(budget["name"], budget);
-    });
-
-    this.setState({
-      ...this.state,
-      budgetMap: budgetMap,
-    });
+  function budgetListclose() {
+    setBudgetListOpen(false);
   }
 
-  detectBudgetViolations() {
-    const result = {
-      bundles: [],
-      orphans: [],
-    };
-
-    this.state.parsedBuildStats.forEach((bundle) => {
-      if (this.state.budgetMap.has(bundle.name)) {
-        const budget = this.state.budgetMap.get(bundle.name);
-        result.bundles.push({
-          id: bundle.name,
-          data: {
-            ...bundle,
-            overshot: budget.budget - bundle.size < 0,
-            budget: budget.budget,
-            difference: budget.budget - bundle.size,
-            owner: budget.owner,
-          },
-        });
-      } else {
-        result.orphans.push(bundle);
-      }
-    });
-    this.setState({
-      ...this.state,
-      result: result,
-    });
-  }
-
-  budgetListclose() {
-    this.setState({ budgetListOpen: false });
-  }
-
-  totalSizeModalClose() {
-    this.setState({ totalSizeOpen: false });
-  }
-
-  render() {
-    const WidgetBody =
-      this.state.numberOfBundles.toString() +
-      " bundles have exceeded the Budget";
-    return (
-      <div>
-        <div onClick={() => this.setState({ budgetListOpen: true })}>
-          <MyCard
-            overrides={{
-              Root: {
-                style: ({ $theme }) => ({
-                  backgroundColor: $theme.colors.backgroundPrimary,
-                }),
-              },
-            }}
-            content={WidgetBody}
-            help={"Click to view the List"}
-          />
-        </div>
-
-        <Modal
-          onClose={this.budgetListclose}
-          isOpen={this.state.budgetListOpen}
-        >
-          <ModalHeader>Bundles that exceeded the Budget</ModalHeader>
-          <ModalBody>{this.renderList()}</ModalBody>
-          <ModalFooter>
-            <ModalButton onClick={this.budgetListclose}>Okay</ModalButton>
-          </ModalFooter>
-        </Modal>
+  const WidgetBody = numberOfBundles.toString() + " bundles have exceeded the Budget";
+  return (
+    <div>
+      <div onClick={() => setBudgetListOpen(true)}>
+        <MyCard
+          content={WidgetBody}
+          help={"Click to view the List"}
+        />
       </div>
-    );
-  }
+
+      <Modal
+        onClose={budgetListclose}
+        isOpen={budgetListOpen}
+      >
+        <ModalHeader>Bundles that exceeded the Budget</ModalHeader>
+        <ModalBody>{renderList()}</ModalBody>
+        <ModalFooter>
+          <ModalButton onClick={budgetListclose}>Okay</ModalButton>
+        </ModalFooter>
+      </Modal>
+    </div >
+  );
 }
