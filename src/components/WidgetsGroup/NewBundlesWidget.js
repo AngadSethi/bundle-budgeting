@@ -50,7 +50,14 @@ export default function NewBundlesWidget(props) {
     else {
       const listItems = newBundleList.map((bundlename) => {
         return (
-          <ListItem>
+          <ListItem overrides={{
+            Root: {
+              style: {
+                padding: 0,
+              }
+            }
+          }}
+          >
             <ListItemLabel>
               <StyledLink href={"bundle?b=" + encodeURI(bundlename)}>
                 {bundlename}
@@ -60,7 +67,7 @@ export default function NewBundlesWidget(props) {
         );
       });
       return (
-        <ul style={{ overflow: "hidden", overflowY: "scroll" }}>{listItems}</ul>
+        <ul style={{ overflow: "auto", overflowY: "scroll", border: "1px solid black", borderRadius: "7px" }}>{listItems}</ul>
       );
     }
   }
