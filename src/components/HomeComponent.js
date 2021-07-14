@@ -2,8 +2,7 @@ import * as React from "react";
 import { Block } from "baseui/block";
 import Widget from "./WidgetsGroup/Widgets";
 import widgetdata from "../shared/widgetdata";
-import TabGroup from "./TabGroup";
-import tabs from "../shared/tabData";
+import Table from "./Table/index";
 
 class HomeComponent extends React.Component {
   render() {
@@ -16,11 +15,12 @@ class HomeComponent extends React.Component {
             mergedOutput={this.props.mergedOutput}
             sizeHistory={this.props.sizeHistory}
           />
-          <TabGroup
-            tabs={tabs}
-            buildOutput={this.props.buildOutput}
-            mergedOutput={this.props.mergedOutput}
-          />
+          <Block marginTop={"3em"}>
+            <Table
+              buildOutput={this.props.buildOutput}
+              mergedOutput={this.props.mergedOutput}
+            />
+          </Block>
         </Block>
       </Block>
     );

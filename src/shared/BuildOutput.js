@@ -14,26 +14,20 @@ class BuildOutput {
   }
 
   async build(filePath, extensions = ["js", "css"]) {
-    const result = fetch(BUNDLE_STATS_URL + filePath)
-      .then((result) => result.json())
-      .then((buildStats) => {
-        this.isLoaded = true;
-        this.buildStats = buildStats;
-        this.parsedBuildStats = buildOutput(buildStats);
-      })
-      .then(() => {
-        return fetch(BUNDLE_BUDGETS_URL);
-      });
+    let result = await fetch(BUNDLE_STATS_URL + filePath);
+    result = await result.json();
+    this.isLoaded = true;
+    this.buildStats = result;
+    this.parsedBuildStats = buildOutput(result);
 
-    return result
-      .then((result) => result.json())
-      .then((budgets) => {
-        this.buildBudgetsMap(budgets);
+    result = await fetch(BUNDLE_BUDGETS_URL);
+    result = await result.json();
 
-        this.detectBudgetViolations();
+    this.buildBudgetsMap(result);
 
-        return this.getStateObject(extensions);
-      });
+    await this.detectBudgetViolations();
+
+    return this.getStateObject(extensions);
   }
 
   buildBudgetsMap(budgets) {

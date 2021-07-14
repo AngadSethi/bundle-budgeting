@@ -29,9 +29,8 @@ class App extends React.Component {
           isMerged: index === arr.length - 1,
           files: [...this.state.files, res],
           merged: this.mergeOutputs([...this.state.files, res]),
-          sizeHistory: [...this.state.sizeHistory , currentBuildSize],
+          sizeHistory: [...this.state.sizeHistory, currentBuildSize],
         });
-        // console.log("SIZES ARRAY" , this.state.sizeHistory)
       });
     });
 
@@ -40,14 +39,14 @@ class App extends React.Component {
     }
   }
 
-  computeBuildSize(buildout){
+  computeBuildSize(buildout) {
     let bundles = buildout["result"]["bundles"];
     let buildSize = 0;
-    for(const bundle of bundles){
-      buildSize = buildSize + bundle["data"]["size"]
+    for (const bundle of bundles) {
+      buildSize = buildSize + bundle["data"]["size"];
     }
     buildSize = (buildSize / 1024).toFixed(3);
-  return buildSize;    
+    return buildSize;
   }
   mergeOutputs(files) {
     const mergedMap = new Map();
@@ -96,7 +95,9 @@ class App extends React.Component {
               <HomeComponent
                 buildOutput={this.state.isLoaded ? this.state.files : null}
                 mergedOutput={this.state.isMerged ? this.state.merged : null}
-                sizeHistory = {this.state.isMerged? this.state.sizeHistory : null}
+                sizeHistory={
+                  this.state.isMerged ? this.state.sizeHistory : null
+                }
               />
             )}
           />

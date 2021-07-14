@@ -1,49 +1,39 @@
 import * as React from "react";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import Overview from "./Overview";
+import { useEffect } from "react";
 
-class BundleComponent extends React.Component {
-  constructor(props) {
-    super(props);
+function Bundle(props) {
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const bundleName = urlSearchParams.get("b");
 
-    const urlSearchParams = new URLSearchParams(window.location.search);
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
-    this.state = {
-      bundleName: urlSearchParams.get("b"),
-      isLoaded: false,
-    };
-  }
+  const [bundle, setBundle] = React.useState(null);
 
-  componentDidMount() {
-    if (this.props.mergedOutput !== null) {
-      this.setState({
-        bundle: this.props.mergedOutput.find(
-          (b) => b.name === this.state.bundleName
-        ),
-        isLoaded: true,
-      });
-    }
-  }
-
-  render() {
-    if (this.state.isLoaded === true) {
-      return (
-        <FlexGrid
-          backgroundColor={["#DBDBDB"]}
-          height={"100vh"}
-          justifyContent={"center"}
-        >
-          <FlexGridItem marginTop={"scale1000"} maxWidth={"95%"}>
-            <Overview
-              bundle={this.state.bundle}
-              ownerDetails={this.state.ownerDetails}
-            />
-          </FlexGridItem>
-        </FlexGrid>
+  useEffect(() => {
+    if (props.mergedOutput !== null) {
+      setBundle(
+        props.mergedOutput.find((b) => b.name.localeCompare(bundleName))
       );
+      setIsLoaded(true);
     }
-    return <div />;
+  }, [props.mergedOutput, bundleName]);
+
+  if (isLoaded === true) {
+    return (
+      <FlexGrid
+        backgroundColor={["#DBDBDB"]}
+        height={"100vh"}
+        justifyContent={"center"}
+      >
+        <FlexGridItem marginTop={"scale1000"} maxWidth={"95%"}>
+          <Overview bundle={bundle} />
+        </FlexGridItem>
+      </FlexGrid>
+    );
   }
+  return <div />;
 }
 
-export default BundleComponent;
+export default Bundle;

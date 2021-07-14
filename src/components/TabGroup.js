@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Block } from "baseui/block";
-import TableGroup from "./BundleTableGroup";
+import TableGroup from "./Table";
 
 class TabGroup extends React.Component {
   constructor(props) {
