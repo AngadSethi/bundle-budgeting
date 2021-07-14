@@ -24,7 +24,7 @@ export default function TotalSizeWidget(props) {
       let numberofBuilds = props.sizeHistory.length;
       setTotalSize(props.sizeHistory[numberofBuilds - 1])
     }
-  })
+  }, [props.buildOutput, props.sizeHistory])
 
   function totalSizeModalClose() {
     setTotalSizeGraphOpen(false);

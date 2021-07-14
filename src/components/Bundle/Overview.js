@@ -1,51 +1,49 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, StyledBody } from "baseui/card";
 import { ListItem, ListItemLabel } from "baseui/list";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { H6 } from "baseui/typography";
 import BundleChart from "../BundleChart";
+
 import edit from "../../edit.png";
 import save from "../../save.png";
-import { Slider } from "baseui/slider";
 import { Image } from "react-bootstrap";
 import { parseSize } from "../../shared/util";
-// import { Slider } from 'baseui/slider'
-class Overview extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isEdit: false,
-      isEnabled: false,
-      budgetValue: [50],
-      ownerName: "",
-    };
-    this.editOwner = this.editOwner.bind(this);
-    this.enableSlider = this.enableSlider.bind(this);
-    this.setBudget = this.setBudget.bind(this);
-    this.changeBudget = this.changeBudget.bind(this);
-  }
+export default function Overview(props) {
 
-  componentDidMount() {
-    let elementId = this.props.bundle.name;
+  const [OwnerEdit, setOwnerEdit] = useState(false);
+  const [BudgetEdit, setBudgetEdit] = useState(false);
+  const [ownerName, setOwnerName] = useState("")
+  var OwnerName;
+  var BudgetValue;
+  var OwnerEditIcon;
+  var BudgetEditIcon;
+
+  useEffect(() => {
+    let elementId = props.bundle.name;
     var listElement = document.getElementById(elementId);
-    var OwnerlistElement = listElement.getElementsByTagName("li")[0];
-    var OwnerName = OwnerlistElement.getElementsByTagName("p")[1];
-    this.setState({ ownerName: OwnerName });
-    this.addEventListeners(OwnerName);
-  }
+    var textElements = listElement.getElementsByTagName("p");
+    var editIcons = listElement.getElementsByTagName("img");
+    OwnerName = textElements[1];
+    BudgetValue = textElements[5];
+    OwnerEditIcon = editIcons[0];
+    BudgetEditIcon = editIcons[1];
+    setOwnerName(OwnerName);
+    addEventListeners(OwnerName);
+    addEventListeners(BudgetValue);
+  })
 
-  addEventListeners(OwnerName) {
-    OwnerName.addEventListener("mouseover", () => {
-      OwnerName.style.cursor = "pointer";
+  function addEventListeners(TextField) {
+    TextField.addEventListener("mouseover", () => {
+      TextField.style.cursor = "pointer";
     });
-    OwnerName.addEventListener("onblur", () => {
-      OwnerName.contentEditable = false;
+    TextField.addEventListener("onblur", () => {
+      TextField.contentEditable = false;
     });
-    OwnerName.addEventListener("click", function listenForDoubleClick(e) {
+    TextField.addEventListener("click", function listenForDoubleClick(e) {
       let element = e.target;
       element.contentEditable = true;
       element.style.width = "300px";
-      OwnerName.style.padding = "3px";
       setTimeout(function () {
         if (document.activeElement !== element) {
           element.contentEditable = false;
@@ -53,158 +51,123 @@ class Overview extends React.Component {
       }, 300);
     });
 
-    OwnerName.addEventListener("keydown", (event) => {
+    TextField.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
         event.target.contentEditable = false;
       }
     });
   }
-  changeBudget(newBudget) {
-    let elementId = this.props.bundle.name;
-    var listElement = document.getElementById(elementId);
-    var OwnerlistElement = listElement
-      .getElementsByTagName("li")[2]
-      .getElementsByTagName("p")[1];
-
-    OwnerlistElement.innerHTML = this.state.budgetValue;
+  function changeBudget(BudgetEdit) {
+    let isEdit = !OwnerEdit;
+    setOwnerEdit(isEdit)
+    if (isEdit === true) {
+      BudgetEditIcon.src = save;
+      console.log(BudgetValue)
+      BudgetValue.style.width = "300px";
+      BudgetValue.contentEditable = true;
+      BudgetValue.style.border = "0.5px solid black";
+    } else {
+      BudgetEditIcon.src = edit;
+      BudgetValue.contentEditable = false;
+      BudgetValue.style.border = "0px";
+    }
   }
-  setBudget(newValue) {
-    this.setState({ budgetValue: newValue });
-  }
 
-  editOwner(isEdit) {
-    // alert("Editing")
-    let newEditValue = !isEdit;
-    this.setState({ isEdit: newEditValue });
 
-    let elementId = this.props.bundle.name;
-    var listElement = document.getElementById(elementId);
-    var OwnerlistElement = listElement.getElementsByTagName("li")[0];
-    var OwnerName = OwnerlistElement.getElementsByTagName("p")[1];
-    var EditIcon = OwnerlistElement.getElementsByTagName("img")[0];
-    if (this.state.isEdit === true) {
-      EditIcon.src = save;
+  function editOwner(OwnerEdit) {
+    let isEdit = !BudgetEdit;
+    setBudgetEdit(isEdit);
+
+
+    if (isEdit === true) {
+      OwnerEditIcon.src = save;
       OwnerName.style.width = "300px";
       OwnerName.contentEditable = true;
-      OwnerName.style.border = "1px solid black";
-      OwnerName.style.padding = "2px";
+      OwnerName.style.border = "0.5px solid black";
     } else {
-      EditIcon.src = edit;
+      OwnerEditIcon.src = edit;
       OwnerName.contentEditable = false;
       OwnerName.style.border = "0px";
     }
   }
-  enableSlider(isEnabled) {
-    var sliderElement = document.getElementById("Slider");
-    var slider = sliderElement.getElementsByTagName("div")[0];
-  }
-  render() {
-    return (
-      <Card
-        overrides={{
-          Root: {
-            style: ({ $theme }) => ({
-              border: 0,
-              padding: $theme.sizing.scale100,
-              boxShadow: $theme.lighting.shadow500,
-              borderRadius: $theme.borders.radius200,
-            }),
-          },
-        }}
-      >
-        <H6 marginTop={0} marginBottom={0}>
-          {this.props.bundle.name}
-        </H6>
-        <hr />
-        {/* The actual body of the card. */}
-        <StyledBody>
-          <FlexGrid
-            flexGridColumnCount={[1, 2]}
-            flexGridColumnGap="scale800"
-            flexGridRowGap="scale800"
-          >
-            {/* The list displaying the necessary information. */}
-            <FlexGridItem maxWidth={"30%"}>
-              <ul
-                id={this.props.bundle.name}
-                style={{
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                }}
-              >
-                <ListItem>
-                  <ListItemLabel description={this.props.bundle.owner}>
-                    Owner
-                  </ListItemLabel>
-                  <Image
-                    onClick={() => {
-                      this.editOwner(this.state.isEdit);
-                    }}
-                    src={edit}
-                    width={"18px"}
-                    height={"18px"}
-                    style={{ float: "left" }}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemLabel
-                    description={parseSize(this.props.bundle.size)}
-                  >
-                    Size
-                  </ListItemLabel>
-                </ListItem>
-                <ListItem>
-                  <ListItemLabel
-                    description={parseSize(this.props.bundle.budget)}
-                  >
-                    Budget
-                  </ListItemLabel>
-                  <div id="Slider">
-                    <Slider
-                      overrides={{
-                        Root: {
-                          style: {
-                            width: "250px",
-                            marginTop: "10%",
-                          },
-                        },
-                        Thumb: {
-                          style: {
-                            width: "15px",
-                            height: "15px",
-                          },
-                        },
-                      }}
-                      disabled
-                      min={10}
-                      max={2000}
-                      value={this.state.budgetValue}
-                      onChange={({ value }) => value && this.setBudget(value)}
-                      onFinalChange={({ value }) =>
-                        value && this.changeBudget(value)
-                      }
-                    />
-                  </div>
-                  <Image
-                    onClick={() => {
-                      this.enableSlider(this.state.isEnabled);
-                    }}
-                    src={edit}
-                    width={"17px"}
-                    height={"17px"}
-                  />
-                </ListItem>
-              </ul>
-            </FlexGridItem>
-            <FlexGridItem>
-              <BundleChart bundle={this.props.bundle} />
-            </FlexGridItem>
-          </FlexGrid>
-        </StyledBody>
-      </Card>
-    );
-  }
+  return (
+    <Card
+      overrides={{
+        Root: {
+          style: ({ $theme }) => ({
+            border: 0,
+            padding: $theme.sizing.scale100,
+            boxShadow: $theme.lighting.shadow500,
+            borderRadius: $theme.borders.radius200,
+          }),
+        },
+      }}
+    >
+      <H6 marginTop={0} marginBottom={0}>
+        {props.bundle.name}
+      </H6>
+      <hr />
+      {/* The actual body of the card. */}
+      <StyledBody>
+        <FlexGrid
+          flexGridColumnCount={[1, 2]}
+          flexGridColumnGap="scale800"
+          flexGridRowGap="scale800"
+        >
+          {/* The list displaying the necessary information. */}
+          <FlexGridItem maxWidth={"30%"}>
+            <ul
+              id={props.bundle.name}
+              style={{
+                paddingLeft: 0,
+                paddingRight: 0,
+              }}
+            >
+              <ListItem>
+                <ListItemLabel description={props.bundle.owner}>
+                  Owner
+                </ListItemLabel>
+                <Image
+                  onClick={() => {
+                    editOwner(OwnerEdit);
+                  }}
+                  src={edit}
+                  width={"18px"}
+                  height={"18px"}
+                  style={{ float: "left" }}
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemLabel
+                  description={parseSize(props.bundle.size)}
+                >
+                  Size
+                </ListItemLabel>
+              </ListItem>
+              <ListItem>
+                <ListItemLabel
+                  description={parseSize(props.bundle.budget)}
+                >
+                  Budget
+                </ListItemLabel>
+                <Image
+                  onClick={() => {
+                    changeBudget(BudgetEdit);
+                  }}
+                  src={edit}
+                  width={"17px"}
+                  height={"17px"}
+                />
+              </ListItem>
+            </ul>
+          </FlexGridItem>
+          <FlexGridItem>
+            <BundleChart bundle={props.bundle} />
+          </FlexGridItem>
+        </FlexGrid>
+      </StyledBody>
+    </Card>
+  );
 }
 
-export default Overview;

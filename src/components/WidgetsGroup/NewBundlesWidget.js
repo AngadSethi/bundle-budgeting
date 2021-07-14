@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Component } from "react";
 import { ListItem, ListItemLabel } from "baseui/list";
 import { StyledLink } from "baseui/link";
 
@@ -34,8 +33,9 @@ export default function NewBundlesWidget(props) {
       setBundlesAdded(newBundles);
       setNewBundleList(newBundleNames);
       setNewBundlesLoaded(true);
+      setError(false);
     }
-  })
+  }, [props.mergedOutput])
 
   function renderList() {
     if (error) {

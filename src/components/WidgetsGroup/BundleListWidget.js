@@ -18,19 +18,17 @@ export default function BundleListWidget(props) {
   const [isBudgetStatsLoaded, setBudgetStatsLoaded] = useState(false);
   const [budgetListOpen, setBudgetListOpen] = useState(false);
   const [bundleList, setBundleList] = useState([])
-  const [buildResult, setBuildResult] = useState({})
 
   useEffect(() => {
     if (props.buildOutput != null) {
       let buildOut = props.buildOutput[props.buildOutput.length - 1];
       let processedResult = buildOut["result"];
-      setBuildResult(processedResult);
       setBuildStatsLoaded(true);
       setBudgetStatsLoaded(true);
       setError(false);
       createList(processedResult);
     }
-  })
+  }, [props.buildOutput])
   function renderList() {
     if (error) {
       return <div>Error Loading Data</div>;

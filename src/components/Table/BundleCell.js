@@ -1,5 +1,4 @@
 import { useStyletron } from "baseui";
-import { Link } from "react-router-dom";
 import { generateBundleUrl } from "../../shared/util";
 import { StyledLink } from "baseui/link";
 
