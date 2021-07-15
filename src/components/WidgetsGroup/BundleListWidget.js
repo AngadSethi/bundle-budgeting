@@ -11,13 +11,12 @@ import {
 } from "baseui/modal";
 
 export default function BundleListWidget(props) {
-
   const [numberOfBundles, setNumberOfBundles] = useState(0);
   const [error, setError] = useState(false);
   const [isBuildStatsLoaded, setBuildStatsLoaded] = useState(false);
   const [isBudgetStatsLoaded, setBudgetStatsLoaded] = useState(false);
   const [budgetListOpen, setBudgetListOpen] = useState(false);
-  const [bundleList, setBundleList] = useState([])
+  const [bundleList, setBundleList] = useState([]);
 
   useEffect(() => {
     if (props.buildOutput != null) {
@@ -28,23 +27,24 @@ export default function BundleListWidget(props) {
       setError(false);
       createList(processedResult);
     }
-  }, [props.buildOutput])
+  }, [props.buildOutput]);
   function renderList() {
     if (error) {
       return <div>Error Loading Data</div>;
     }
-    if (!(isBudgetStatsLoaded) || !(isBuildStatsLoaded)) {
+    if (!isBudgetStatsLoaded || !isBuildStatsLoaded) {
       return <div>Data Still Loading ....</div>;
     } else {
       const listItems = bundleList.map((bundlename) => {
         return (
-          <ListItem overrides={{
-            Root: {
-              style: {
-                padding: 0,
-              }
-            }
-          }}
+          <ListItem
+            overrides={{
+              Root: {
+                style: {
+                  padding: 0,
+                },
+              },
+            }}
           >
             <ListItemLabel>
               <StyledLink href={"bundle?b=" + encodeURI(bundlename)}>
@@ -55,7 +55,13 @@ export default function BundleListWidget(props) {
         );
       });
       return (
-        <ul style={{ overflow: "auto", overflowY: "scroll", border: "1px solid black", borderRadius: "7px" }}>{listItems}</ul>
+        <ul
+          style={{
+            overflowY: "auto",
+          }}
+        >
+          {listItems}
+        </ul>
       );
     }
   }
@@ -81,26 +87,22 @@ export default function BundleListWidget(props) {
     setBudgetListOpen(false);
   }
 
-  const WidgetBody = numberOfBundles.toString() + " bundles have exceeded the Budget";
+  const WidgetBody =
+    numberOfBundles.toString() + " bundles have exceeded the Budget";
   return (
     <div>
       <div onClick={() => setBudgetListOpen(true)}>
-        <MyCard
-          content={WidgetBody}
-          help={"Click to view the List"}
-        />
+        <MyCard content={WidgetBody} help={"Click to view the List"} />
       </div>
 
-      <Modal
-        onClose={budgetListclose}
-        isOpen={budgetListOpen}
-      >
+      <Modal onClose={budgetListclose} isOpen={budgetListOpen}>
         <ModalHeader>Bundles that exceeded the Budget</ModalHeader>
+        <hr />
         <ModalBody>{renderList()}</ModalBody>
         <ModalFooter>
           <ModalButton onClick={budgetListclose}>Okay</ModalButton>
         </ModalFooter>
       </Modal>
-    </div >
+    </div>
   );
 }
