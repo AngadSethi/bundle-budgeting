@@ -3,17 +3,16 @@ import { Card, StyledBody } from "baseui/card";
 import { ListItem, ListItemLabel } from "baseui/list";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { H6 } from "baseui/typography";
-import BundleChart from "../BundleChart";
+import BundleChart from "./BundleChart";
 
 import edit from "../../edit.png";
 import save from "../../save.png";
 import { Image } from "react-bootstrap";
 import { parseSize } from "../../shared/util";
 export default function Overview(props) {
-
   const [OwnerEdit, setOwnerEdit] = useState(false);
   const [BudgetEdit, setBudgetEdit] = useState(false);
-  const [ownerName, setOwnerName] = useState("")
+  const [ownerName, setOwnerName] = useState("");
   var OwnerName;
   var BudgetValue;
   var OwnerEditIcon;
@@ -31,7 +30,7 @@ export default function Overview(props) {
     setOwnerName(OwnerName);
     addEventListeners(OwnerName);
     addEventListeners(BudgetValue);
-  })
+  });
 
   function addEventListeners(TextField) {
     TextField.addEventListener("mouseover", () => {
@@ -60,10 +59,10 @@ export default function Overview(props) {
   }
   function changeBudget(BudgetEdit) {
     let isEdit = !OwnerEdit;
-    setOwnerEdit(isEdit)
+    setOwnerEdit(isEdit);
     if (isEdit === true) {
       BudgetEditIcon.src = save;
-      console.log(BudgetValue)
+      console.log(BudgetValue);
       BudgetValue.style.width = "300px";
       BudgetValue.contentEditable = true;
       BudgetValue.style.border = "0.5px solid black";
@@ -74,11 +73,9 @@ export default function Overview(props) {
     }
   }
 
-
   function editOwner(OwnerEdit) {
     let isEdit = !BudgetEdit;
     setBudgetEdit(isEdit);
-
 
     if (isEdit === true) {
       OwnerEditIcon.src = save;
@@ -139,16 +136,12 @@ export default function Overview(props) {
                 />
               </ListItem>
               <ListItem>
-                <ListItemLabel
-                  description={parseSize(props.bundle.size)}
-                >
+                <ListItemLabel description={parseSize(props.bundle.size)}>
                   Size
                 </ListItemLabel>
               </ListItem>
               <ListItem>
-                <ListItemLabel
-                  description={parseSize(props.bundle.budget)}
-                >
+                <ListItemLabel description={parseSize(props.bundle.budget)}>
                   Budget
                 </ListItemLabel>
                 <Image
@@ -170,4 +163,3 @@ export default function Overview(props) {
     </Card>
   );
 }
-

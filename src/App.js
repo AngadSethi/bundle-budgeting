@@ -1,11 +1,11 @@
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Header from "./components/Header";
-import Bundle from "./components/Bundle";
+import Index from "./pages/home/header";
+import Bundle from "./pages/bundle";
 import * as React from "react";
-import BuildOutput from "./shared/BuildOutput";
+import BuildOutput from "./shared/buildOutput";
 import { FILES } from "./shared/endPoints";
-import Home from "./components/HomeComponent";
+import Home from "./pages/home";
 
 class App extends React.Component {
   constructor(props) {
@@ -24,13 +24,18 @@ class App extends React.Component {
       const buildOutput = new BuildOutput();
       buildOutput.build(file).then((res) => {
         let currentBuildSize = this.computeBuildSize(res);
-        let buildDate = res["budgetMap"].entries().next()["value"][1]["timestamp"]
+        let buildDate = res["budgetMap"].entries().next()["value"][1][
+          "timestamp"
+        ];
         this.setState({
           isLoaded: index === arr.length - 1,
           isMerged: index === arr.length - 1,
           files: [...this.state.files, res],
           merged: this.mergeOutputs([...this.state.files, res]),
-          sizeHistory: [...this.state.sizeHistory, [buildDate, currentBuildSize]],
+          sizeHistory: [
+            ...this.state.sizeHistory,
+            [buildDate, currentBuildSize],
+          ],
         });
       });
     });
@@ -79,7 +84,7 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Header />
+        <Index />
         <Switch>
           <Route
             path="/bundle"

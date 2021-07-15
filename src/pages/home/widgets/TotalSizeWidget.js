@@ -3,7 +3,7 @@ import TotalSizeChart from "./TotalSizeChart";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { ListItem, ListItemLabel } from "baseui/list";
 
-import MyCard from "../MyCard";
+import MyCard from "./MyCard";
 import {
   Modal,
   ModalHeader,
@@ -13,46 +13,43 @@ import {
 } from "baseui/modal";
 
 export default function TotalSizeWidget(props) {
-
   const [totalSize, setTotalSize] = useState(0);
   const [totalSizeGraphOpen, setTotalSizeGraphOpen] = useState(false);
 
   // sizeHistory: this.props.sizeHistory,
 
   useEffect(() => {
-    if (props.buildOutput != null) {
+    if (props.buildOutput !== null) {
       let numberofBuilds = props.sizeHistory.length;
-      setTotalSize(props.sizeHistory[numberofBuilds - 1][1])
+      setTotalSize(props.sizeHistory[numberofBuilds - 1][1]);
     }
-  }, [props.buildOutput, props.sizeHistory])
-
-  function totalSizeModalClose() {
-    setTotalSizeGraphOpen(false);
-  }
+  }, [props.buildOutput, props.sizeHistory]);
 
   return (
     <div>
-      <div onClick={() => setTotalSizeGraphOpen(true)}>
+      <div
+        onClick={() => {
+          setTotalSizeGraphOpen(true);
+        }}
+      >
         <MyCard
-          content={
-            "The Total size of the latest build is " + totalSize + " MB"
-          }
+          content={"The Total size of the latest build is " + totalSize + " MB"}
           help={"Click to view Graph"}
         />
       </div>
       <Modal
-        onClose={totalSizeModalClose}
+        onClose={() => setTotalSizeGraphOpen(false)}
         isOpen={totalSizeGraphOpen}
-      // overrides={{
-      //   Dialog: {
-      //     style: {
-      //       width: '50vw',
-      //       height: '45vh',
-      //       display: 'flex',
-      //       flexDirection: 'column',
-      //     }
-      //   }
-      // }}
+        // overrides={{
+        //   Dialog: {
+        //     style: {
+        //       width: '50vw',
+        //       height: '45vh',
+        //       display: 'flex',
+        //       flexDirection: 'column',
+        //     }
+        //   }
+        // }}
       >
         <ModalHeader>Total Size of Bundles over builds</ModalHeader>
         <ModalBody>
@@ -82,9 +79,11 @@ export default function TotalSizeWidget(props) {
           </FlexGrid>
         </ModalBody>
         <ModalFooter>
-          <ModalButton onClick={totalSizeModalClose}>Okay</ModalButton>
+          <ModalButton onClick={() => setTotalSizeGraphOpen(false)}>
+            Okay
+          </ModalButton>
         </ModalFooter>
       </Modal>
     </div>
   );
-};
+}

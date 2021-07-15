@@ -1,5 +1,5 @@
 import Fuse from "fuse.js";
-import { BUNDLE_BUDGETS_URL } from "../shared/endPoints";
+import { BUNDLE_BUDGETS_URL } from "../../../shared/endPoints";
 
 import * as React from "react";
 import { Select, TYPE } from "baseui/select";
@@ -7,7 +7,7 @@ import { ARTWORK_SIZES, ListItemLabel, MenuAdapter } from "baseui/list";
 import { groupBy } from "underscore";
 import { StatefulMenu } from "baseui/menu";
 import ChevronRight from "baseui/icon/chevron-right";
-import generateBundleUrl from "../shared/generateBundleUrl";
+import { generateBundleUrl } from "../../../shared/util";
 
 function SearchMenu(props) {
   const ITEMS = groupBy(props.items.__ungrouped, (item) => {

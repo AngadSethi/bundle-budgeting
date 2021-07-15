@@ -1,14 +1,18 @@
 import * as React from "react";
 import { Block } from "baseui/block";
-import Table from "./Table/index";
-import BundleListWidget from "./WidgetsGroup/BundleListWidget";
-import TotalSizeWidget from "./WidgetsGroup/TotalSizeWidget";
-import NewBundlesWidget from "./WidgetsGroup/NewBundlesWidget";
+import Table from "./table";
+import BundleListWidget from "./widgets/BundleListWidget";
+import TotalSizeWidget from "./widgets/TotalSizeWidget";
+import NewBundlesWidget from "./widgets/NewBundlesWidget";
 function Home(props) {
   return (
     <Block backgroundColor={["backgroundTertiary"]} height={"100vh"}>
       <Block margin={"auto"} padding={"10em"} paddingTop={"2em"}>
-        <Block display={"flex"} justifyContent={"space-around"} marginTop={"2%"}>
+        <Block
+          display={"flex"}
+          justifyContent={"space-around"}
+          marginTop={"2%"}
+        >
           <BundleListWidget buildOutput={props.buildOutput} />
           <TotalSizeWidget
             buildOutput={props.buildOutput}

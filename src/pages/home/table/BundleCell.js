@@ -1,5 +1,5 @@
 import { useStyletron } from "baseui";
-import { generateBundleUrl } from "../../shared/util";
+import { generateBundleUrl } from "../../../shared/util";
 import { StyledLink } from "baseui/link";
 
 function BundleCell(props) {

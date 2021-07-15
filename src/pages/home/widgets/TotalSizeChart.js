@@ -33,8 +33,8 @@ export default function TotalSizeChart(props) {
   return (
     <div
       style={{
-        height: '200px',
-        width: '100%'
+        height: "200px",
+        width: "100%",
       }}
     >
       <Chart

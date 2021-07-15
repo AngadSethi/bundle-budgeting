@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ListItem, ListItemLabel } from "baseui/list";
-import MyCard from "../MyCard";
+import MyCard from "./MyCard";
 import { StyledLink } from "baseui/link";
 import {
   Modal,

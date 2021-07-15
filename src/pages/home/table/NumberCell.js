@@ -1,6 +1,6 @@
 import { useStyletron } from "baseui";
 import { ArrowDown, ArrowUp } from "baseui/icon";
-import { parseSize } from "../../shared/util";
+import { parseSize } from "../../../shared/util";
 
 function NumberCell({ value, delta }) {
   const [css, theme] = useStyletron();

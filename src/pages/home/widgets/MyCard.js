@@ -1,7 +1,7 @@
 import { Card, StyledBody } from "baseui/card";
 import * as React from "react";
 import { withStyle } from "baseui";
-import HelpIcon from "./WidgetsGroup/WidgetHelp";
+import HelpIcon from "./WidgetHelp";
 function MyCard(props) {
   const CustomBody = withStyle(StyledBody, ({ $theme }) => ({
     fontSize: $theme.typography.font550.fontSize,

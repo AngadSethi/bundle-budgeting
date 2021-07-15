@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ListItem, ListItemLabel } from "baseui/list";
 import { StyledLink } from "baseui/link";
 
-import MyCard from "../MyCard";
+import MyCard from "./MyCard";
 import {
   Modal,
   ModalHeader,
@@ -11,9 +11,7 @@ import {
   ModalButton,
 } from "baseui/modal";
 
-
 export default function NewBundlesWidget(props) {
-
   const [bundlesAdded, setBundlesAdded] = useState(0);
   const [newBundleList, setNewBundleList] = useState(null);
   const [newbundlesListOpen, setNewBundlesListOpen] = useState(false);
@@ -35,7 +33,7 @@ export default function NewBundlesWidget(props) {
       setNewBundlesLoaded(true);
       setError(false);
     }
-  }, [props.mergedOutput])
+  }, [props.mergedOutput]);
 
   function renderList() {
     if (error) {
@@ -43,20 +41,19 @@ export default function NewBundlesWidget(props) {
     }
     if (isNewBundlesLoaded === false) {
       return <div>Data Still Loading ....</div>;
-    }
-    else if (newBundleList.length === 0) {
-      return <div> No new Bundles have been added in the last build</div>
-    }
-    else {
+    } else if (newBundleList.length === 0) {
+      return <div> No new Bundles have been added in the last build</div>;
+    } else {
       const listItems = newBundleList.map((bundlename) => {
         return (
-          <ListItem overrides={{
-            Root: {
-              style: {
-                padding: 0,
-              }
-            }
-          }}
+          <ListItem
+            overrides={{
+              Root: {
+                style: {
+                  padding: 0,
+                },
+              },
+            }}
           >
             <ListItemLabel>
               <StyledLink href={"bundle?b=" + encodeURI(bundlename)}>
@@ -67,7 +64,16 @@ export default function NewBundlesWidget(props) {
         );
       });
       return (
-        <ul style={{ overflow: "auto", overflowY: "scroll", border: "1px solid black", borderRadius: "7px" }}>{listItems}</ul>
+        <ul
+          style={{
+            overflow: "auto",
+            overflowY: "scroll",
+            border: "1px solid black",
+            borderRadius: "7px",
+          }}
+        >
+          {listItems}
+        </ul>
       );
     }
   }
@@ -78,22 +84,20 @@ export default function NewBundlesWidget(props) {
 
   const newBundleString = "added in the last build";
   let numberofBundles = "";
-  let finalWidgetContent = ""
+  let finalWidgetContent = "";
   if (isNewBundlesLoaded === true) {
     if (bundlesAdded === 1) {
       numberofBundles = "bundle has been";
-    }
-    else {
+    } else {
       numberofBundles = "bundles have been";
     }
     if (bundlesAdded === 0) {
-      finalWidgetContent = "No new " + numberofBundles + " " + newBundleString
-    }
-    else
-      finalWidgetContent = bundlesAdded + " " + numberofBundles + " " + newBundleString;
-  }
-  else {
-    finalWidgetContent = "..."
+      finalWidgetContent = "No new " + numberofBundles + " " + newBundleString;
+    } else
+      finalWidgetContent =
+        bundlesAdded + " " + numberofBundles + " " + newBundleString;
+  } else {
+    finalWidgetContent = "...";
   }
   return (
     <div>
@@ -101,13 +105,9 @@ export default function NewBundlesWidget(props) {
         <MyCard
           content={finalWidgetContent}
           help={"Click to view List of new bundles"}
-
         />
       </div>
-      <Modal
-        onClose={newBundlesListclose}
-        isOpen={newbundlesListOpen}
-      >
+      <Modal onClose={newBundlesListclose} isOpen={newbundlesListOpen}>
         <ModalHeader>New Bundles </ModalHeader>
         <ModalBody>{renderList()}</ModalBody>
         <ModalFooter>
@@ -115,5 +115,5 @@ export default function NewBundlesWidget(props) {
         </ModalFooter>
       </Modal>
     </div>
-  )
+  );
 }

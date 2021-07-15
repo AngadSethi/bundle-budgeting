@@ -8,7 +8,7 @@ import {
 import Search from "./Search";
 import { H5 } from "baseui/typography";
 import { Image } from "react-bootstrap";
-import logo from "../logo.svg";
+import logo from "../../../logo.svg";
 import { StyledNavLink } from "baseui/side-navigation";
 import { withStyle } from "baseui";
 
