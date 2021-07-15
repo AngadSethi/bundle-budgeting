@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import RenderList from "./RenderList";
 import MyCard from "./MyCard";
 import {
@@ -10,69 +10,27 @@ import {
 } from "baseui/modal";
 
 export default function NewBundlesWidget(props) {
-  const [bundlesAdded, setBundlesAdded] = useState(0);
   const [newBundleList, setNewBundleList] = useState(null);
   const [newbundlesListOpen, setNewBundlesListOpen] = useState(false);
   const [error, setError] = useState(false);
   const [isNewBundlesLoaded, setNewBundlesLoaded] = useState(false);
 
-  useEffect(() => {
+  const bundlesAdded = useMemo(() => {
     if (props.mergedOutput != null) {
       const newBundleNames = [];
-      for (let bundle of props.mergedOutput) {
-        if (bundle["sizes"].length === 1) {
-          newBundleNames.push(bundle["name"]);
+
+      props.mergedOutput.forEach((bundle) => {
+        if (bundle.sizes.length === 1) {
+          newBundleNames.push(bundle.name);
         }
-      }
-      setBundlesAdded(newBundleNames.length);
+      })
       setNewBundleList(newBundleNames);
       setNewBundlesLoaded(true);
       setError(false);
+      return newBundleNames.length;
     }
   }, [props.mergedOutput]);
 
-  // function renderList() {
-  //   if (error) {
-  //     return <div>Error Loading Data</div>;
-  //   }
-  //   if (isNewBundlesLoaded === false) {
-  //     return <div>Data Still Loading ....</div>;
-  //   } else if (newBundleList.length === 0) {
-  //     return <div> No new Bundles have been added in the last build</div>;
-  //   } else {
-  //     const listItems = newBundleList.map((bundlename) => {
-  //       return (
-  //         <ListItem
-  //           overrides={{
-  //             Root: {
-  //               style: {
-  //                 padding: 0,
-  //               },
-  //             },
-  //           }}
-  //         >
-  //           <ListItemLabel>
-  //             <StyledLink href={"bundle?b=" + encodeURI(bundlename)}>
-  //               {bundlename}
-  //             </StyledLink>
-  //           </ListItemLabel>
-  //         </ListItem>
-  //       );
-  //     });
-  //     return (
-  //       <ul
-  //         style={{
-  //           overflow: "auto",
-  //           overflowY: "scroll",
-  //           border: "1px solid black",
-  //           borderRadius: "7px",
-  //         }}
-  //       >
-  //         {listItems}
-  //       </ul>
-  //     );
-  //   }
-  // }
 
   function newBundlesListclose() {
     setNewBundlesListOpen(false);

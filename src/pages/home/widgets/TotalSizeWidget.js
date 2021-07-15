@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import TotalSizeChart from "./TotalSizeChart";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { ListItem, ListItemLabel } from "baseui/list";
@@ -13,15 +13,11 @@ import {
 } from "baseui/modal";
 
 export default function TotalSizeWidget(props) {
-  const [totalSize, setTotalSize] = useState(0);
   const [totalSizeGraphOpen, setTotalSizeGraphOpen] = useState(false);
-
-  // sizeHistory: this.props.sizeHistory,
-
-  useEffect(() => {
+  const totalSize = useMemo(() => {
     if (props.buildOutput !== null) {
       const numberofBuilds = props.sizeHistory.length;
-      setTotalSize(props.sizeHistory[numberofBuilds - 1][1]);
+      return props.sizeHistory[numberofBuilds - 1][1];
     }
   }, [props.buildOutput, props.sizeHistory]);
 

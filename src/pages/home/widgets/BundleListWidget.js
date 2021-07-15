@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import MyCard from "./MyCard";
 import {
   Modal,
@@ -9,32 +9,31 @@ import {
 } from "baseui/modal";
 import RenderList from "./RenderList";
 export default function BundleListWidget(props) {
-  const [numberOfBundles, setNumberOfBundles] = useState(0);
   const [error, setError] = useState(false);
   const [isStatsLoaded, setStatsLoaded] = useState(false);
   const [budgetListOpen, setBudgetListOpen] = useState(false);
   const [bundleList, setBundleList] = useState([]);
 
-  useEffect(() => {
+  const numberOfBundles = useMemo(() => {
     if (props.buildOutput != null) {
       const buildOut = props.buildOutput[props.buildOutput.length - 1];
       const processedResult = buildOut["result"];
       setStatsLoaded(true);
       setError(false);
-      createList(processedResult);
+      return createList(processedResult);
     }
   }, [props.buildOutput]);
 
   function createList(processedResult) {
     const bundlesExceedingBudget = [];
-    const bundles = processedResult["bundles"];
+    const bundles = processedResult.bundles;
     bundles.forEach((bundle) => {
       if (bundle.data.overshot === true) {
         bundlesExceedingBudget.push(bundle.id);
       }
     })
     setBundleList(bundlesExceedingBudget);
-    setNumberOfBundles(bundlesExceedingBudget.length);
+    return bundlesExceedingBudget.length;
   }
 
   function budgetListclose() {
@@ -42,7 +41,7 @@ export default function BundleListWidget(props) {
   }
 
   const WidgetBody =
-    numberOfBundles.toString() + " bundles have exceeded the Budget";
+    numberOfBundles + " bundles have exceeded the Budget";
   return (
     <div>
       <div onClick={() => setBudgetListOpen(true)}>
