@@ -9,6 +9,7 @@ import {
   ModalFooter,
   ModalButton,
 } from "baseui/modal";
+import { generateBundleUrl } from "../../../shared/util";
 
 export default function BundleListWidget(props) {
   const [numberOfBundles, setNumberOfBundles] = useState(0);
@@ -47,7 +48,7 @@ export default function BundleListWidget(props) {
             }}
           >
             <ListItemLabel>
-              <StyledLink href={"bundle?b=" + encodeURI(bundlename)}>
+              <StyledLink href={generateBundleUrl(bundlename)}>
                 {bundlename}
               </StyledLink>
             </ListItemLabel>

@@ -1,28 +1,23 @@
 import * as React from "react";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import Overview from "./Overview";
-import { useEffect } from "react";
 
 function Bundle(props) {
-  const [bundleName, setBundleName] = React.useState("");
-
-  const [isLoaded, setIsLoaded] = React.useState(false);
-
-  const [bundle, setBundle] = React.useState(null);
-
-  useEffect(() => {
+  const bundle = React.useMemo(() => {
     const urlSearchParams = new URLSearchParams(props.match.location.search);
-    setBundleName(urlSearchParams.get("b"));
+    const bundleName = urlSearchParams.get("b");
 
+    let bundle = null;
     if (props.mergedOutput !== null && bundleName !== "") {
-      setBundle(
-        props.mergedOutput.find((b) => b.name.localeCompare(bundleName) === 0)
+      bundle = props.mergedOutput.find(
+        (b) => b.name.localeCompare(bundleName) === 0
       );
-      setIsLoaded(true);
     }
-  }, [props.mergedOutput, bundleName, props.match.location.search]);
 
-  if (isLoaded === true) {
+    return bundle;
+  }, [props.match.location.search, props.mergedOutput]);
+
+  if (bundle !== null) {
     return (
       <FlexGrid
         backgroundColor={["#DBDBDB"]}
