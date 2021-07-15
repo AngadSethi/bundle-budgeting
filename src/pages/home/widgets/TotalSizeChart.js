@@ -24,7 +24,7 @@ export default function TotalSizeChart(props) {
 
   const axes = React.useMemo(
     () => [
-      { primary: true, position: "bottom", type: "ordinal", show: true },
+      { primary: true, position: "bottom", type: "time", show: true },
       { position: "left", type: "linear", stacked: true, show: true },
     ],
     []
