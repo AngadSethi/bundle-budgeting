@@ -3,8 +3,7 @@
  * @param {string} name
  * @returns {string}
  */
-export const generateBundleUrl = (name) =>
-  window.location.origin + "/bundle?b=" + encodeURI(name);
+export const generateBundleUrl = (name) => "/bundle?b=" + encodeURI(name);
 
 /**
  * A utility function for parsing sizes, converting them to MB, and
