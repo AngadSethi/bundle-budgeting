@@ -1,12 +1,12 @@
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Index from "./pages/home/header";
 import Bundle from "./pages/bundle";
 import * as React from "react";
 import BuildOutput from "./shared/buildOutput";
 import { FILES } from "./shared/endPoints";
 import Home from "./pages/home";
 import { useEffect } from "react";
+import Header from "./pages/home/header";
 
 const computeBuildSize = (buildout) => {
   let bundles = buildout["result"]["bundles"];
@@ -79,7 +79,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Index />
+      <Header />
       <Switch>
         <Route
           path="/bundle"
