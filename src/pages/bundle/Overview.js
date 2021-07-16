@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, StyledBody } from "baseui/card";
 import { ListItem, ListItemLabel } from "baseui/list";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
@@ -9,46 +9,14 @@ import edit from "../../edit.png";
 import save from "../../save.png";
 import { Image } from "react-bootstrap";
 import { parseSize } from "../../shared/util";
+
 export default function Overview(props) {
   const [OwnerEdit, setOwnerEdit] = useState(false);
   const [BudgetEdit, setBudgetEdit] = useState(false);
-  const [ownerName, setOwnerName] = useState("");
-  const [budget, setBudget] = useState("");
-  var OwnerName;
-  var BudgetValue;
-  var OwnerEditIcon;
-  var BudgetEditIcon;
-
-  useEffect(() => {
-    setOwnerName(props.bundle.owner);
-    setBudget(props.bundle.budget)
-  });
-
-  // function addEventListeners(TextField) {
-  //   TextField.addEventListener("mouseover", () => {
-  //     TextField.style.cursor = "pointer";
-  //   });
-  //   TextField.addEventListener("onblur", () => {
-  //     TextField.contentEditable = false;
-  //   });
-  //   TextField.addEventListener("click", function listenForDoubleClick(e) {
-  //     let element = e.target;
-  //     element.contentEditable = true;
-  //     element.style.width = "300px";
-  //     setTimeout(function () {
-  //       if (document.activeElement !== element) {
-  //         element.contentEditable = false;
-  //       }
-  //     }, 300);
-  //   });
-
-  //   TextField.addEventListener("keydown", (event) => {
-  //     if (event.key === "Enter") {
-  //       event.preventDefault();
-  //       event.target.contentEditable = false;
-  //     }
-  //   });
-  // }
+  const [ownerName, setOwnerName] = useState(props.bundle.owner);
+  const [budget, setBudget] = useState(props.bundle.budget);
+  const [OwnerToggle, setOwnerToggle] = useState(true);
+  const [BudgetToggle, setBudgetToggle] = useState(true);
 
   return (
     <Card
@@ -88,7 +56,7 @@ export default function Overview(props) {
                   Owner
                 </ListItemLabel>
                 <ListItemLabel>{
-                  OwnerEdit ? (
+                  (OwnerEdit || !OwnerToggle) ? (
                     <Input
                       overrides={{
                         Root: {
@@ -104,11 +72,18 @@ export default function Overview(props) {
                         }
                       }}
                       placeholder={ownerName}
-                      onChange={e => { console.log(ownerName); setOwnerName(e.target.value) }}
-                      onBlur={e => { setOwnerName(e.target.value) }}
+                      onChange={e => { setOwnerName(e.target.value) }}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === 'Escape') {
+                          setOwnerToggle(true)
+                          event.preventDefault()
+                          event.stopPropagation()
+                        }
+                      }}
+                      onBlur={e => { setOwnerName(e.target.value); setOwnerToggle(true) }}
                     />
                   ) : (
-                    <div>{ownerName}</div>
+                    <div onDoubleClick={() => { setOwnerToggle(false); }}>{ownerName}</div>
                   )
                 }
                 </ListItemLabel>
@@ -122,7 +97,6 @@ export default function Overview(props) {
                     } else {
                       e.target.src = edit;
                     }
-                    console.log(ownerName)
                   }}
                   src={edit}
                   width={"18px"}
@@ -143,7 +117,7 @@ export default function Overview(props) {
                   Budget
                 </ListItemLabel>
                 <ListItemLabel>{
-                  BudgetEdit ? (
+                  (BudgetEdit || !BudgetToggle) ? (
                     <Input
                       overrides={{
                         Root: {
@@ -159,11 +133,18 @@ export default function Overview(props) {
                         }
                       }}
                       placeholder={budget}
-                      onChange={e => { console.log(budget); setBudget(e.target.value) }}
-                      onBlur={e => { setBudget(e.target.value) }}
+                      onChange={e => { setBudget(e.target.value) }}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === 'Escape') {
+                          setBudgetToggle(true)
+                          event.preventDefault()
+                          event.stopPropagation()
+                        }
+                      }}
+                      onBlur={e => { setBudget(e.target.value); setBudgetToggle(true) }}
                     />
                   ) : (
-                    <div>{parseSize(budget)}</div>
+                    <div onDoubleClick={() => { setBudgetToggle(false); }}>{budget}</div>
                   )
                 }
                 </ListItemLabel>
