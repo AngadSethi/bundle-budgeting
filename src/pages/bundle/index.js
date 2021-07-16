@@ -20,11 +20,11 @@ function Bundle(props) {
   if (bundle !== null) {
     return (
       <FlexGrid
-        backgroundColor={["#DBDBDB"]}
-        height={"100vh"}
         justifyContent={"center"}
+        padding={"scale1000"}
+        backgroundColor={["backgroundTertiary"]}
       >
-        <FlexGridItem marginTop={"scale1000"} maxWidth={"95%"}>
+        <FlexGridItem marginBottom={"scale1000"} maxWidth={"95%"}>
           <Overview bundle={bundle} />
         </FlexGridItem>
       </FlexGrid>
