@@ -113,7 +113,14 @@ export default function Overview(props) {
                   style={{ float: "left" }}
                 />
               </ListItem>
-              <ListItem>
+              <ListItem
+                overrides={{
+                  Content: {
+                    style: {
+                      maxWidth: "57%",
+                    }
+                  }
+                }}>
                 <ListItemLabel>Size</ListItemLabel>
                 <ListItemLabel>{parseSize(props.bundle.size)}</ListItemLabel>
               </ListItem>
