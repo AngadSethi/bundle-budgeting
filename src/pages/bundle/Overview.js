@@ -110,7 +110,7 @@ export default function Overview(props) {
                   src={edit}
                   width={"18px"}
                   height={"18px"}
-                  style={{ float: "left" }}
+                  style={{ float: "left", cursor: "pointer" }}
                 />
               </ListItem>
               <ListItem
@@ -183,6 +183,7 @@ export default function Overview(props) {
                   src={edit}
                   width={"17px"}
                   height={"17px"}
+                  style={{ float: "left", cursor: "pointer" }}
                 />
               </ListItem>
             </ul>
