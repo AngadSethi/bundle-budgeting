@@ -87,9 +87,10 @@ export default function Overview(props) {
                     />
                   ) : (
                     <div
-                      onDoubleClick={() => {
+                      onClick={() => {
                         setOwnerToggle(false);
                       }}
+                      style={{ cursor: "pointer" }}
                     >
                       {ownerName}
                     </div>
@@ -152,9 +153,10 @@ export default function Overview(props) {
                     />
                   ) : (
                     <div
-                      onDoubleClick={() => {
+                      onClick={() => {
                         setBudgetToggle(false);
                       }}
+                      style={{ cursor: "pointer" }}
                     >
                       {parseSize(budget)}
                     </div>
