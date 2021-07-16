@@ -6,7 +6,7 @@ import TotalSizeWidget from "./widgets/TotalSizeWidget";
 import NewBundlesWidget from "./widgets/NewBundlesWidget";
 function Home(props) {
   return (
-    <Block backgroundColor={["backgroundTertiary"]} height={"100vh"}>
+    <Block backgroundColor={["backgroundTertiary"]}>
       <Block margin={"auto"} padding={"10em"} paddingTop={"2em"}>
         <Block
           display={"flex"}

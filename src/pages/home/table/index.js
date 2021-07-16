@@ -35,7 +35,6 @@ function Table(props) {
   const overrides = {
     Root: {
       style: ({ $theme }) => ({
-        maxHeight: "400px",
         marginTop: $theme.sizing.scale2400,
         borderRadius: $theme.borders.radius200,
       }),
