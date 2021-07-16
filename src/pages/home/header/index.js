@@ -23,6 +23,8 @@ export default function Header() {
         Root: {
           style: ({ $theme }) => ({
             backgroundColor: $theme.colors.background,
+            position: "sticky",
+            top: 0,
           }),
         },
       }}
