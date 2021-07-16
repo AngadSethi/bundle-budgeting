@@ -4,7 +4,7 @@ import { ListItem, ListItemLabel } from "baseui/list";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { H6 } from "baseui/typography";
 import BundleChart from "./BundleChart";
-import { Input } from 'baseui/input'
+import { Input } from "baseui/input";
 import edit from "../../edit.png";
 import save from "../../save.png";
 import { Image } from "react-bootstrap";
@@ -52,40 +52,48 @@ export default function Overview(props) {
               }}
             >
               <ListItem>
+                <ListItemLabel>Owner</ListItemLabel>
                 <ListItemLabel>
-                  Owner
-                </ListItemLabel>
-                <ListItemLabel>{
-                  (OwnerEdit || !OwnerToggle) ? (
+                  {OwnerEdit || !OwnerToggle ? (
                     <Input
                       overrides={{
                         Root: {
                           style: {
-                            width: "180px"
-                          }
+                            width: "180px",
+                          },
                         },
                         Input: {
                           style: {
                             backgroundColor: "white",
-                            textAlign: "center"
-                          }
-                        }
+                            textAlign: "center",
+                          },
+                        },
                       }}
                       placeholder={ownerName}
-                      onChange={e => { setOwnerName(e.target.value) }}
+                      onChange={(e) => {
+                        setOwnerName(e.target.value);
+                      }}
                       onKeyDown={(event) => {
-                        if (event.key === 'Enter' || event.key === 'Escape') {
-                          setOwnerToggle(true)
-                          event.preventDefault()
-                          event.stopPropagation()
+                        if (event.key === "Enter" || event.key === "Escape") {
+                          setOwnerToggle(true);
+                          event.preventDefault();
+                          event.stopPropagation();
                         }
                       }}
-                      onBlur={e => { setOwnerName(e.target.value); setOwnerToggle(true) }}
+                      onBlur={(e) => {
+                        setOwnerName(e.target.value);
+                        setOwnerToggle(true);
+                      }}
                     />
                   ) : (
-                    <div onDoubleClick={() => { setOwnerToggle(false); }}>{ownerName}</div>
-                  )
-                }
+                    <div
+                      onDoubleClick={() => {
+                        setOwnerToggle(false);
+                      }}
+                    >
+                      {ownerName}
+                    </div>
+                  )}
                 </ListItemLabel>
                 <Image
                   onClick={(e) => {
@@ -104,49 +112,53 @@ export default function Overview(props) {
                   style={{ float: "left" }}
                 />
               </ListItem>
-              <ListItem >
-                <ListItemLabel >
-                  Size
-                </ListItemLabel>
-                <ListItemLabel>
-                  {parseSize(props.bundle.size)}
-                </ListItemLabel>
+              <ListItem>
+                <ListItemLabel>Size</ListItemLabel>
+                <ListItemLabel>{parseSize(props.bundle.size)}</ListItemLabel>
               </ListItem>
               <ListItem>
-                <ListItemLabel >
-                  Budget
-                </ListItemLabel>
-                <ListItemLabel>{
-                  (BudgetEdit || !BudgetToggle) ? (
+                <ListItemLabel>Budget</ListItemLabel>
+                <ListItemLabel>
+                  {BudgetEdit || !BudgetToggle ? (
                     <Input
                       overrides={{
                         Root: {
                           style: {
-                            width: "180px"
-                          }
+                            width: "180px",
+                          },
                         },
                         Input: {
                           style: {
                             backgroundColor: "white",
-                            textAlign: "center"
-                          }
-                        }
+                            textAlign: "center",
+                          },
+                        },
                       }}
                       placeholder={budget}
-                      onChange={e => { setBudget(e.target.value) }}
+                      onChange={(e) => {
+                        setBudget(e.target.value);
+                      }}
                       onKeyDown={(event) => {
-                        if (event.key === 'Enter' || event.key === 'Escape') {
-                          setBudgetToggle(true)
-                          event.preventDefault()
-                          event.stopPropagation()
+                        if (event.key === "Enter" || event.key === "Escape") {
+                          setBudgetToggle(true);
+                          event.preventDefault();
+                          event.stopPropagation();
                         }
                       }}
-                      onBlur={e => { setBudget(e.target.value); setBudgetToggle(true) }}
+                      onBlur={(e) => {
+                        setBudget(e.target.value);
+                        setBudgetToggle(true);
+                      }}
                     />
                   ) : (
-                    <div onDoubleClick={() => { setBudgetToggle(false); }}>{budget}</div>
-                  )
-                }
+                    <div
+                      onDoubleClick={() => {
+                        setBudgetToggle(false);
+                      }}
+                    >
+                      {parseSize(budget)}
+                    </div>
+                  )}
                 </ListItemLabel>
                 <Image
                   onClick={(e) => {
@@ -157,7 +169,7 @@ export default function Overview(props) {
                     } else {
                       e.target.src = edit;
                     }
-                    console.log(budget)
+                    console.log(budget);
                   }}
                   src={edit}
                   width={"17px"}

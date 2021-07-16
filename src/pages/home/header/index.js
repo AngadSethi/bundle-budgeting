@@ -25,6 +25,7 @@ export default function Header() {
             backgroundColor: $theme.colors.background,
             position: "sticky",
             top: 0,
+            zIndex: 1000,
           }),
         },
       }}
