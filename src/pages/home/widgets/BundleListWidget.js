@@ -41,7 +41,7 @@ export default function BundleListWidget(props) {
   }
 
   const WidgetBody =
-    numberOfBundles + " bundles have exceeded the Budget";
+    `${numberOfBundles}  bundles have exceeded the Budget`;
   return (
     <div>
       <div onClick={() => setBudgetListOpen(true)}>

@@ -36,20 +36,15 @@ export default function NewBundlesWidget(props) {
     setNewBundlesListOpen(false);
   }
 
-  const newBundleString = "added in the last build";
-  let numberofBundles = "";
   let finalWidgetContent = "";
   if (isNewBundlesLoaded === true) {
-    if (bundlesAdded === 1) {
-      numberofBundles = "bundle has been";
-    } else {
-      numberofBundles = "bundles have been";
-    }
+    const newBundleString = "added in the last build";
+    const numberofBundles = bundlesAdded === 1 ? "bundle has been" : "bundles have been"
     if (bundlesAdded === 0) {
-      finalWidgetContent = "No new " + numberofBundles + " " + newBundleString;
+      finalWidgetContent = `No new ${numberofBundles}  ${newBundleString}`;
     } else
       finalWidgetContent =
-        bundlesAdded + " " + numberofBundles + " " + newBundleString;
+        `${bundlesAdded} ${numberofBundles} ${newBundleString}`;
   } else {
     finalWidgetContent = "...";
   }

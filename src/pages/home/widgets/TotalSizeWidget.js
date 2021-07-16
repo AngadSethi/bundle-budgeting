@@ -29,7 +29,7 @@ export default function TotalSizeWidget(props) {
         }}
       >
         <MyCard
-          content={"The Total size of the latest build is " + totalSize + " MB"}
+          content={`The Total size of the latest build is ${totalSize} MB`}
           help={"Click to view Graph"}
         />
       </div>
