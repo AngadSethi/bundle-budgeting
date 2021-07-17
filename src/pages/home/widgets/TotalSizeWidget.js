@@ -36,16 +36,16 @@ export default function TotalSizeWidget(props) {
       <Modal
         onClose={() => setTotalSizeGraphOpen(false)}
         isOpen={totalSizeGraphOpen}
-      // overrides={{
-      //   Dialog: {
-      //     style: {
-      //       width: '50vw',
-      //       height: '45vh',
-      //       display: 'flex',
-      //       flexDirection: 'column',
-      //     }
-      //   }
-      // }}
+        overrides={{
+          Dialog: {
+            style: {
+              width: '45vw',
+              height: '40vh',
+              display: 'flex',
+              flexDirection: 'column',
+            }
+          }
+        }}
       >
         <ModalHeader>Total Size of Bundles over builds</ModalHeader>
         <ModalBody>
@@ -62,7 +62,7 @@ export default function TotalSizeWidget(props) {
                 }}
               >
                 <ListItem>
-                  <ListItemLabel>Total Size in KiB</ListItemLabel>
+                  <ListItemLabel>Total Size in MB</ListItemLabel>
                 </ListItem>
               </ul>
             </FlexGridItem>
