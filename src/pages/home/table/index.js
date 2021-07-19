@@ -1,13 +1,32 @@
 import * as React from "react";
-import { TableBuilder, TableBuilderColumn } from "baseui/table-semantic";
+import {
+  StyledTableBodyRow,
+  TableBuilder,
+  TableBuilderColumn,
+} from "baseui/table-semantic";
 import SizeCell from "./SizeCell";
 import BundleCell from "./BundleCell";
 import { Pagination } from "baseui/pagination";
 import { FlexGrid } from "baseui/flex-grid";
 import { useSizeMap, useSortableRows } from "./hooks";
 import BudgetCell from "./BudgetCell";
+import { generateBundleUrl } from "../../../shared/util";
+import { withStyle } from "baseui";
 
 const ENTRIES_PER_PAGE = 10;
+
+const ModifiedTableRow = withStyle(StyledTableBodyRow, ({ $theme }) => ({
+  cursor: "pointer",
+}));
+
+function TableRow(props) {
+  return (
+    <ModifiedTableRow
+      onClick={() => (window.location = generateBundleUrl(props.$row.name))}
+      {...props}
+    />
+  );
+}
 
 function Table(props) {
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -38,18 +57,11 @@ function Table(props) {
       style: ({ $theme }) => ({
         marginTop: $theme.sizing.scale2400,
         borderRadius: $theme.borders.radius200,
+        zIndex: 0,
       }),
     },
     TableBodyRow: {
-      style: ({ $theme, $rowIndex }) => ({
-        backgroundColor:
-          $rowIndex % 2
-            ? $theme.colors.backgroundPrimary
-            : $theme.colors.backgroundSecondary,
-        ":hover": {
-          backgroundColor: $theme.colors.backgroundTertiary,
-        },
-      }),
+      component: TableRow,
     },
     TableHeadCellSortable: {
       style: cellStyle,
@@ -84,7 +96,7 @@ function Table(props) {
         }}
       >
         <TableBuilderColumn header="Bundle" id="name" sortable>
-          {(row) => <BundleCell link title={row.name} />}
+          {(row) => <BundleCell title={row.name} />}
         </TableBuilderColumn>
 
         <TableBuilderColumn header="Owner" id="owner" sortable>
