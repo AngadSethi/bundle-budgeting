@@ -1,4 +1,4 @@
-const BUNDLE_STATS_URL = "./data/builds/";
+const BUNDLE_STATS_URL = "./data/builds/bundle-stats-compressed.js";
 const BUNDLE_BUDGETS_URL = "./data/budgets-split.json";
 
 const FILES = [

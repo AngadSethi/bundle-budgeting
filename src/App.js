@@ -3,10 +3,10 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Bundle from "./pages/bundle";
 import * as React from "react";
 import BuildOutput from "./shared/buildOutput";
-import { FILES } from "./shared/endPoints";
 import Home from "./pages/home";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import Header from "./pages/home/header";
+import MERGED_OUTPUT from "./pages/data/bundle-stats-named";
 
 const computeBuildSize = (buildout) => {
   let bundles = buildout["result"]["bundles"];
@@ -46,36 +46,28 @@ const mergeOutputs = (files) => {
 };
 
 function App() {
-  const [output, setOutput] = React.useState({
-    files: [],
-    sizeHistory: [],
-  });
-
-  useEffect(() => {
+  const output = useMemo(() => {
     const filesArray = [];
     const sizeHistoryArray = [];
 
-    FILES.forEach((file, index, arr) => {
+    MERGED_OUTPUT.forEach((file, index, arr) => {
       const buildOutput = new BuildOutput();
-      buildOutput.build(file).then((res) => {
-        let currentBuildSize = computeBuildSize(res);
-        let buildDate = res["budgetMap"].entries().next()["value"][1][
-          "timestamp"
-        ];
-        filesArray.push(res);
-        sizeHistoryArray.push([buildDate, currentBuildSize]);
 
-        if (filesArray.length === FILES.length) {
-          setOutput({
-            files: filesArray,
-            sizeHistory: sizeHistoryArray,
-          });
-        }
-      });
+      const res = buildOutput.build(file);
+      let currentBuildSize = computeBuildSize(res);
+      let buildDate = file.builtAt;
+      filesArray.push(res);
+      sizeHistoryArray.push([buildDate, currentBuildSize]);
     });
-  }, []);
 
-  const merged = mergeOutputs(output.files);
+    console.log(filesArray);
+
+    return {
+      files: filesArray,
+      sizeHistory: sizeHistoryArray,
+      merged: mergeOutputs(filesArray),
+    };
+  }, []);
 
   return (
     <BrowserRouter>
@@ -86,10 +78,14 @@ function App() {
           component={(match) => (
             <Bundle
               buildOutput={
-                output.files.length === FILES.length ? output.files : null
+                output.files.length === MERGED_OUTPUT.length
+                  ? output.files
+                  : null
               }
               mergedOutput={
-                output.files.length === FILES.length ? merged : null
+                output.files.length === MERGED_OUTPUT.length
+                  ? output.merged
+                  : null
               }
               match={match}
             />
@@ -100,13 +96,19 @@ function App() {
           component={() => (
             <Home
               buildOutput={
-                output.files.length === FILES.length ? output.files : null
+                output.files.length === MERGED_OUTPUT.length
+                  ? output.files
+                  : null
               }
               mergedOutput={
-                output.files.length === FILES.length ? merged : null
+                output.files.length === MERGED_OUTPUT.length
+                  ? output.merged
+                  : null
               }
               sizeHistory={
-                output.files.length === FILES.length ? output.sizeHistory : null
+                output.files.length === MERGED_OUTPUT.length
+                  ? output.sizeHistory
+                  : null
               }
             />
           )}

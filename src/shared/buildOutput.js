@@ -1,5 +1,5 @@
-import { BUNDLE_BUDGETS_URL, BUNDLE_STATS_URL } from "./endPoints";
 import buildOutput from "../parseBuildOutput";
+import BUDGETS from "../pages/data/budgets-split";
 
 class BuildOutput {
   constructor() {
@@ -13,19 +13,14 @@ class BuildOutput {
     };
   }
 
-  async build(filePath, extensions = ["js", "css"]) {
-    let result = await fetch(BUNDLE_STATS_URL + filePath);
-    result = await result.json();
+  build(result, extensions = ["js", "css"]) {
     this.isLoaded = true;
     this.buildStats = result;
     this.parsedBuildStats = buildOutput(result);
 
-    result = await fetch(BUNDLE_BUDGETS_URL);
-    result = await result.json();
+    this.buildBudgetsMap(BUDGETS);
 
-    this.buildBudgetsMap(result);
-
-    await this.detectBudgetViolations();
+    this.detectBudgetViolations();
 
     return this.getStateObject(extensions);
   }
@@ -33,18 +28,20 @@ class BuildOutput {
   buildBudgetsMap(budgets) {
     budgets.forEach((budget) => {
       const pOutput = this.parsedBuildStats.find(
-        (value) => value.name.localeCompare(budget["name"]) === 0
+        (value) => value.name.localeCompare(budget.name) === 0
       );
-      this.budgetMap.set(budget["name"], {
-        ...budget,
-        size: pOutput.size,
-        hash: pOutput.hash,
-        timestamp: pOutput.timestamp,
-      });
+      if (pOutput !== undefined) {
+        this.budgetMap.set(budget.name, {
+          ...budget,
+          size: pOutput.size,
+          hash: pOutput.hash,
+          timestamp: pOutput.timestamp,
+        });
+      }
     });
   }
 
-  async detectBudgetViolations() {
+  detectBudgetViolations() {
     this.parsedBuildStats.forEach((bundle) => {
       if (this.budgetMap.has(bundle.name)) {
         const budget = this.budgetMap.get(bundle.name);
@@ -76,27 +73,11 @@ class BuildOutput {
     return this.result;
   }
 
-  filterResults(extensions) {
-    const regex = new RegExp("^.*\\.(" + extensions.join("|") + ")$", "i");
-
-    const newResult = this.result;
-
-    newResult.bundles = newResult.bundles.filter((bundle) =>
-      regex.test(bundle.data.name)
-    );
-    newResult.orphans = newResult.orphans.filter((bundle) =>
-      regex.test(bundle.name)
-    );
-
-    return newResult;
-  }
-
-  getStateObject(extensions) {
-    const newResult = this.filterResults(extensions);
+  getStateObject() {
     return {
       budgetMap: this.budgetMap,
       parsedBuildStats: this.parsedBuildStats,
-      result: newResult,
+      result: this.result,
       isLoaded: true,
     };
   }

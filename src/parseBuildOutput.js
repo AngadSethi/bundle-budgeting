@@ -1,10 +1,21 @@
 function buildOutput(buildStats) {
   const bundleStats = [];
+  const sizeMap = new Map();
 
-  for (const asset of buildStats["assets"]) {
+  buildStats.assets.forEach((asset) => {
+    sizeMap.set(asset.name, asset.size);
+  });
+
+  for (const assetByChunkName in buildStats.assetsByChunkName) {
+    const name = assetByChunkName;
+    const chunks = buildStats.assetsByChunkName[assetByChunkName];
+    const size = chunks.reduce((accumulator, currentValue) => {
+      return accumulator + sizeMap.get(currentValue);
+    }, 0);
+
     const assetDetails = {
-      name: asset["name"],
-      size: asset["size"],
+      name: name,
+      size: size,
       hash: buildStats["hash"],
       timestamp: buildStats["builtAt"],
     };
