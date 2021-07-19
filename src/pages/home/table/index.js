@@ -1,10 +1,11 @@
 import * as React from "react";
 import { TableBuilder, TableBuilderColumn } from "baseui/table-semantic";
-import NumberCell from "./NumberCell";
+import SizeCell from "./SizeCell";
 import BundleCell from "./BundleCell";
 import { Pagination } from "baseui/pagination";
 import { FlexGrid } from "baseui/flex-grid";
 import { useSizeMap, useSortableRows } from "./hooks";
+import BudgetCell from "./BudgetCell";
 
 const ENTRIES_PER_PAGE = 10;
 
@@ -91,13 +92,17 @@ function Table(props) {
         </TableBuilderColumn>
 
         <TableBuilderColumn header="Size" id="size" sortable>
-          {(row) => (
-            <NumberCell value={row.size} delta={sizeMap.get(row.name)} />
-          )}
+          {(row) => <SizeCell value={row.size} delta={sizeMap.get(row.name)} />}
         </TableBuilderColumn>
 
         <TableBuilderColumn header="Budget" id="budget" sortable>
-          {(row) => <NumberCell value={row.budget} delta={row.percentage} />}
+          {(row) => (
+            <BudgetCell
+              value={row.budget}
+              delta={row.percentage}
+              size={row.size}
+            />
+          )}
         </TableBuilderColumn>
       </TableBuilder>
 

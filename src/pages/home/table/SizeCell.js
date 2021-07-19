@@ -2,7 +2,7 @@ import { useStyletron } from "baseui";
 import { ArrowDown, ArrowUp } from "baseui/icon";
 import { parseSize } from "../../../shared/util";
 
-function NumberCell({ value, delta }) {
+function SizeCell({ value, delta }) {
   const [css, theme] = useStyletron();
   const positive = delta >= 0;
   return (
@@ -34,4 +34,4 @@ function NumberCell({ value, delta }) {
   );
 }
 
-export default NumberCell;
+export default SizeCell;
