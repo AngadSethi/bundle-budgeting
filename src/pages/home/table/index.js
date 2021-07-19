@@ -28,8 +28,8 @@ function Table(props) {
     backgroundColor: $theme.colors.backgroundInversePrimary,
     color: $theme.colors.backgroundPrimary,
     ":hover": {
-      backgroundColor: $theme.colors.backgroundPrimary,
-      color: $theme.colors.backgroundInversePrimary,
+      backgroundColor: $theme.colors.backgroundInversePrimary,
+      color: $theme.colors.backgroundPrimary,
     },
   });
 
