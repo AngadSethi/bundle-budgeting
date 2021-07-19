@@ -17,7 +17,21 @@ export default function Overview(props) {
   const [budget, setBudget] = useState(props.bundle.budget);
   const [OwnerToggle, setOwnerToggle] = useState(true);
   const [BudgetToggle, setBudgetToggle] = useState(true);
+  const [isOwnerHovering, setOwnerHovering] = useState(false);
+  const [isBudgetHovering, setBudgetHovering] = useState(false);
 
+  const handleOwnerHover = () => {
+    setOwnerHovering(true);
+  }
+  const handleOwnerOut = () => {
+    setOwnerHovering(false);
+  }
+  const handleBudgetHover = () => {
+    setBudgetHovering(true);
+  }
+  const handleBudgetOut = () => {
+    setBudgetHovering(false);
+  }
   return (
     <Card
       overrides={{
@@ -53,71 +67,77 @@ export default function Overview(props) {
             >
               <ListItem>
                 <ListItemLabel>Owner</ListItemLabel>
-                <ListItemLabel>
-                  {OwnerEdit || !OwnerToggle ? (
-                    <Input
-                      overrides={{
-                        Root: {
-                          style: {
-                            width: "180px",
+                <div style={{ display: "inline-flex", width: "65%" }} onMouseOver={handleOwnerHover} onMouseOut={handleOwnerOut}>
+                  <div style={{ width: "80%" }}>
+                    {OwnerEdit || !OwnerToggle ? (
+                      <Input
+                        overrides={{
+                          Root: {
+                            style: {
+                              width: "80%",
+                            },
                           },
-                        },
-                        Input: {
-                          style: {
-                            backgroundColor: "white",
-                            textAlign: "center",
+                          Input: {
+                            style: {
+                              backgroundColor: "white",
+                              paddingLeft: "3px"
+                            },
                           },
-                        },
-                      }}
-                      placeholder={ownerName}
-                      onChange={(e) => {
-                        setOwnerName(e.target.value);
-                      }}
-                      onKeyDown={(event) => {
-                        if (event.key === "Enter" || event.key === "Escape") {
+                        }}
+                        placeholder={ownerName}
+                        onChange={(e) => {
+                          setOwnerName(e.target.value);
+                        }}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter" || event.key === "Escape") {
+                            setOwnerToggle(true);
+                            event.preventDefault();
+                            event.stopPropagation();
+                          }
+                        }}
+                        onBlur={(e) => {
+                          setOwnerName(e.target.value);
                           setOwnerToggle(true);
-                          event.preventDefault();
-                          event.stopPropagation();
-                        }
-                      }}
-                      onBlur={(e) => {
-                        setOwnerName(e.target.value);
-                        setOwnerToggle(true);
-                      }}
-                    />
-                  ) : (
-                    <div
-                      onClick={() => {
-                        setOwnerToggle(false);
-                      }}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {ownerName}
-                    </div>
-                  )}
-                </ListItemLabel>
-                <Image
-                  onClick={(e) => {
-                    let isEdit = !OwnerEdit;
-                    setOwnerEdit(isEdit);
+                        }}
+                      />
+                    ) : (
+                      <div
+                        onClick={() => {
+                          setOwnerToggle(false);
+                        }}
+                        style={{ cursor: "pointer", fontWeight: "500" }}
+                      >
+                        {ownerName}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    {isOwnerHovering &&
+                      <Image
+                        onClick={(e) => {
+                          let isEdit = !OwnerEdit;
+                          setOwnerEdit(isEdit);
 
-                    if (isEdit === true) {
-                      e.target.src = save;
-                    } else {
-                      e.target.src = edit;
-                    }
-                  }}
-                  src={edit}
-                  width={"18px"}
-                  height={"18px"}
-                  style={{ float: "left", cursor: "pointer" }}
-                />
+                          if (isEdit === true) {
+                            e.target.src = save;
+                          } else {
+                            e.target.src = edit;
+                          }
+                        }}
+
+                        src={edit}
+                        width={"18px"}
+                        height={"18px"}
+                        style={{ float: "left", cursor: "pointer" }}
+                      />}
+                  </div>
+                </div>
               </ListItem>
               <ListItem
                 overrides={{
                   Content: {
                     style: {
-                      maxWidth: "57%",
+                      maxWidth: "48%",
                     }
                   }
                 }}>
@@ -126,65 +146,69 @@ export default function Overview(props) {
               </ListItem>
               <ListItem>
                 <ListItemLabel>Budget</ListItemLabel>
-                <ListItemLabel>
-                  {BudgetEdit || !BudgetToggle ? (
-                    <Input
-                      overrides={{
-                        Root: {
-                          style: {
-                            width: "180px",
+                <div style={{ display: "inline-flex", width: "64%" }} onMouseOver={handleBudgetHover} onMouseOut={handleBudgetOut}>
+                  <div style={{ width: "80%" }}>
+                    {BudgetEdit || !BudgetToggle ? (
+                      <Input
+                        overrides={{
+                          Root: {
+                            style: {
+                              width: "60%",
+                            },
                           },
-                        },
-                        Input: {
-                          style: {
-                            backgroundColor: "white",
-                            textAlign: "center",
+                          Input: {
+                            style: {
+                              backgroundColor: "white",
+                              paddingLeft: "3px"
+                            },
                           },
-                        },
-                      }}
-                      placeholder={budget}
-                      onChange={(e) => {
-                        setBudget(e.target.value);
-                      }}
-                      onKeyDown={(event) => {
-                        if (event.key === "Enter" || event.key === "Escape") {
+                        }}
+                        placeholder={budget}
+                        onChange={(e) => {
+                          setBudget(e.target.value);
+                        }}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter" || event.key === "Escape") {
+                            setBudgetToggle(true);
+                            event.preventDefault();
+                            event.stopPropagation();
+                          }
+                        }}
+                        onBlur={(e) => {
+                          setBudget(e.target.value);
                           setBudgetToggle(true);
-                          event.preventDefault();
-                          event.stopPropagation();
+                        }}
+                      />
+                    ) : (
+                      <div
+                        onClick={() => {
+                          setBudgetToggle(false);
+                        }}
+                        style={{ cursor: "pointer", fontWeight: "500" }}
+                      >
+                        {parseSize(budget)}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    {isBudgetHovering && <Image
+                      onClick={(e) => {
+                        let isEdit = !BudgetEdit;
+                        setBudgetEdit(isEdit);
+                        if (isEdit === true) {
+                          e.target.src = save;
+                        } else {
+                          e.target.src = edit;
                         }
+                        console.log(budget);
                       }}
-                      onBlur={(e) => {
-                        setBudget(e.target.value);
-                        setBudgetToggle(true);
-                      }}
-                    />
-                  ) : (
-                    <div
-                      onClick={() => {
-                        setBudgetToggle(false);
-                      }}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {parseSize(budget)}
-                    </div>
-                  )}
-                </ListItemLabel>
-                <Image
-                  onClick={(e) => {
-                    let isEdit = !BudgetEdit;
-                    setBudgetEdit(isEdit);
-                    if (isEdit === true) {
-                      e.target.src = save;
-                    } else {
-                      e.target.src = edit;
-                    }
-                    console.log(budget);
-                  }}
-                  src={edit}
-                  width={"17px"}
-                  height={"17px"}
-                  style={{ float: "left", cursor: "pointer" }}
-                />
+                      src={edit}
+                      width={"17px"}
+                      height={"17px"}
+                      style={{ float: "left", cursor: "pointer" }}
+                    />}
+                  </div>
+                </div>
               </ListItem>
             </ul>
           </FlexGridItem>
