@@ -40,7 +40,6 @@ export default function TotalSizeWidget(props) {
           Dialog: {
             style: {
               width: '45vw',
-              height: '40vh',
               display: 'flex',
               flexDirection: 'column',
             }

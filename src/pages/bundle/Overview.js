@@ -8,8 +8,25 @@ import { Input } from "baseui/input";
 import edit from "../../edit.png";
 import save from "../../save.png";
 import { Image } from "react-bootstrap";
+import { useStyletron } from 'baseui';
 import { parseSize } from "../../shared/util";
 
+const handleOwnerHover = () => {
+  var owneredit = document.querySelector("#owneredit");
+  owneredit.style.display = "block";
+}
+const handleOwnerOut = () => {
+  var owneredit = document.querySelector("#owneredit");
+  owneredit.style.display = "none";
+}
+const handleBudgetHover = () => {
+  var budgetedit = document.querySelector("#budgetedit");
+  budgetedit.style.display = "block";
+}
+const handleBudgetOut = () => {
+  var budgetedit = document.querySelector("#budgetedit");
+  budgetedit.style.display = "none";
+}
 export default function Overview(props) {
   const [OwnerEdit, setOwnerEdit] = useState(false);
   const [BudgetEdit, setBudgetEdit] = useState(false);
@@ -17,21 +34,8 @@ export default function Overview(props) {
   const [budget, setBudget] = useState(props.bundle.budget);
   const [OwnerToggle, setOwnerToggle] = useState(true);
   const [BudgetToggle, setBudgetToggle] = useState(true);
-  const [isOwnerHovering, setOwnerHovering] = useState(false);
-  const [isBudgetHovering, setBudgetHovering] = useState(false);
+  const [css] = useStyletron();
 
-  const handleOwnerHover = () => {
-    setOwnerHovering(true);
-  }
-  const handleOwnerOut = () => {
-    setOwnerHovering(false);
-  }
-  const handleBudgetHover = () => {
-    setBudgetHovering(true);
-  }
-  const handleBudgetOut = () => {
-    setBudgetHovering(false);
-  }
   return (
     <Card
       overrides={{
@@ -67,7 +71,13 @@ export default function Overview(props) {
             >
               <ListItem>
                 <ListItemLabel>Owner</ListItemLabel>
-                <div style={{ display: "inline-flex", width: "65%" }} onMouseOver={handleOwnerHover} onMouseOut={handleOwnerOut}>
+                <div className={css({
+                  display: "inline-flex",
+                  width: "65%",
+                  alignItems: "center",
+                })}
+                  onMouseOver={handleOwnerHover}
+                  onMouseOut={handleOwnerOut}>
                   <div style={{ width: "80%" }}>
                     {OwnerEdit || !OwnerToggle ? (
                       <Input
@@ -111,25 +121,24 @@ export default function Overview(props) {
                       </div>
                     )}
                   </div>
-                  <div>
-                    {isOwnerHovering &&
-                      <Image
-                        onClick={(e) => {
-                          let isEdit = !OwnerEdit;
-                          setOwnerEdit(isEdit);
+                  <div >
+                    <Image
+                      id="owneredit"
+                      onClick={(e) => {
+                        let isEdit = !OwnerEdit;
+                        setOwnerEdit(isEdit);
 
-                          if (isEdit === true) {
-                            e.target.src = save;
-                          } else {
-                            e.target.src = edit;
-                          }
-                        }}
-
-                        src={edit}
-                        width={"18px"}
-                        height={"18px"}
-                        style={{ float: "left", cursor: "pointer" }}
-                      />}
+                        if (isEdit === true) {
+                          e.target.src = save;
+                        } else {
+                          e.target.src = edit;
+                        }
+                      }}
+                      src={edit}
+                      width={"18px"}
+                      height={"18px"}
+                      style={{ float: "left", cursor: "pointer", display: "none" }}
+                    />
                   </div>
                 </div>
               </ListItem>
@@ -146,7 +155,7 @@ export default function Overview(props) {
               </ListItem>
               <ListItem>
                 <ListItemLabel>Budget</ListItemLabel>
-                <div style={{ display: "inline-flex", width: "64%" }} onMouseOver={handleBudgetHover} onMouseOut={handleBudgetOut}>
+                <div style={{ display: "inline-flex", width: "64%", alignItems: "center" }} onMouseOver={handleBudgetHover} onMouseOut={handleBudgetOut}>
                   <div style={{ width: "80%" }}>
                     {BudgetEdit || !BudgetToggle ? (
                       <Input
@@ -191,7 +200,8 @@ export default function Overview(props) {
                     )}
                   </div>
                   <div>
-                    {isBudgetHovering && <Image
+                    <Image
+                      id="budgetedit"
                       onClick={(e) => {
                         let isEdit = !BudgetEdit;
                         setBudgetEdit(isEdit);
@@ -205,8 +215,8 @@ export default function Overview(props) {
                       src={edit}
                       width={"17px"}
                       height={"17px"}
-                      style={{ float: "left", cursor: "pointer" }}
-                    />}
+                      style={{ float: "left", cursor: "pointer", display: "none" }}
+                    />
                   </div>
                 </div>
               </ListItem>
@@ -217,6 +227,6 @@ export default function Overview(props) {
           </FlexGridItem>
         </FlexGrid>
       </StyledBody>
-    </Card>
+    </Card >
   );
 }

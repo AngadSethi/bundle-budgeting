@@ -3,7 +3,7 @@ import { parseSize } from "../../../shared/util";
 import { ProgressBar } from "baseui/progress-bar";
 
 function NumberCell({ value, size, delta }) {
-  const [css, theme] = useStyletron();
+  const [css] = useStyletron();
   const positive = delta >= 0;
   return (
     <div className={css({ display: "flex", alignItems: "center" })}>

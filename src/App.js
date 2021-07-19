@@ -4,7 +4,7 @@ import Bundle from "./pages/bundle";
 import * as React from "react";
 import BuildOutput from "./shared/buildOutput";
 import Home from "./pages/home";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import Header from "./pages/home/header";
 import MERGED_OUTPUT from "./pages/data/bundle-stats-named";
 
