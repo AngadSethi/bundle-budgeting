@@ -1,5 +1,8 @@
 import * as React from "react";
 import { Chart } from "react-charts";
+import { parseSize } from "../../shared/util";
+
+const MBS_IN_A_KB = 0.001024;
 
 export default function BundleChart(props) {
   const data = React.useMemo(
@@ -8,7 +11,7 @@ export default function BundleChart(props) {
         label: "Asset Size",
         data: props.bundle.sizes.map((value) => ({
           primary: new Date(value[0]),
-          secondary: value[1],
+          secondary: value[1] * MBS_IN_A_KB,
         })),
       },
     ],
