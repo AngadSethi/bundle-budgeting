@@ -5,7 +5,7 @@ import { ARTWORK_SIZES, ListItemLabel, MenuAdapter } from "baseui/list";
 import { StatefulMenu } from "baseui/menu";
 import ChevronRight from "baseui/icon/chevron-right";
 import { generateBundleUrl } from "../../../shared/util";
-import BUDGETS from "../../data/budgets-split";
+import BUDGETS from "../../../data/budgets-split";
 import { useMemo } from "react";
 
 function SearchMenu(props) {

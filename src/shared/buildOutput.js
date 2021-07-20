@@ -1,5 +1,5 @@
 import buildOutput from "../parseBuildOutput";
-import BUDGETS from "../pages/data/budgets-split";
+import BUDGETS from "../data/budgets-split";
 
 class BuildOutput {
   constructor() {

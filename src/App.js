@@ -6,7 +6,7 @@ import BuildOutput from "./shared/buildOutput";
 import Home from "./pages/home";
 import { useMemo } from "react";
 import Header from "./pages/home/header";
-import MERGED_OUTPUT from "./pages/data/bundle-stats-named";
+import MERGED_OUTPUT from "./data/bundle-stats-named";
 
 const computeBuildSize = (buildout) => {
   let bundles = buildout["result"]["bundles"];
