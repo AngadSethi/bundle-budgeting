@@ -328,6 +328,10 @@ const MERGED_OUTPUT = [
     hash: "f03bea9d2bc09507aeea",
     builtAt: 1627897913000,
     assetsByChunkName: {
+      Game: [
+        "static/js/Game.a6548f60.chunk.js",
+        "static/js/Game.a6548f60.chunk.js.map",
+      ],
       "create-new-product": [
         "static/js/create-new-product.7b1a5a5f.chunk.js",
         "static/js/create-new-product.7b1a5a5f.chunk.js.map",
@@ -482,6 +486,14 @@ const MERGED_OUTPUT = [
       {
         name: "static/js/vendor-shop.10b19dc0.chunk.js.map",
         size: 4673,
+      },
+      {
+        name: "static/js/Game.a6548f60.chunk.js",
+        size: 7376,
+      },
+      {
+        name: "static/js/Game.a6548f60.chunk.js.map",
+        size: 24159,
       },
     ],
   },
