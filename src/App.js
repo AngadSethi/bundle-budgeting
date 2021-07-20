@@ -4,7 +4,7 @@ import Bundle from "./pages/bundle";
 import * as React from "react";
 import BuildOutput from "./shared/buildOutput";
 import Home from "./pages/home";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Header from "./pages/home/header";
 import MERGED_OUTPUT from "./data/bundle-stats-named";
 
@@ -46,27 +46,30 @@ const mergeOutputs = (files) => {
 };
 
 function App() {
-  const output = useMemo(() => {
-    const filesArray = [];
-    const sizeHistoryArray = [];
-
-    MERGED_OUTPUT.forEach((file, index, arr) => {
-      const buildOutput = new BuildOutput();
-
-      const res = buildOutput.build(file);
-      let currentBuildSize = computeBuildSize(res);
-      let buildDate = file.builtAt;
-      filesArray.push(res);
-      sizeHistoryArray.push([buildDate, currentBuildSize]);
-    });
-
-    console.log(filesArray);
-
-    return {
-      files: filesArray,
-      sizeHistory: sizeHistoryArray,
-      merged: mergeOutputs(filesArray),
-    };
+  const [output, setOutput] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    fetch(
+      process.env.REACT_APP_API_ENDPOINT + process.env.REACT_APP_BUNDLE_ID,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": process.env.REACT_APP_API_KEY,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setOutput(result.record);
+          setIsLoaded(true);
+        },
+        (error) => {
+          setError(error);
+          setIsLoaded(false);
+        }
+      );
   }, []);
 
   return (
@@ -77,16 +80,8 @@ function App() {
           path="/bundle"
           component={(match) => (
             <Bundle
-              buildOutput={
-                output.files.length === MERGED_OUTPUT.length
-                  ? output.files
-                  : null
-              }
-              mergedOutput={
-                output.files.length === MERGED_OUTPUT.length
-                  ? output.merged
-                  : null
-              }
+              buildOutput={null}
+              mergedOutput={isLoaded ? output : null}
               match={match}
             />
           )}
@@ -95,21 +90,9 @@ function App() {
           path="/"
           component={() => (
             <Home
-              buildOutput={
-                output.files.length === MERGED_OUTPUT.length
-                  ? output.files
-                  : null
-              }
-              mergedOutput={
-                output.files.length === MERGED_OUTPUT.length
-                  ? output.merged
-                  : null
-              }
-              sizeHistory={
-                output.files.length === MERGED_OUTPUT.length
-                  ? output.sizeHistory
-                  : null
-              }
+              buildOutput={null}
+              mergedOutput={isLoaded ? output : null}
+              sizeHistory={null}
             />
           )}
         />

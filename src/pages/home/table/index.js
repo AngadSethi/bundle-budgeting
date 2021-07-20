@@ -37,7 +37,7 @@ function Table(props) {
   const sizeMap = useSizeMap(props.mergedOutput);
 
   const numPages =
-    props.mergedOutput !== null && props.buildOutput !== null
+    props.mergedOutput !== null
       ? Math.ceil(props.mergedOutput.length / ENTRIES_PER_PAGE)
       : 0;
   const startIndex = (currentPage - 1) * ENTRIES_PER_PAGE;
@@ -70,14 +70,12 @@ function Table(props) {
       style: cellStyle,
     },
   };
-
   return (
     <div>
       <TableBuilder
         overrides={overrides}
-        isLoading={props.mergedOutput === null || props.buildOutput === null}
+        isLoading={props.mergedOutput === null}
         data={useSortableRows(
-          props.buildOutput,
           props.mergedOutput,
           sortAsc,
           sortColumn,

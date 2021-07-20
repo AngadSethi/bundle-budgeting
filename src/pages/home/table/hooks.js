@@ -25,8 +25,21 @@ export function useSizeMap(mergedOutput) {
   }, [mergedOutput]);
 }
 
+/**
+ * Calculate the extent of bundle violation
+ *
+ * @param {Number} size
+ * @param {Number} budget
+ * @returns {number}
+ */
+const percentage = ({ size, budget }) => {
+  if (size < budget) {
+    return Math.round(((size - budget) / size) * 100);
+  }
+  return Math.round(((size - budget) / budget) * 100);
+};
+
 export function useSortableRows(
-  buildOutput,
   mergedOutput,
   sortAsc,
   sortColumn,
@@ -34,12 +47,15 @@ export function useSortableRows(
   endIndex
 ) {
   return useMemo(() => {
-    if (buildOutput !== null) {
-      return buildOutput[buildOutput.length - 1].result.bundles
-        .map((bundle) => bundle.data)
+    if (mergedOutput !== null) {
+      console.log(mergedOutput);
+      return mergedOutput
         .sort((a, b) => {
           const left = sortAsc ? a : b;
           const right = sortAsc ? b : a;
+
+          left.percentage = percentage(left);
+          right.percentage = percentage(right);
 
           switch (sortColumn) {
             case "name":
@@ -57,5 +73,5 @@ export function useSortableRows(
         .slice(startIndex, endIndex);
     }
     return [];
-  }, [buildOutput, endIndex, sortAsc, sortColumn, startIndex]);
+  }, [endIndex, mergedOutput, sortAsc, sortColumn, startIndex]);
 }

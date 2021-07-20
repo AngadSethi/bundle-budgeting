@@ -12,6 +12,7 @@
     "baseui": "^9.116.2",
     "bootstrap": "^4.6.0",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "file-system": "^2.2.2",
     "fuse.js": "^6.4.6",
     "list-react-files": "^0.2.0",
@@ -24,6 +25,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-virtualized": "^9.22.3",
+    "request": "^2.88.2",
     "styletron-engine-atomic": "^1.4.8",
     "styletron-react": "^6.0.1",
     "underscore": "^1.13.1",
@@ -35,6 +37,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": [
       "react-app",
