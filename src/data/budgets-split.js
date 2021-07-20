@@ -44,6 +44,11 @@ const BUDGETS = [
     owner: "Angad Sethi",
     budget: 1435,
   },
+  {
+    name: "Game",
+    owner: "Richit Malhotra",
+    budget: 1984,
+  },
 ];
 
 export default BUDGETS;

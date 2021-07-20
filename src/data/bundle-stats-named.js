@@ -489,11 +489,11 @@ const MERGED_OUTPUT = [
       },
       {
         name: "static/js/Game.a6548f60.chunk.js",
-        size: 7376,
+        size: 1314,
       },
       {
         name: "static/js/Game.a6548f60.chunk.js.map",
-        size: 24159,
+        size: 1235,
       },
     ],
   },
