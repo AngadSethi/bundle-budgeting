@@ -14,12 +14,30 @@ import {
 
 export default function TotalSizeWidget(props) {
   const [totalSizeGraphOpen, setTotalSizeGraphOpen] = useState(false);
+  const [sizeHistory , setSizeHistory] = useState([])
   const totalSize = useMemo(() => {
-    if (props.buildOutput !== null) {
-      const numberofBuilds = props.sizeHistory.length;
-      return props.sizeHistory[numberofBuilds - 1][1];
+    if (props.mergedOutput !== null) {
+      console.log(props.mergedOutput)
+      // const numberofBuilds = props.sizeHistory.length;
+      // return props.sizeHistory[numberofBuilds - 1][1];
+      const buildSizeMap = new Map() // Computing Sizes For Each build
+      props.mergedOutput.forEach((bundle) => {
+        bundle.sizes.forEach((size) => {
+          if(buildSizeMap.has(size[0])){
+            const currentBuildSize = buildSizeMap.get(size[0]);
+            buildSizeMap.set(size[0] , currentBuildSize + size[1]);   // Adding size if build exists
+          }
+          else{
+            buildSizeMap.set(size[0] , size[1]);         
+          }
+        })
+      })
+      console.log(buildSizeMap)
+      setSizeHistory(Array.from(buildSizeMap)); // Creating size History
+      console.log(sizeHistory)
+      return sizeHistory[sizeHistory.length-1][0]; // Timestamp of Last Build
     }
-  }, [props.buildOutput, props.sizeHistory]);
+  }, [props.mergedOutput, sizeHistory]);
 
   return (
     <div>
@@ -68,7 +86,7 @@ export default function TotalSizeWidget(props) {
             <FlexGridItem>
               <TotalSizeChart
                 name={"Total Build Size Over Time"}
-                sizeHistory={props.sizeHistory}
+                sizeHistory={sizeHistory}
               />
             </FlexGridItem>
           </FlexGrid>

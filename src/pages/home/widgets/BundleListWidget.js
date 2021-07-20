@@ -15,26 +15,21 @@ export default function BundleListWidget(props) {
   const [bundleList, setBundleList] = useState([]);
 
   const numberOfBundles = useMemo(() => {
-    if (props.buildOutput != null) {
-      const buildOut = props.buildOutput[props.buildOutput.length - 1];
-      const processedResult = buildOut["result"];
+    if(props.mergedOutput != null){
       setStatsLoaded(true);
       setError(false);
-      return createList(processedResult);
-    }
-  }, [props.buildOutput]);
-
-  function createList(processedResult) {
-    const bundlesExceedingBudget = [];
-    const bundles = processedResult.bundles;
-    bundles.forEach((bundle) => {
-      if (bundle.data.overshot === true) {
-        bundlesExceedingBudget.push(bundle.id);
-      }
-    })
+      console.log(props.mergedOutput)
+      const bundlesExceedingBudget = [];
+      props.mergedOutput.forEach((bundle) => {
+        const latestBundleSize = bundle.sizes[bundle.sizes.length-1];
+        if(latestBundleSize > bundle.budget){
+          bundlesExceedingBudget.push(bundle.name)
+        }
+      })
     setBundleList(bundlesExceedingBudget);
     return bundlesExceedingBudget.length;
-  }
+    }
+  }, [props.mergedOutput]);
 
   function budgetListclose() {
     setBudgetListOpen(false);

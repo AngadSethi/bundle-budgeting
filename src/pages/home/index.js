@@ -13,10 +13,11 @@ function Home(props) {
           justifyContent={"space-around"}
           marginTop={"2%"}
         >
-          <BundleListWidget buildOutput={props.buildOutput} />
+          <BundleListWidget mergedOutput={props.mergedOutput} />
           <TotalSizeWidget
             buildOutput={props.buildOutput}
             sizeHistory={props.sizeHistory}
+            mergedOutput={props.mergedOutput}
           />
           <NewBundlesWidget mergedOutput={props.mergedOutput} />
         </Block>
