@@ -4,9 +4,8 @@ import Bundle from "./pages/bundle";
 import * as React from "react";
 import BuildOutput from "./shared/buildOutput";
 import Home from "./pages/home";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./pages/home/header";
-import MERGED_OUTPUT from "./data/bundle-stats-named";
 
 const computeBuildSize = (buildout) => {
   let bundles = buildout["result"]["bundles"];
