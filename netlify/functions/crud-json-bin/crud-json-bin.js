@@ -1,4 +1,5 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
+const fetch = require("node-fetch");
 
 const buildOutput = (buildStats) => {
   const bundleStats = [];
@@ -67,6 +68,7 @@ const fetchBin = () => {
 const updateBin = (newData) => {
   return fetch("https://api.jsonbin.io/v3/b/60f6e61da263d14a29787fa2", {
     body: newData,
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       "X-Master-Key":
