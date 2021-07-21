@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo} from "react";
 import TotalSizeChart from "./TotalSizeChart";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { ListItem, ListItemLabel } from "baseui/list";
@@ -14,7 +14,6 @@ import {
 import { parseSize } from "../../../shared/util";
 
 export default function TotalSizeWidget(props) {
-  let totalSize = 0;
   const [totalSizeGraphOpen, setTotalSizeGraphOpen] = useState(false);
   const [isStatsLoaded, setStatsLoaded] = useState(false)
   const [totalSize , setTotalSize] = useState(0);
@@ -39,7 +38,7 @@ export default function TotalSizeWidget(props) {
       const buildSizes = Object.fromEntries(buildSizeMap)
       console.log(buildSizes)
       const latestBuildTime = Math.max.apply(null, Object.keys(buildSizes)); // Timestamp of latest build
-      setTotalSize(parseSize(buildSizes[latestBuildTime]));
+      setTotalSize(buildSizes[latestBuildTime]);
       return buildSizes; 
     }
   }, [props.mergedOutput]);
@@ -51,7 +50,7 @@ export default function TotalSizeWidget(props) {
         }}
       >
         <MyCard
-          content={`The Total size of the latest build is ${totalSize}`}
+          content={`The Total size of the latest build is ${parseSize(totalSize)}`}
           help={"Click to view Graph"}
         />
       </div>
