@@ -67,7 +67,7 @@ const fetchBin = () => {
 
 const updateBin = (newData) => {
   return fetch("https://api.jsonbin.io/v3/b/60f6e61da263d14a29787fa2", {
-    body: newData,
+    body: JSON.stringify(newData),
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -78,27 +78,20 @@ const updateBin = (newData) => {
 };
 
 exports.handler = async (event, context) => {
-  return (
-    fetchBin()
-      .then((result) => {
-        return {
-          statusCode: 200,
-          body: {
-            res: result,
-            body: event.body,
-          },
-        };
-        return updateBin(mergeStats(result.record, buildOutput(event.body)));
-      })
-      // .then((result) => {
-      //   return {
-      //     statusCode: 200,
-      //     body: result,
-      //   };
-      // })
-      .catch((error) => ({
-        statusCode: 500,
-        body: String(error),
-      }))
-  );
+  return fetchBin()
+    .then((result) => {
+      return updateBin(
+        mergeStats(result.record, buildOutput(JSON.parse(event.body)))
+      );
+    })
+    .then((result) => {
+      return {
+        statusCode: 200,
+        body: JSON.stringify(result),
+      };
+    })
+    .catch((error) => ({
+      statusCode: 500,
+      body: error,
+    }));
 };
