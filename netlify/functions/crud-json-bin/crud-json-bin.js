@@ -78,18 +78,27 @@ const updateBin = (newData) => {
 };
 
 exports.handler = async (event, context) => {
-  return fetchBin()
-    .then((result) => {
-      return updateBin(mergeStats(result.record, buildOutput(event.body)));
-    })
-    .then((result) => {
-      return {
-        statusCode: 200,
-        body: result,
-      };
-    })
-    .catch((error) => ({
-      statusCode: 500,
-      body: String(error),
-    }));
+  return (
+    fetchBin()
+      .then((result) => {
+        return {
+          statusCode: 200,
+          body: {
+            res: result,
+            body: event.body,
+          },
+        };
+        return updateBin(mergeStats(result.record, buildOutput(event.body)));
+      })
+      // .then((result) => {
+      //   return {
+      //     statusCode: 200,
+      //     body: result,
+      //   };
+      // })
+      .catch((error) => ({
+        statusCode: 500,
+        body: String(error),
+      }))
+  );
 };
