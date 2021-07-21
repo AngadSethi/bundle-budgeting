@@ -79,6 +79,7 @@ const updateBin = (newData) => {
 
 exports.handler = async (event, context) => {
   try {
+    return event.body;
     fetchBin().then((result) => {
       const mergedStats = mergeStats(result.record, buildOutput(event.body));
       updateBin(mergedStats)
