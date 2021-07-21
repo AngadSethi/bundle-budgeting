@@ -78,7 +78,7 @@ const updateBin = (newData) => {
 };
 
 exports.handler = async (event, context) => {
-  fetchBin()
+  return fetchBin()
     .then((result) => {
       return updateBin(mergeStats(result.record, buildOutput(event.body)));
     })
