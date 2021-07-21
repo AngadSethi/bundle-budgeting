@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Chart } from "react-charts";
 
+const MBS_IN_A_KB = 0.001024;
+
 export default function TotalSizeChart(props) {
   const data = React.useMemo(
     () => [
@@ -8,7 +10,7 @@ export default function TotalSizeChart(props) {
         label: "Build Size",
         data: Object.entries(props.sizeHistory).map((build) => {console.log(typeof build[0]); return  {
           primary: new Date(parseInt(build[0])),
-          secondary: build[1],
+          secondary: build[1] * MBS_IN_A_KB,
         }}),
       },
     ],

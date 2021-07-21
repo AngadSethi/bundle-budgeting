@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Chart } from "react-charts";
-import { parseSize } from "../../shared/util";
 
 const MBS_IN_A_KB = 0.001024;
 
