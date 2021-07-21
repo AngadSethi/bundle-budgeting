@@ -1,4 +1,5 @@
-# Getting Started with Create React App
+# Bundle Budgetor
+[![Netlify Status](https://api.netlify.com/api/v1/badges/dd1c8192-7930-4d2d-a39a-229225925ac0/deploy-status)](https://app.netlify.com/sites/bundle-budgetor/deploys)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
