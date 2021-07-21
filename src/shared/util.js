@@ -19,30 +19,3 @@ export const parseSize = (size) => {
 
   return scaledSize + " MB";
 };
-
-/**
- * A utility function for merging two build outputs.
- * @param {Array} previousStats
- * @param {Array} currentStats
- * @returns {Array}
- */
-export const mergeStats = (previousStats, currentStats) => {
-  const bundlesMap = new Map();
-  currentStats.forEach((currentStat) => {
-    bundlesMap.set(currentStat.name, currentStat);
-  });
-
-  return previousStats.map((previousStat) => {
-    if (bundlesMap.has(previousStat.name) === true) {
-      const savedEntry = bundlesMap.get(previousStat.name);
-      return {
-        ...previousStat,
-        hash: savedEntry.hash,
-        size: savedEntry.size,
-        timestamp: savedEntry.timestamp,
-        sizes: [...previousStat.sizes, [savedEntry.timestamp, savedEntry.size]],
-      };
-    }
-    return previousStat;
-  });
-};

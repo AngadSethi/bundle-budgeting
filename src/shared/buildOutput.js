@@ -1,4 +1,4 @@
-import buildOutput from "../parseBuildOutput";
+import buildOutput from "../parseBuildOutput.mjs";
 import BUDGETS from "../data/budgets-split";
 
 class BuildOutput {
