@@ -80,10 +80,7 @@ const updateBin = (newData) => {
 exports.handler = async (event, context) => {
   try {
     fetchBin().then((result) => {
-      const mergedStats = mergeStats(
-        result.data.record,
-        buildOutput(event.body)
-      );
+      const mergedStats = mergeStats(result.record, buildOutput(event.body));
       updateBin(mergedStats)
         .then((result) => {
           return result;
@@ -94,7 +91,7 @@ exports.handler = async (event, context) => {
         .then((result) => {
           return {
             statusCode: 200,
-            body: result.data,
+            body: result,
           };
         })
         .catch((error) => {
