@@ -39,7 +39,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://bundle-budgetor.netlify.app:5000",
   "eslintConfig": {
     "extends": [
       "react-app",
