@@ -39,7 +39,7 @@ export default function Header() {
         <NavigationItem>
           <StyledNavLink href="/">
             <H5 marginTop={0} marginBottom={0}>
-              Bundle Budgeting
+              Bundle Budgetor
             </H5>
           </StyledNavLink>
         </NavigationItem>
