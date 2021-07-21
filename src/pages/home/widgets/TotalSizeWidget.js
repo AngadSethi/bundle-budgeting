@@ -32,7 +32,7 @@ export default function TotalSizeWidget(props) {
         }
       });
     });
-    sizeHistory = Array.from(buildSizeMap);
+    sizeHistory = Array.from(buildSizeMap).sort((a, b) => a[0] - b[0]);
     totalSize = sizeHistory[sizeHistory.length - 1][1];
     // return sizeHistory[sizeHistory.length - 1][0]; // Timestamp of Last Build
   }
