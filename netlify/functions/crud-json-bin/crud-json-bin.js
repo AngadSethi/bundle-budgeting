@@ -62,7 +62,7 @@ const fetchBin = () => {
       "X-Master-Key":
         "$2b$10$ULU37v/482M.qG.Ac/BPT.HzIJ907rXMwFcEjblPH6/SEg2yj2j.O",
     },
-  });
+  }).then((result) => result.json());
 };
 
 const updateBin = (newData) => {
@@ -74,28 +74,22 @@ const updateBin = (newData) => {
       "X-Master-Key":
         "$2b$10$ULU37v/482M.qG.Ac/BPT.HzIJ907rXMwFcEjblPH6/SEg2yj2j.O",
     },
-  });
+  }).then((result) => result.json());
 };
 
 exports.handler = async (event, context) => {
-  try {
-    fetchBin()
-      .then((response) => response.json())
-      .then((result) => {
-        const mergedStats = mergeStats(result.record, buildOutput(event.body));
-        updateBin(mergedStats)
-          .then((result) => result.json())
-          .then((result) => {
-            return {
-              statusCode: 200,
-              body: result,
-            };
-          })
-          .catch((error) => {
-            return { statusCode: 500, body: error.toString() };
-          });
-      });
-  } catch (error) {
-    return { statusCode: 500, body: error.toString() };
-  }
+  fetchBin()
+    .then((result) => {
+      return updateBin(mergeStats(result.record, buildOutput(event.body)));
+    })
+    .then((result) => {
+      return {
+        statusCode: 200,
+        body: result,
+      };
+    })
+    .catch((error) => ({
+      statusCode: 500,
+      body: String(error),
+    }));
 };
