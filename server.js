@@ -65,13 +65,16 @@ app.use(
 app.listen(port);
 
 const fetchBin = () => {
-  return axios.get("https://api.jsonbin.io/v3/b/60f6e61da263d14a29787fa2", {
-    headers: {
-      "Content-Type": "application/json",
-      "X-Master-Key":
-        "$2b$10$ULU37v/482M.qG.Ac/BPT.HzIJ907rXMwFcEjblPH6/SEg2yj2j.O",
-    },
-  });
+  return axios.get(
+    "https://api.jsonbin.io/v3/b/60f6e61da263d14a29787fa2/latest",
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key":
+          "$2b$10$ULU37v/482M.qG.Ac/BPT.HzIJ907rXMwFcEjblPH6/SEg2yj2j.O",
+      },
+    }
+  );
 };
 
 const updateBin = (newData) => {
@@ -107,4 +110,5 @@ app.post("/bundle-stats", (req, response) => {
   });
 });
 
+module.exports = app;
 module.exports.handler = serverless(app);

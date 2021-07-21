@@ -50,12 +50,17 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
   useEffect(() => {
-    fetch(process.env.REACT_APP_API_ENDPOINT + process.env.REACT_APP_BIN_ID, {
-      headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": process.env.REACT_APP_API_KEY,
-      },
-    })
+    fetch(
+      process.env.REACT_APP_API_ENDPOINT +
+        process.env.REACT_APP_BIN_ID +
+        "/latest",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": process.env.REACT_APP_API_KEY,
+        },
+      }
+    )
       .then((res) => res.json())
       .then(
         (result) => {
