@@ -59,7 +59,14 @@ function App() {
       .then((res) => res.json())
       .then(
         (result) => {
-          setOutput(result.record);
+          setOutput(
+            result.record.map((bundle) => {
+              return {
+                ...bundle,
+                sizes: bundle.sizes.sort((a, b) => a[0] - b[0]),
+              };
+            })
+          );
           setIsLoaded(true);
         },
         (error) => {
