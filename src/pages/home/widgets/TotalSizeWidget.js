@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import TotalSizeChart from "./TotalSizeChart";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { ListItem, ListItemLabel } from "baseui/list";
@@ -14,6 +14,7 @@ import {
 import { parseSize } from "../../../shared/util";
 
 export default function TotalSizeWidget(props) {
+  let totalSize = 0;
   const [totalSizeGraphOpen, setTotalSizeGraphOpen] = useState(false);
   const [isStatsLoaded, setStatsLoaded] = useState(false)
   const [totalSize , setTotalSize] = useState(0);
@@ -60,11 +61,11 @@ export default function TotalSizeWidget(props) {
         overrides={{
           Dialog: {
             style: {
-              width: '45vw',
-              display: 'flex',
-              flexDirection: 'column',
-            }
-          }
+              width: "45vw",
+              display: "flex",
+              flexDirection: "column",
+            },
+          },
         }}
       >
         <ModalHeader>Total Size of Bundles over builds</ModalHeader>
