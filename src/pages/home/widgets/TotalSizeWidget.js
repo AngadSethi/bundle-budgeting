@@ -11,13 +11,15 @@ import {
   ModalFooter,
   ModalButton,
 } from "baseui/modal";
+import { parseSize } from "../../../shared/util";
 
 export default function TotalSizeWidget(props) {
   const [totalSizeGraphOpen, setTotalSizeGraphOpen] = useState(false);
-  const [sizeHistory , setSizeHistory] = useState([])
-  const totalSize = useMemo(() => {
+  const [isStatsLoaded, setStatsLoaded] = useState(false)
+  const [totalSize , setTotalSize] = useState(0);
+  const sizeHistory = useMemo(() => {
     if (props.mergedOutput !== null) {
-      console.log(props.mergedOutput)
+      // console.log(props.mergedOutput)
       // const numberofBuilds = props.sizeHistory.length;
       // return props.sizeHistory[numberofBuilds - 1][1];
       const buildSizeMap = new Map() // Computing Sizes For Each build
@@ -32,13 +34,14 @@ export default function TotalSizeWidget(props) {
           }
         })
       })
-      console.log(buildSizeMap)
-      setSizeHistory(Array.from(buildSizeMap)); // Creating size History
-      console.log(sizeHistory)
-      return sizeHistory[sizeHistory.length-1][0]; // Timestamp of Last Build
+      setStatsLoaded(true);
+      const buildSizes = Object.fromEntries(buildSizeMap)
+      console.log(buildSizes)
+      const latestBuildTime = Math.max.apply(null, Object.keys(buildSizes)); // Timestamp of latest build
+      setTotalSize(parseSize(buildSizes[latestBuildTime]));
+      return buildSizes; 
     }
-  }, [props.mergedOutput, sizeHistory]);
-
+  }, [props.mergedOutput]);
   return (
     <div>
       <div
@@ -47,7 +50,7 @@ export default function TotalSizeWidget(props) {
         }}
       >
         <MyCard
-          content={`The Total size of the latest build is ${totalSize} MB`}
+          content={`The Total size of the latest build is ${totalSize}`}
           help={"Click to view Graph"}
         />
       </div>

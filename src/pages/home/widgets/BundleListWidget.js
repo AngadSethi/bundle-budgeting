@@ -21,7 +21,7 @@ export default function BundleListWidget(props) {
       console.log(props.mergedOutput)
       const bundlesExceedingBudget = [];
       props.mergedOutput.forEach((bundle) => {
-        const latestBundleSize = bundle.sizes[bundle.sizes.length-1];
+        const latestBundleSize = bundle.size;
         if(latestBundleSize > bundle.budget){
           bundlesExceedingBudget.push(bundle.name)
         }

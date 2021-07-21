@@ -6,10 +6,10 @@ export default function TotalSizeChart(props) {
     () => [
       {
         label: "Build Size",
-        data: props.sizeHistory.map((value) => ({
-          primary: new Date(value[0]),
-          secondary: value[1],
-        })),
+        data: Object.entries(props.sizeHistory).map((build) => {console.log(typeof build[0]); return  {
+          primary: new Date(parseInt(build[0])),
+          secondary: build[1],
+        }}),
       },
     ],
     [props.sizeHistory]
