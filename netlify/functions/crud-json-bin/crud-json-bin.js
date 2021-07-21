@@ -77,7 +77,7 @@ const updateBin = (newData) => {
   });
 };
 
-const handler = async (event) => {
+exports.handler = async (event, context) => {
   try {
     fetchBin().then((result) => {
       const mergedStats = mergeStats(
@@ -105,5 +105,3 @@ const handler = async (event) => {
     return { statusCode: 500, body: error.toString() };
   }
 };
-
-module.exports = { handler };
