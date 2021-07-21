@@ -1,71 +1,25 @@
 # Bundle Budgetor
 [![Netlify Status](https://api.netlify.com/api/v1/badges/dd1c8192-7930-4d2d-a39a-229225925ac0/deploy-status)](https://app.netlify.com/sites/bundle-budgetor/deploys)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bundle Budgetor is an application crafted for developers, enabling them to monitor and budget Webpack build outputs, set sizing limits on bundles, explore budget violations and bundle anomalies.
 
-## Available Scripts
+By tapping into the Webpack build process, Bundle Budgetor analyses and gathers insights about the output, structuring and displaying them in a minimalistic UI for the developer’s consumption, because not too many developers have an appetite for JSON.
+
+## Key Features
+- A dashboard for monitoring bundles and their budgets.
+- Identifying Bundle Owners and Budgets
+- Insights on Bundles exceeding their budget
+- Insight on the new bundles being added on the latest build
+- Observing bundle sizes and build sizes over time.
+
 
 In the project directory, you can run:
 
-### `npm start`
+### Implementation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Bundle Budgetor is an application developed entirely with the [Base Web React UI framework](https://baseweb.design/).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+In addition to the user interface, it also contains an API to ingest data.
 
-### `npm test`
+The API has been built with [Netlify’s 𝛌 function](https://www.netlify.com/products/functions/), and the computed output is stored in [JSONBin.io](https://jsonbin.io/) which allows for easy reads and updates.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
