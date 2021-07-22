@@ -12,10 +12,7 @@ By tapping into the Webpack build process, Bundle Budgetor analyses and gathers 
 - Insight on the new bundles being added on the latest build
 - Observing bundle sizes and build sizes over time.
 
-
-In the project directory, you can run:
-
-### Implementation
+## Implementation
 
 Bundle Budgetor is an application developed entirely with the [Base Web React UI framework](https://baseweb.design/).
 

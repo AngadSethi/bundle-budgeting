@@ -95,21 +95,14 @@ exports.handler = async (event, context) => {
       );
     })
     .then((result) => {
-      return {
-        statusCode: 200,
-        body: JSON.stringify(result),
-      };
-    })
-    .then(({ body }) => {
       return app.client.chat.postMessage({
         channel: channelId,
-        parse: "",
-        text: slackAlertMessage(JSON.parse(body)),
+        blocks: slackAlertMessage(result.record),
       });
     })
     .then((result) => ({
       statusCode: 200,
-      body: result.message.text,
+      body: JSON.stringify(result),
     }))
     .catch((error) => ({
       statusCode: 500,
@@ -147,28 +140,27 @@ const slackAlertMessage = (result) => {
   const bundleList = message[0];
   const newBundles = message[1];
   const enlargedBundles = message[2];
-  const AlertMessage = [
+  return [
     {
-      type: "Bundles that exceed the Budget in the latest build",
+      type: "section",
       text: {
         type: "mrkdwn",
-        text: Array.toString(bundleList),
+        text: `*Bundles that exceed the Budget in the latest build*\n ${bundleList.toString()}`,
       },
     },
     {
-      type: "New bundles added in the latest build",
+      type: "section",
       text: {
         type: "mrkdwn",
-        text: Array.toString(newBundles),
+        text: `*New bundles added in the latest build*\n ${newBundles.toString()}`,
       },
     },
     {
-      type: "Bundles within budget whose sizes have increased",
+      type: "section",
       text: {
         type: "mrkdwn",
-        text: Array.toString(enlargedBundles),
+        text: `*Bundles within budget whose sizes have increased*\n ${enlargedBundles.toString()}`,
       },
     },
   ];
-  return AlertMessage;
 };
