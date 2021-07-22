@@ -1,4 +1,26 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
+/**
+ * A utility function for generating bundle-specific URLs.
+ * @param {string} name
+ * @returns {string}
+ */
+const generateBundleUrl = (name) => "/bundle?b=" + encodeURI(name);
+
+/**
+ * A utility function for parsing sizes, converting them to MB, and
+ * returning a string with the unit appended.
+ * @param {string|Number} size
+ * @returns {string}
+ */
+const parseSize = (size) => {
+  // 1 KiB is equivalent to 0.001024 MB
+  const SCALE = 0.001024;
+
+  const scaledSize = (parseFloat(size) * SCALE).toLocaleString();
+
+  return scaledSize + " MB";
+};
+
 const fetch = require("node-fetch");
 const { App } = require("@slack/bolt");
 
@@ -97,7 +119,8 @@ exports.handler = async (event, context) => {
     .then((result) => {
       return app.client.chat.postMessage({
         channel: channelId,
-        blocks: slackAlertMessage(result.record),
+        text: JSON.stringify(slackAlertMessage(result.record)),
+        blocks: JSON.stringify(slackAlertMessage(result.record)),
       });
     })
     .then((result) => ({
@@ -119,20 +142,38 @@ const computeInsights = (result) => {
     const latestBundleSize = bundle.size;
     const numberOfBuilds = bundle.sizes.length;
     if (latestBundleSize > bundle.budget) {
-      bundleList.push(bundle.name);
+      bundleList.push(bundle);
     }
     if (bundle.sizes.length === 1) {
-      newBundleNames.push(bundle.name);
+      newBundleNames.push(bundle);
     }
     if (
       bundle.size < bundle.budget &&
-      bundle.sizes[numberOfBuilds - 1] > bundle.sizes[numberOfBuilds - 2]
+      bundle.sizes[numberOfBuilds - 1][1] > bundle.sizes[numberOfBuilds - 2][1]
     ) {
       // Bundles within Budget but whose sizes have increased.
-      enlargedBundles.push(bundle.name);
+      enlargedBundles.push(bundle);
     }
   });
   return [bundleList, newBundleNames, enlargedBundles];
+};
+
+const formatBundle = (bundle) => {
+  const html = `
+  *<https://bundle-budgetor.netlify.app${generateBundleUrl(bundle.name)}|${
+    bundle.name
+  }>*
+  - *Owner*: ${bundle.owner}
+  - *Size*: ${parseSize(bundle.size)}
+  - *Budget*: ${parseSize(bundle.budget)}
+  `;
+  return {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: html,
+    },
+  };
 };
 
 const slackAlertMessage = (result) => {
@@ -140,27 +181,41 @@ const slackAlertMessage = (result) => {
   const bundleList = message[0];
   const newBundles = message[1];
   const enlargedBundles = message[2];
+
   return [
     {
-      type: "section",
+      type: "header",
       text: {
-        type: "mrkdwn",
-        text: `*Bundles that exceed the Budget in the latest build*\n ${bundleList.toString()}`,
+        type: "plain_text",
+        text: "Latest Build Output - Report",
       },
+    },
+    {
+      type: "divider",
     },
     {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*New bundles added in the latest build*\n ${newBundles.toString()}`,
+        text: "*:rotating_light: Bundles that have exceeded their budget in the latest build*\n",
       },
     },
+    ...bundleList.map(formatBundle),
     {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `*Bundles within budget whose sizes have increased*\n ${enlargedBundles.toString()}`,
+        text: "*:new: New bundles added in the latest build*\n",
       },
     },
+    ...newBundles.map(formatBundle),
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "*:chart_with_upwards_trend: Bundles within budget whose sizes have increased*\n",
+      },
+    },
+    ...enlargedBundles.map(formatBundle),
   ];
 };
