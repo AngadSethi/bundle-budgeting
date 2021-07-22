@@ -95,3 +95,45 @@ exports.handler = async (event, context) => {
       body: error,
     }));
 };
+
+const bundlesExceedingBudget = () => {
+  return fetchBin()
+    .then((result) => {
+      const bundleList = [];
+      result.forEach((bundle) => {
+        const latestBundleSize = bundle.size;
+        if(latestBundleSize > bundle.budget){
+          bundleList.push(bundle.name)
+        }
+      })
+      return bundleList;
+    })
+}
+
+const newBundles = () => {
+  return fetchBin()
+    .then((result) => {
+      const newBundleNames = [];
+      result.forEach((bundle) => {
+        if (bundle.sizes.length === 1) {
+          newBundleNames.push(bundle.name);
+        }
+      })
+      return newBundleNames;
+    })
+}
+
+const enlargedBundlesUnderBudget = () => {
+  return fetchBin()
+    .then((result) => {
+      const enlargedBundles = [];
+      result.forEach((bundle) => {
+        const numberOfBuilds = bundle.sizes.length;
+        if(bundle.size < bundle.budget && bundle.sizes[numberOfBuilds - 1] > bundle.sizes[numberOfBuilds - 2]) // Bundles within Budget but whose sizes have increased.
+        {
+          enlargedBundles.push(bundle.name)
+        }
+      })
+      return enlargedBundles;
+    })
+}
