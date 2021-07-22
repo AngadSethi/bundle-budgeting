@@ -79,7 +79,7 @@ export default function Overview(props) {
                   onMouseOver={handleOwnerHover}
                   onMouseOut={handleOwnerOut}>
                   <div style={{ width: "80%" }}>
-                    {OwnerEdit || !OwnerToggle ? (
+                    {(OwnerEdit || !OwnerToggle)? (
                       <Input
                         overrides={{
                           Root: {
@@ -172,6 +172,7 @@ export default function Overview(props) {
                             },
                           },
                         }}
+                        value={budget}
                         placeholder={budget}
                         onChange={(e) => {
                           setBudget(e.target.value);

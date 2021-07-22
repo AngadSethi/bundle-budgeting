@@ -1,6 +1,7 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 const fetch = require("node-fetch");
 
+
 const buildOutput = (buildStats) => {
   const bundleStats = [];
   const sizeMap = new Map();
@@ -95,3 +96,59 @@ exports.handler = async (event, context) => {
       body: error,
     }));
 };
+
+const createSlackAlertMessage = () => {
+  return fetchBin()
+    .then((result) => {
+      const bundleList = [];
+      const newBundleNames = [];
+      const enlargedBundles = [];
+
+      result.forEach((bundle) => {
+        const latestBundleSize = bundle.size;
+        const numberOfBuilds = bundle.sizes.length;
+        if(latestBundleSize > bundle.budget){
+          bundleList.push(bundle.name)
+        }
+        if (bundle.sizes.length === 1) {
+          newBundleNames.push(bundle.name);
+        }
+        if(bundle.size < bundle.budget && bundle.sizes[numberOfBuilds - 1] > bundle.sizes[numberOfBuilds - 2]) // Bundles within Budget but whose sizes have increased.
+        {
+          enlargedBundles.push(bundle.name)
+        }
+      })
+      return [bundleList,newBundleNames,enlargedBundles];
+    })
+}
+
+const slackAlertMessage = () => {
+  const message = createSlackAlertMessage();
+  const bundleList = message[0];
+  const newBundles = message[1];
+  const enlargedBundles = message[2];
+  const AlertMessage = 
+  [
+    {
+      "type" : "Bundles that exceed the Budget in the latest build",
+      "text" : {
+          "type" : "mrkdwn",
+          "text" : Array.toString(bundleList)
+      }
+    },
+    {
+      "type" : "New bundles added in the latest build",
+      "text" : {
+          "type" : "mrkdwn",
+          "text" : Array.toString(newBundles)
+      }
+    },
+    {
+      "type" : "Bundles within budget whose sizes have increased",
+      "text" : {
+          "type" : "mrkdwn",
+          "text" : Array.toString(enlargedBundles)
+      }
+    },
+  ]
+}
