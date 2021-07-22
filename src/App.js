@@ -66,9 +66,12 @@ function App() {
         (result) => {
           setOutput(
             result.record.map((bundle) => {
+              const sortedSizes = bundle.sizes.sort((a, b) => a[0] - b[0]);
               return {
                 ...bundle,
-                sizes: bundle.sizes.sort((a, b) => a[0] - b[0]),
+                timestamp: sortedSizes[sortedSizes.length - 1][0],
+                size: sortedSizes[sortedSizes.length - 1][1],
+                sizes: sortedSizes,
               };
             })
           );
