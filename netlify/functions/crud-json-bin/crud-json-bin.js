@@ -1,6 +1,15 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 const fetch = require("node-fetch");
+const { App } = require("@slack/bolt");
 
+// Initializes your app with your bot token and signing secret
+const app = new App({
+  token: process.env.SLACK_BOT_TOKEN,
+  signingSecret: process.env.SLACK_SIGNING_SECRET,
+});
+
+// The channel ID on Slack.
+const channelId = "C028N6F6EA2";
 
 const buildOutput = (buildStats) => {
   const bundleStats = [];
@@ -91,64 +100,75 @@ exports.handler = async (event, context) => {
         body: JSON.stringify(result),
       };
     })
+    .then(({ body }) => {
+      return app.client.chat.postMessage({
+        channel: channelId,
+        parse: "",
+        text: slackAlertMessage(JSON.parse(body)),
+      });
+    })
+    .then((result) => ({
+      statusCode: 200,
+      body: result.message.text,
+    }))
     .catch((error) => ({
       statusCode: 500,
-      body: error,
+      body: JSON.stringify(error),
     }));
 };
 
-const createSlackAlertMessage = () => {
-  return fetchBin()
-    .then((result) => {
-      const bundleList = [];
-      const newBundleNames = [];
-      const enlargedBundles = [];
+const computeInsights = (result) => {
+  const bundleList = [];
+  const newBundleNames = [];
+  const enlargedBundles = [];
 
-      result.forEach((bundle) => {
-        const latestBundleSize = bundle.size;
-        const numberOfBuilds = bundle.sizes.length;
-        if(latestBundleSize > bundle.budget){
-          bundleList.push(bundle.name)
-        }
-        if (bundle.sizes.length === 1) {
-          newBundleNames.push(bundle.name);
-        }
-        if(bundle.size < bundle.budget && bundle.sizes[numberOfBuilds - 1] > bundle.sizes[numberOfBuilds - 2]) // Bundles within Budget but whose sizes have increased.
-        {
-          enlargedBundles.push(bundle.name)
-        }
-      })
-      return [bundleList,newBundleNames,enlargedBundles];
-    })
-}
+  result.forEach((bundle) => {
+    const latestBundleSize = bundle.size;
+    const numberOfBuilds = bundle.sizes.length;
+    if (latestBundleSize > bundle.budget) {
+      bundleList.push(bundle.name);
+    }
+    if (bundle.sizes.length === 1) {
+      newBundleNames.push(bundle.name);
+    }
+    if (
+      bundle.size < bundle.budget &&
+      bundle.sizes[numberOfBuilds - 1] > bundle.sizes[numberOfBuilds - 2]
+    ) {
+      // Bundles within Budget but whose sizes have increased.
+      enlargedBundles.push(bundle.name);
+    }
+  });
+  return [bundleList, newBundleNames, enlargedBundles];
+};
 
-const slackAlertMessage = () => {
-  const message = createSlackAlertMessage();
+const slackAlertMessage = (result) => {
+  const message = computeInsights(result);
   const bundleList = message[0];
   const newBundles = message[1];
   const enlargedBundles = message[2];
-  const AlertMessage = 
-  [
+  const AlertMessage = [
     {
-      "type" : "Bundles that exceed the Budget in the latest build",
-      "text" : {
-          "type" : "mrkdwn",
-          "text" : Array.toString(bundleList)
-      }
+      type: "Bundles that exceed the Budget in the latest build",
+      text: {
+        type: "mrkdwn",
+        text: Array.toString(bundleList),
+      },
     },
     {
-      "type" : "New bundles added in the latest build",
-      "text" : {
-          "type" : "mrkdwn",
-          "text" : Array.toString(newBundles)
-      }
+      type: "New bundles added in the latest build",
+      text: {
+        type: "mrkdwn",
+        text: Array.toString(newBundles),
+      },
     },
     {
-      "type" : "Bundles within budget whose sizes have increased",
-      "text" : {
-          "type" : "mrkdwn",
-          "text" : Array.toString(enlargedBundles)
-      }
+      type: "Bundles within budget whose sizes have increased",
+      text: {
+        type: "mrkdwn",
+        text: Array.toString(enlargedBundles),
+      },
     },
-  ]
-}
+  ];
+  return AlertMessage;
+};
